@@ -1,6 +1,11 @@
-<h1>{{$title}}</h1>
-<h2>Selamat Datang, {{Auth::user()->role->role_nama}}</h2>
-<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-@csrf
-<button type="submit">Logout</button>
-</form>
+@extends('template')
+
+@section('content')
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <h2>Selamat Datang, Admin</h2>
+        </div>
+    </div>
+</div>
+@endsection
