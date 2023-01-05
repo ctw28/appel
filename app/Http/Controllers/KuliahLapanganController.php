@@ -28,7 +28,9 @@ class KuliahLapanganController extends Controller
             })->withCount('pendaftar')->whereHas('ppl', function ($ppl) {
                 $ppl->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id);
             });
-        }])->where('tahun', 2022)->first();
+        }])
+            ->where('tahun', 2023)
+            ->first();
         // return $data;
         // $ppl = Ppl::with('kuliahLapangan.tahunAkademik')->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id)->get();
         if ($data->kuliahLapangan->count() != 0) {
