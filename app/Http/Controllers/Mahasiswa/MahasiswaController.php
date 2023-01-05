@@ -231,7 +231,11 @@ class MahasiswaController extends Controller
                 'tgl_lkh' => $request->tgl_lkh,
             ]);
             foreach ($request->photos as $imagefile) {
-                $upload = $imagefile->store('lkh-images');
+                // $upload = $imagefile->store('/lkh-images');
+                $imageName = time() . '.' . $imagefile->extension();
+                $upload = $imagefile->storeAs('lkh-images', $imageName);
+
+
                 LkhDokumentasi::create([
                     'lkh_id' => $lkh->id,
                     'foto_path' => $upload
