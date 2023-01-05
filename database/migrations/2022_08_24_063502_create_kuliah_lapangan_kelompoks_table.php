@@ -17,6 +17,7 @@ class CreateKuliahLapanganKelompoksTable extends Migration
             $table->id();
             $table->unsignedBigInteger('lokasi_id');
             $table->string('nama_kelompok', 250);
+            $table->string('pembimbing_eksternal', 100);
             $table->unsignedBigInteger('pembimbing_id')->nullable();
             $table->unsignedBigInteger('pembimbing_eks_id')->nullable();
             $table->text('keterangan')->nullable();
