@@ -232,9 +232,13 @@ class MahasiswaController extends Controller
             ]);
             foreach ($request->photos as $imagefile) {
                 // $upload = $imagefile->store('/lkh-images');
-                $imageName = time() . '.' . $imagefile->extension();
-                $upload = $imagefile->storeAs('lkh-images', $imageName);
+                // $imageName = rand() . '.' . $imagefile->extension();
+                $filenameWithExt = $imagefile->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $imagefile->getClientOriginalExtension();
+                $filenameSimpan = $filename . '_' . time() . '.' . $extension;
 
+                $upload = $imagefile->storeAs('lkh-images', $filenameSimpan);
 
                 LkhDokumentasi::create([
                     'lkh_id' => $lkh->id,
