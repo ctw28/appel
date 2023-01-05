@@ -9,40 +9,18 @@ class Ppl extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tahun_ajar_id',
-        'ppl_nama',
-        'ppl_waktu_daftar_mulai',
-        'ppl_waktu_daftar_selesai',
-        'ppl_waktu_publikasi',
-        'ppl_waktu_pelaksanaan_mulai',
-        'ppl_waktu_pelaksanaan_selesai',
-        'ppl_waktu_tugas_mulai',
-        'ppl_waktu_tugas_selesai',
-        'ppl_waktu_penilaian_mulai',
-        'ppl_waktu_penilaian_selesai',
-        'keterangan',
+        'kuliah_lapangan_id',
+        'master_fakultas_id',
+
     ];
 
-    public function tahunAjar()
+    public function kuliahLapangan()
     {
-        return $this->belongsTo('App\Models\MasterTahunAjar', 'tahun_ajar_id');
-    }
-    public function pplLokasi()
-    {
-        return $this->hasMany('App\Models\PplLokasi');
+        return $this->belongsTo('App\Models\KuliahLapangan');
     }
 
-    public function pplPembimbingInternal()
+    public function fakultasData()
     {
-        return $this->hasMany('App\Models\PplPembimbingInternal');
-    }
-
-    public function pplPendaftar()
-    {
-        return $this->hasMany('App\Models\PplPendaftar');
-    }
-    public function syaratProdi()
-    {
-        return $this->hasMany('App\Models\SyaratProdi');
+        return $this->belongsTo('App\Models\MasterFakultas');
     }
 }

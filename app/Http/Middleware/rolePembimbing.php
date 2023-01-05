@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class rolePembimbing
 {
@@ -16,10 +17,10 @@ class rolePembimbing
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->session()->get('role') != 'pembimbing') {
-            return redirect()->back();
+        if (Auth::user()->roleDefault()->role->nama_role == 'pembimbing' || Auth::user()->roleDefault()->role->nama_role == 'tenaga_kependidikan') {
+            return $next($request);
             // return redirect('login');
         }
-        return $next($request);
+        return redirect()->back();
     }
 }

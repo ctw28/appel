@@ -12,9 +12,9 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">app_registration</i>
             </div>
-            <span class="nav-link-text ms-1">Pendaftaran PLP</span>
+            <span class="nav-link-text ms-1">Pendaftaran {{session('fakultasData')->singkatan}}</span>
         </a>
-    </li>
+    </li> -->
     <!-- <li class="nav-item">
         <a class="nav-link text-white " href="{{route('mahasiswa.ppl.diikuti','berjalan')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">

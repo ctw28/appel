@@ -66,9 +66,11 @@
 
                 <form role="form" class="text-start" action="{{route('login')}}" method="post">
                   @csrf
+                  <input type="hidden" name="is_first" class="form-control" value="0" required>
+
                   <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" value="{{old('email')}}" required>
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" value="{{old('username')}}" required>
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
@@ -121,7 +123,21 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('/')}}assets/js/material-dashboard.min.js?v=3.0.2"></script>
-
+  <!-- <script>
+    importProdi();
+    async function importProdi() {
+      let url = "https://sia.iainkendari.ac.id/konseling_api/get_prodi";
+      let send = await fetch(url);
+      let response = await send.json()
+      // return console.log(responseMessage);
+      let data = []
+      response.forEach(function(item, i) {
+        data['prodi_kode'] = item.idprodi;
+        data['prodi_nama'] = item.prodi;
+      });
+      console.log(data);
+    }
+  </script> -->
 </body>
 
 </html>

@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class roleMahasiswa
 {
@@ -16,7 +18,7 @@ class roleMahasiswa
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->session()->get('role') != 'mahasiswa') {
+        if (Auth::user()->roleDefault()->role->nama_role != "mahasiswa") {
             return redirect()->back();
             // return redirect('login');
         }

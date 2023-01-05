@@ -1,3 +1,11 @@
+<!-- <div class="menu_section">
+    <h3>Menu</h3>
+    <ul class="nav side-menu">
+        <li><a href="{{route('pembimbing.dashboard')}}"><i class="fa fa-home"></i> Dashboard </a></li>
+        <li><a href="{{route('pembimbing.list')}}"><i class="fa fa-table"></i> Penilaian</span></a></li>
+    </ul>
+</div> -->
+
 <ul class="navbar-nav">
     <li class="nav-item">
         <a class="nav-link text-white " href="{{route('pembimbing.dashboard')}}">

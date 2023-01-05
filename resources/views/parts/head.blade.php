@@ -17,6 +17,32 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{asset('/')}}assets/css/material-dashboard.css?v=3.0.2" rel="stylesheet" />
+    <style>
+        .input-group.input-group-outline.is-focused .form-label,
+        .input-group.input-group-outline.is-filled .form-label {
+            color: inherit !important;
+        }
+
+        .input-group.input-group-outline.is-focused .form-label+.form-control,
+        .input-group.input-group-outline.is-filled .form-label+.form-control {
+            border-color: #ccc !important;
+            border-top-color: transparent !important;
+            box-shadow: inset 1px 0 #fff, inset -1px 0 #fff, inset 0 -1px #fff;
+        }
+
+        .input-group.input-group-outline.is-focused .form-label:before,
+        .input-group.input-group-outline.is-focused .form-label:after,
+        .input-group.input-group-outline.is-filled .form-label:before,
+        .input-group.input-group-outline.is-filled .form-label:after {
+            border-top-color: #ccc;
+            box-shadow: inset 0 1px #fff;
+        }
+
+        .is-filled {
+            border: 1px solid transparent;
+            /* color: none !important; */
+        }
+    </style>
     @yield('css')
 
 </head>

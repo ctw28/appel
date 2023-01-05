@@ -12,23 +12,23 @@
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">featured_play_list</i>
             </div>
-            <span class="nav-link-text ms-1">List PLP</span>
+            <span class="nav-link-text ms-1">Data {{session('fakultasData')->singkatan}}</span>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-white " href="{{route('admin.ppl.kelompok')}}">
+        <a class="nav-link text-white " href="{{route('admin.pengaturan.fakultas')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">diversity_3</i>
+                <i class="material-icons opacity-10">settings</i>
             </div>
-            <span class="nav-link-text ms-1">Kelompok</span>
+            <span class="nav-link-text ms-1">Pengaturan</span>
         </a>
     </li>
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link text-white " href="{{route('admin.ppl.peserta')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">how_to_reg</i>
             </div>
             <span class="nav-link-text ms-1">Peserta</span>
         </a>
-    </li>
+    </li> -->
 </ul>

@@ -11,12 +11,14 @@
                 </div>
             </div>
             <div class="card-body p-3 pt-1">
-                <h5>Tanggal : {{$data->tgl_lkh}}</h5>
+                @foreach ($data as $key => $value)
+                <h5>Tanggal : {{$value->tgl_lkh}}</h5>
                 <h5>Uraian Kegiatan</h5>
-                <p>{{$data->kegiatan}}</p>
+                <p>{{$value->kegiatan}}</p>
                 <h5>Dokumentasi</h5>
-                <img src="{{asset('storage/')}}/{{$data->foto_path}}" alt="dokumentasi" class="img-fluid" width="300px">
-
+                <img src="{{asset('storage/')}}/{{$value->foto_path}}" alt="dokumentasi" class="img-fluid" width="300px">
+                <hr>
+                @endforeach
             </div>
         </div>
     </div>

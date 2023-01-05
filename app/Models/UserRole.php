@@ -7,29 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserRole extends Model
 {
-    use HasFactory;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'nama_role',
+        'role_id',
+        'user_id',
+        'aplikasi_id',
+        'is_default',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'created_at',
-        'updated_at',
-    ];
-
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
+    }
+    public function defaultRole()
+    {
+        return $this->where('is_default', true);
+    }
     public function user()
     {
-        return $this->hasMany('App\Models\User', 'user_role_id');
+        return $this->belongsTo('App\Models\User');
     }
 }

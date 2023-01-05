@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class roleAdmin
 {
@@ -17,10 +18,10 @@ class roleAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->userRole->nama_role != "administrator")
-            return redirect()->back();
-        // return redirect()->route('login-page');
 
-        return $next($request);
+        if (Auth::user()->roleDefault()->role->nama_role == "administrator" || Auth::user()->roleDefault()->role->nama_role == "admin_fakultas")
+            return $next($request);
+        // return redirect()->route('login-page');
+        return redirect()->back();
     }
 }

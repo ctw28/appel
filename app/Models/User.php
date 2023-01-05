@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -44,6 +45,30 @@ class User extends Authenticatable
 
     public function userRole()
     {
-        return $this->belongsTo('App\Models\UserRole', 'user_role_id');
+        return $this->hasMany('App\Models\UserRole');
+    }
+
+    public function roleDefault()
+    {
+        return $this->userRole()->where('is_default', '=', true)->with('role')->first();
+    }
+
+    public function userFakultas()
+    {
+        return $this->hasOne('App\Models\UserFakultas');
+    }
+
+    public function userMahasiswa()
+    {
+        return $this->hasOne('App\Models\UserMahasiswa');
+    }
+
+    public function dataDiriMahasiswa()
+    {
+        return $this->userMahasiswa()->with('mahasiswa.dataDiri')->first();
+    }
+    public function userPegawai()
+    {
+        return $this->hasOne('App\Models\UserPegawai');
     }
 }

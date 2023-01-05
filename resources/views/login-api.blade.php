@@ -72,13 +72,13 @@
                                         <label class="form-label">Password</label>
                                         <input type="password" id="password" class="form-control" required>
                                     </div>
-                                    <div class="input-group input-group-static mb-4">
+                                    <!-- <div class="input-group input-group-static mb-4">
                                         <label for="exampleFormControlSelect1" class="ms-0">Login Sebagai</label>
                                         <select class="form-control" name="login-tipe" id="login-tipe">
                                             <option value="mahasiswa">Mahasiswa</option>
                                             <option value="pembimbing">Pembimbing</option>
                                         </select>
-                                    </div>
+                                    </div> -->
 
                                     <div class="text-center">
                                         <button type="button" onclick="login()" class="btn bg-gradient-primary w-100 my-4 mb-2">Login</button>
@@ -137,22 +137,45 @@
             let username = document.querySelector('#username').value
             let password = document.querySelector('#password').value
 
+            let dataSend = new FormData()
+            for (const [key, value] of Object.entries(response.data[0])) {
+                dataSend.append(key, value)
+            }
+            let url = "{{route('session.direct',':role')}}"
+            url = url.replace(':role', roleValue)
+            let send = await fetch(url, {
+                method: "POST",
+                body: dataSend
+            });
+            let response = await send.json()
+            console.log(response);
+            return
             if (roleValue == "mahasiswa") {
                 dataSend.append('nim', username)
                 dataSend.append('password', password)
 
-                let response = await fetch("https://sia.iainkendari.ac.id/konseling_api/login_mhs", {
+                let send = await fetch("https://sia.iainkendari.ac.id/konseling_api/login_mhs", {
                     method: "POST",
                     body: dataSend
                 });
-                let responseMessage = await response.json()
-                console.log(responseMessage);
-                if (responseMessage.status === true) {
+                let response = await send.json()
+                console.log(response);
+                // return
+                if (response.status === true) {
                     alert("Login Berhasil")
-                    let url = "{{route('session.direct',[':role',':iddata'])}}"
-                    url = url.replace(':role', roleValue)
-                    url = url.replace(':iddata', responseMessage.data[0].iddata)
-                    window.location.href = url
+                    let dataSend2 = new FormData()
+                    for (const [key, value] of Object.entries(response.data[0])) {
+                        dataSend2.append(key, value)
+                    }
+                    let url2 = "{{route('session.direct',':role')}}"
+                    url2 = url2.replace(':role', roleValue)
+                    let send2 = await fetch(url2, {
+                        method: "POST",
+                        body: dataSend2
+                    });
+                    let response2 = await send2.json()
+                    console.log(response2);
+                    // window.location.href = url
                 } else {
                     alert("username dan password tidak sesuai")
                 }
@@ -161,17 +184,17 @@
                 dataSend.append('nip', username)
                 dataSend.append('password', password)
 
-                let response = await fetch("https://sia.iainkendari.ac.id/konseling_api/login_konselor", {
+                let send = await fetch("https://sia.iainkendari.ac.id/konseling_api/login_konselor", {
                     method: "POST",
                     body: dataSend
                 });
-                let responseMessage = await response.json()
-                console.log(responseMessage);
-                if (responseMessage.status === true) {
+                let response = await send.json()
+                console.log(response);
+                if (response.status === true) {
                     alert("Login Berhasil")
                     let url = "{{route('session.direct',[':role',':idpeg'])}}"
                     url = url.replace(':role', roleValue)
-                    url = url.replace(':idpeg', responseMessage.data[0].idpegawai)
+                    url = url.replace(':idpeg', response.data[0].idpegawai)
                     window.location.href = url
                 } else {
                     alert("username dan password tidak sesuai")

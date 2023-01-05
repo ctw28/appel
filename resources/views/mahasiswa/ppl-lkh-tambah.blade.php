@@ -10,37 +10,36 @@
             </div>
         </div>
         <div class="card-body pb-2">
-            @if(count($data)>0)
-            <ul class="list-group mb-2">
-                <li class="list-group-item border-0 ps-0 text-sm">Nama PLP : &nbsp; <strong class="text-dark">{{$data[0]->ppl->ppl_nama}}</strong></li>
-                @if(count($data[0]->pplKelompokAnggota) > 0)
-                <li class="list-group-item border-0 ps-0 text-sm">Lokasi : &nbsp; <strong class="text-dark">{{$data[0]->pplKelompokAnggota[0]->pplKelompok->pplLokasi->lokasi}}</strong></li>
-                <li class="list-group-item border-0 ps-0 text-sm">Kelompok : &nbsp; <strong class="text-dark">{{$data[0]->pplKelompokAnggota[0]->pplKelompok->nama_kelompok}}</strong></li>
-                <li class="list-group-item border-0 ps-0 text-sm">Pembimbing : &nbsp; <strong class="text-dark"><span id="nama-pembimbing"></span></strong></li>
-                @else
-                <li class="list-group-item border-0 ps-0 text-sm">Lokasi : &nbsp; <strong class="text-dark">-</strong></li>
-                <li class="list-group-item border-0 ps-0 text-sm">Kelompok : &nbsp; <strong class="text-dark">-</strong></li>
-                <li class="list-group-item border-0 ps-0 text-sm">Pembimbing : &nbsp; <strong class="text-dark">-</strong></li>
-                @endif
-            </ul>
+            @if(session()->has('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span class="alert-text text-white">{{session('error')}}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             @endif
             <form action="{{route('mahasiswa.lkh.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
-                <div class="input-group input-group-static my-3">
-                    <label>Tanggal LKH</label>
-                    <input type="hidden" name="ppl_kelompok_anggota_id" value="{{$data[0]->pplKelompokAnggota[0]->id}}" required>
-                    <input type="date" name="tgl_lkh" class="form-control" required>
+                <div class="input-group input-group-outline is-filled my-3">
+                    <label class="form-label">Tanggal LKH</label>
+                    <input type="hidden" name="kuliah_lapangan_id" value="{{$kuliah_lapangan_id}}" required>
+                    <input type="hidden" name="anggota_id" value="{{$anggotaID}}" required>
+                    <input type="date" name="tgl_lkh" class="form-control" value="{{old('tgl_lkh')}}" required>
                 </div>
-                <div class="input-group input-group-static my-3">
-                    <label>Uraian Kegiatan (Maksimal 500 karakter)</label>
-                    <textarea name="kegiatan" class="form-control" required></textarea>
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Uraian Kegiatan</label>
+                    <textarea name="kegiatan" class="form-control" rows="7" cols="50" required>{{old('kegiatan')}}</textarea>
                 </div>
 
-                <div class="input-group input-group-static my-3">
-                    <label>Foto / Dokumentasi</label>
-                    <input type="file" name="foto_path" class="form-control" required>
+                <div class="input-group input-group-outline is-filled my-3">
+                    <label class="form-label">Foto / Dokumentasi (ukuran maksimal 500kb, maksimal 4 foto)</label>
+                    <input type="file" name="photos[]" class="form-control" multiple required>
                 </div>
-                <div class="input-group input-group-static my-3">
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Link Lampiran lainnya (Dokumen, Video, Dll) Jika Ada</label>
+                    <input type="text" name="link" class="form-control">
+                </div>
+                <div class="input-group  input-group-outline is-filled my-3">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
@@ -53,15 +52,15 @@
 
 @section('script')
 <script>
-    setPembimbing()
-    var namaPembimbing = document.querySelector('#nama-pembimbing')
-    // let dataSend = new FormData()
-    // dataSend.append('nim', username)
-    async function setPembimbing() {
-        let response = await fetch("https://sia.iainkendari.ac.id/konseling_api/get_pegawai/{{$data[0]->pplKelompokAnggota[0]->pplKelompok->pplPembimbing->pplPembimbingInternal->idpeg}}");
-        let responseMessage = await response.json()
-        console.log(responseMessage);
-        namaPembimbing.innerHTML = `${responseMessage[0].glrdepan} ${responseMessage[0].nama} ${responseMessage[0].glrbelakang} (NIP. ${responseMessage[0].nip})`
-    }
+    const textarea = document.querySelector('textarea');
+    textarea.addEventListener('input', function(e) {
+        // alert('gg')
+        // console.log(e.target.parentElement);
+        if (e.target.value == "")
+            e.target.parentElement.classList.remove("is-filled");
+        else
+            e.target.parentElement.classList.add("is-filled");
+
+    })
 </script>
 @endsection

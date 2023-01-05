@@ -6,29 +6,16 @@
     <div class="card my-4">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
             <div class="bg-gradient-info shadow-info border-radius-lg pt-3 pb-2">
-                <h6 class="text-white text-capitalize ps-3">{{$title}}</h6>
+                <h6 class="text-white text-capitalize ps-3">{{$pplData->ppl_nama}} ({{$pplData->tahunAjar->sebutan}})</h6>
             </div>
         </div>
         <div class="card-body pb-2">
-            <div class="col-12 col-xl-4">
-                <div class="card card-plain h-100">
-                    <div class="card-header pb-0 p-3">
-                        <div class="row">
-                            <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-0">Info PLP</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-3">
-                        <ul class="list-group mb-2">
-                            <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Tahun Ajar:</strong> &nbsp; {{$pplData->tahunAjar->sebutan}}</li>
-                            <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Nama PLP:</strong> &nbsp; {{$pplData->ppl_nama}}</li>
-                        </ul>
-                        <a href="{{route('admin.ppl.pembimbing-internal.add',$pplData->id)}}" class="btn btn-primary text-right">+ Manage Pembimbing</a>
-                    </div>
-                </div>
-            </div>
+            <a href="{{route('admin.ppl.pembimbing-internal.add',$pplData->id)}}" class="btn btn-primary text-right">+ Manage Pembimbing</a>
+            <div class="input-group input-group-outline my-3">
 
+                <input style="height: 41px;" type="text" class="form-control" id="cari-pegawai" name="q" placeholder="ketikkan Nama / NIP untuk pencarian">
+                <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+            </div>
             <table class="table table-hover">
                 <thead>
                     <tr>
