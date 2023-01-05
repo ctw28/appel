@@ -151,7 +151,7 @@
         uraian.textContent = response.kegiatan
         let foto = ''
         response.dokumentasi.forEach(function(data) {
-            foto += `<img width='200px' src='{{asset('/storage/')}}/${data.foto_path}' alt='ggwp'>`
+            foto += `<img width='200px' src='{{asset('/storage/app/')}}/${data.foto_path}' alt='ggwp'>`
         })
         dokumentasi.innerHTML = foto
         buttonEdit.dataset.id = response.id
