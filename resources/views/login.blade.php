@@ -62,7 +62,7 @@
 
                 @endif
                 <img src="{{asset('/')}}appel-logo.jpg" alt="logo" class="img-fluid" width="300px">
-                <h4 class="font-weight-bolder text-center mt-2 mb-0 text-uppercase">Aplikasi Pendaftaran PLP <br> IAIN Kendari</h4>
+                <h4 class="font-weight-bolder text-center mt-2 mb-0 text-uppercase">Aplikasi Pendaftaran PLP/PPL <br> IAIN Kendari</h4>
 
                 <form role="form" class="text-start" action="{{route('login')}}" method="post">
                   @csrf
