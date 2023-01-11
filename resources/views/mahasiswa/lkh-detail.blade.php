@@ -21,8 +21,6 @@
                 @endforeach
                 {{ $data->links('pagination::bootstrap-4') }}
                 <!-- {{ $data->currentPage()	 }} -->
-
-
             </div>
         </div>
     </div>

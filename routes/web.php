@@ -92,9 +92,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/lkh/{lkhId}/edit', [MahasiswaController::class, 'lkhEdit'])->name('mahasiswa.lkh.edit');
         Route::post('/lkh/{lkhId}/update', [MahasiswaController::class, 'lkhUpdate'])->name('mahasiswa.lkh.update');
         Route::get('/lkh/{lkhId}/hapus', [MahasiswaController::class, 'lkhDelete'])->name('mahasiswa.lkh.delete');
+        Route::get('/kuliah-lapangan/{id}/lkh/cetak', [MahasiswaController::class, 'lkhPrint'])->name('mahasiswa.lkh.print');
 
         //DETAIL KELOMPOK
         Route::get('/detail-kelompok/{kelompokId}', [MahasiswaController::class, 'detailKelompok'])->name('mahasiswa.kelompok.detail');
+        Route::get('/kelompok/{kelompokId}/lkh/{id}', [MahasiswaController::class, 'detailLkh'])->name('mahasiswa.detail.lkh');
     });
     Route::group(['prefix' => 'pembimbing', 'middleware' => 'role.pembimbing'], function () {
         Route::get('/dashboard', [pembimbing::class, 'index'])->name('pembimbing.dashboard');

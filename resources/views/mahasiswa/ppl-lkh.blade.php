@@ -41,7 +41,8 @@
 
             </ul>
             <div class="text-start">
-                <a href="{{route('mahasiswa.lkh.add',[$data->kuliah_lapangan_id,$data->anggota->id])}}" class="btn btn-primary float-right">+ Tambah LKH</a>
+                <a href="{{route('mahasiswa.lkh.add',[$data->kuliah_lapangan_id,$data->anggota->id])}}" class="btn btn-primary btn-sm mb-0">+ Tambah LKH</a>
+                <a href="{{route('mahasiswa.lkh.print',[$data->kuliah_lapangan_id])}}" class="btn btn-success btn-sm mb-0">Cetak LKH</a>
                 <!-- <button type="button" class="btn btn-primary" id="add"><i class="material-icons opacity-10">add</i> Tambah</button> -->
 
                 @if(session()->has('success'))

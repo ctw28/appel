@@ -25,10 +25,10 @@
                     <thead>
                         <tr>
                             <th class="text-center">No</th>
-                            <th>Waktu</th>
+                            <!-- <th>Waktu</th> -->
                             <th>Lokasi</th>
                             <th>Kelompok</th>
-                            <th>Anggota</th>
+                            <th class="text-center">Anggota</th>
                             <th>Detail</th>
                         </tr>
                     </thead>
@@ -40,34 +40,28 @@
                                     ({{$item->kuliahLapangan->tahunAkademik->sebutan}})</b>
                             </td>
                         </tr>
-                        <tr>
-                            <td rowspan="{{$item->rowspan}}" class="text-center">{{$index + 1}}</td>
-                        </tr>
-                        <tr>
+                        <!-- <tr>
                             <td rowspan="{{$item->rowspan}}">
                                 <b>Pelaksanaan<br>
-                                    {{$item->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$item->kuliahLapangan->waktu_pelaksanaan_selesai}}</b>
+                                {{$item->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$item->kuliahLapangan->waktu_pelaksanaan_selesai}}</b>
                             </td>
-                        </tr>
+                        </tr> -->
+                        @php $noUrut = 1 @endphp
                         @foreach($item->kuliahLapangan->lokasi as $lokasi)
-                        <tr>
-                            @if(count($lokasi->kelompok)==1)
-                            <td rowspan="{{count($item->kuliahLapangan->lokasi)+count($lokasi->kelompok)}}">
-                                @elseif(count($lokasi->kuliahLapangan->lokasi)==1)
-                            <td rowspan="{{count($item->kuliahLapangan->lokasi)+count($lokasi->kelompok)}}">
-                                @else
-                            <td rowspan="{{count($item->kuliahLapangan->lokasi)+count($lokasi->kelompok)-1}}">
-                                @endif
-                                <!-- {{count($lokasi->kelompok)}} --- -->
-                                {{$lokasi->lokasi}} ({{$lokasi->alamat}})
-                            </td>
-                        </tr>
                         @foreach($lokasi->kelompok as $kelompok)
                         <tr>
+                            <td class="text-center">{{$noUrut}}</td>
+                            <td>
+                                {{$lokasi->lokasi}}
+                                @if($lokasi->alamat!='-' AND $lokasi->alamat!='')
+                                ({{$lokasi->alamat}})
+                                @endif
+                            </td>
                             <td>{{$kelompok->nama_kelompok}}</td>
                             <td class="text-center">{{$kelompok->anggota_count}}</td>
-                            <td><a href="{{route('pembimbing.detail.kelompok',$kelompok->id)}}" class="btn btn-primary">Detail</a></td>
+                            <td><a href="{{route('pembimbing.detail.kelompok',$kelompok->id)}}" class="btn btn-primary btn-sm mb-0">Detail</a></td>
                         </tr>
+                        @php $noUrut++ @endphp
                         @endforeach
                         @endforeach
 

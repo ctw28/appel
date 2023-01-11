@@ -82,7 +82,7 @@
                             <td class="text-center">{{$item->pendaftar->mahasiswa->dataDiri->nama_lengkap}}</td>
                             <td>{{$item->pendaftar->mahasiswa->prodi->prodi_nama}} ({{$item->pendaftar->mahasiswa->prodi->prodi_kode}})</td>
                             <td>{{$data[0]->pembimbing->pegawai->dataDiri->no_hp}}</td>
-                            <td><a href="#">Lihat LKH</a></td>
+                            <td><a href="{{route('mahasiswa.detail.lkh',[$data[0]->id,$item->id])}}" class="btn btn-primary btn-sm mb-0">Lihat LKH</a></td>
                         </tr>
                         @endforeach
 

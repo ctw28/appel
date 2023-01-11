@@ -151,7 +151,7 @@ class PembimbingController extends Controller
     {
         $data['title'] = "Detail LKH";
 
-        $lkh = Lkh::with('dokumentasi')->where('kelompok_anggota_id', $id)->orderBy('tgl_lkh', 'DESC')->get();
+        $lkh = Lkh::with('dokumentasi')->where('kelompok_anggota_id', $id)->orderBy('tgl_lkh', 'DESC')->paginate(5);
         $lkh->map(function ($item) {
             $tglIndo = Carbon::parse($item->tgl_lkh)->locale('id');
             $tglIndo->settings(['formatFunction' => 'translatedFormat']);

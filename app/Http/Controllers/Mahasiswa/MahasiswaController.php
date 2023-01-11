@@ -39,6 +39,11 @@ class MahasiswaController extends Controller
             $kuliahLapangan->where('is_active', true);
         })->where('mahasiswa_id', Auth::user()->userMahasiswa->id)->first();
         // return $data;
+        // $data->map(function ($item) {
+        // });
+        $data->kuliahLapangan->waktu_pelaksanaan_mulai = \FormatWaktu::tanggalIndonesia($data->kuliahLapangan->waktu_pelaksanaan_mulai);
+        $data->kuliahLapangan->waktu_pelaksanaan_selesai = \FormatWaktu::tanggalIndonesia($data->kuliahLapangan->waktu_pelaksanaan_selesai);
+
         if (!empty($data)) {
             if (Carbon::now()->gte($data->kuliahLapangan->waktu_publikasi_kelompok))
                 // return $data;
@@ -197,6 +202,29 @@ class MahasiswaController extends Controller
         return view('mahasiswa.ppl-lkh', $data);
     }
 
+
+    public function lkhPrint($kuliahLapanganId)
+    {
+        $data['data'] = KuliahLapanganPendaftar::with([
+            'kuliahLapangan',
+            'anggota.kelompok.lokasi',
+            'anggota.kelompok.pembimbing.pegawai.dataDiri',
+            'anggota.lkh.dokumentasi',
+        ])
+            ->where([
+                'kuliah_lapangan_id' => $kuliahLapanganId,
+                'mahasiswa_id' => Auth::user()->userMahasiswa->mahasiswa_id,
+            ])->first();
+        $data['data']->anggota->lkh->map(function ($item) {
+            $tglIndo = Carbon::parse($item->tgl_lkh)->locale('id');
+            $tglIndo->settings(['formatFunction' => 'translatedFormat']);
+            $item->tgl_lkh = $tglIndo->format('l, j F Y');
+        });
+        return view('mahasiswa.lkh-cetak', $data);
+
+        return $data;
+    }
+
     public function lkhAdd($kuliahLapanganId, $anggotaId)
     {
         $data['title'] = "Tambah Lembar Kerja Harian (LKH)";
@@ -335,5 +363,31 @@ class MahasiswaController extends Controller
 
         // return $data;
         return view('mahasiswa.ppl-detail-kelompok', $data);
+    }
+
+    public function detailLkh($kelompokId, $anggotaId)
+    {
+        $data['title'] = "Detail LKH";
+
+        $lkh = Lkh::with('dokumentasi')->where('kelompok_anggota_id', $anggotaId)->orderBy('tgl_lkh', 'DESC')->paginate(5);
+        $lkh->map(function ($item) {
+            $tglIndo = Carbon::parse($item->tgl_lkh)->locale('id');
+            $tglIndo->settings(['formatFunction' => 'translatedFormat']);
+            $item->tgl_lkh = $tglIndo->format('j F Y');;
+        });
+        $data['data'] = $lkh;
+        // $data['data'] = PplKelompok::with([
+        //     'pplKelompokAnggota.pplPendaftar',
+        //     'pplKelompokAnggota.pplLkh',
+        //     'pplLokasi.ppl.tahunAjar',
+        //     'pplPembimbing.pplPembimbingInternal'
+        // ])
+        //     ->whereHas('pplKelompokAnggota', function ($pplKelompokAnggota) use ($id) {
+        //         $pplKelompokAnggota->where('ppl_pendaftar_id', $id);
+        //     })
+        //     ->where('id', $kelompokId)->get();
+        // return $data;
+
+        return view('mahasiswa.lkh-detail', $data);
     }
 }
