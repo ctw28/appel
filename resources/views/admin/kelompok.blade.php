@@ -37,21 +37,23 @@
         </div>
         <div class="card-body pb-2">
             <button type="button" class="btn btn-primary" id="add"><i class="material-icons opacity-10">add</i> Tambah</button>
-            <table id="datatable" class="table table-bordered">
-                <thead>
-                    <tr class="text-center">
-                        <th>No</th>
-                        <th>Nama Kelompok</th>
-                        <th>Pembimbing</th>
-                        <th>{{session('fakultasData')->sebutan_eksternal}}</th>
-                        <!-- ini nanti berubah sesuai fakultas -->
-                        <th>Keterangan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                </tbody>
-            </table>
+            <div style="overflow-x:auto;">
+                <table id="datatable" class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <th>No</th>
+                            <th>Nama Kelompok</th>
+                            <th>Pembimbing</th>
+                            <th>{{session('fakultasData')->sebutan_eksternal}}</th>
+                            <!-- ini nanti berubah sesuai fakultas -->
+                            <th>Keterangan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+            </div>
             <div class="row">
                 <div class="col-sm-6">
                     <small>

@@ -26,6 +26,7 @@
                 <span class="ms-1 font-weight-bold text-white">APPEL IAIN KENDARI</span>
             </a>
         </div>
+
         <hr class="horizontal light mt-0 mb-2">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             @if(Auth::user()->roleDefault()->role->nama_role=="administrator" || Auth::user()->roleDefault()->role->nama_role =="admin_fakultas")
@@ -60,15 +61,21 @@
                     </ol>
                     <!-- <h6 class="font-weight-bolder mb-0">{{$title}}</h6> -->
                 </nav>
-                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-
-                    </div>
-                    <ul class="navbar-nav  justify-content-end">
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 justify-content-end" id="navbar">
+                    <ul class="navbar-nav justify-content-end">
+                        <li class="nav-item d-xl-none ps-3 d-flex align-items-center mx-3">
+                            <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                                <div class="sidenav-toggler-inner">
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                    <i class="sidenav-toggler-line"></i>
+                                </div>
+                            </a>
+                        </li>
                         <li class="nav-item d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                                 <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">
+                                <span class="d-sm-inline">
                                     @if(Auth::user()->roleDefault()->role->nama_role=="administrator" || Auth::user()->roleDefault()->role->nama_role =="admin_fakultas")
                                     {{Auth::user()->name}}
                                     @elseif(Auth::user()->roleDefault()->role->nama_role=="mahasiswa")
@@ -82,10 +89,18 @@
                                 </span>
                             </a>
                         </li>
-
                     </ul>
                 </div>
             </div>
+            <!-- <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+                </div>
+                <ul class="navbar-nav  justify-content-end">
+                    
+
+                </ul>
+            </div> -->
         </nav>
         <!-- End Navbar -->
 

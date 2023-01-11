@@ -58,19 +58,20 @@
             @else
             <p>Anda belum mengikuti PLP</p>
             @endif
-            <table class="table table-hover">
-                <thead>
-                    <tr class="text-center">
-                        <th scope="col" class="text-center">No</th>
-                        <th scope="col">Hari / Tanggal</th>
-                        <th scope="col">Uraian Kegiatan</th>
-                        <!-- <th scope="col">Dokumentasi</th> -->
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="lkh-data">
+            <div style="overflow-x:auto;">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col" class="text-center">No</th>
+                            <th scope="col">Hari / Tanggal</th>
+                            <th scope="col">Uraian Kegiatan</th>
+                            <!-- <th scope="col">Dokumentasi</th> -->
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lkh-data">
 
-                    <!-- @foreach ($data->anggota->lkh as $key => $item)
+                        <!-- @foreach ($data->anggota->lkh as $key => $item)
                     <tr>
                         <td class="text-center">{{$key+1}}</td>
                         <td>{{$item->tgl_lkh}}</td>
@@ -83,9 +84,10 @@
                     @endforeach -->
 
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
+            </div>
         </div>
     </div>
 </div>

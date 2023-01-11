@@ -20,57 +20,57 @@
                 </div>
             </div>
             <div class="card-body p-3 pt-1">
-
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th class="text-center">No</th>
-                            <!-- <th>Waktu</th> -->
-                            <th>Lokasi</th>
-                            <th>Kelompok</th>
-                            <th class="text-center">Anggota</th>
-                            <th>Detail</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($data as $index => $item)
-                        <tr>
-                            <td colspan="6" class="text-center" style="background: #f2f2f2">
-                                <b>{{$item->kuliahLapangan->kuliah_lapangan_nama}}
-                                    ({{$item->kuliahLapangan->tahunAkademik->sebutan}})</b>
-                            </td>
-                        </tr>
-                        <!-- <tr>
+                <div style="overflow-x:auto;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">No</th>
+                                <!-- <th>Waktu</th> -->
+                                <th>Lokasi</th>
+                                <th>Kelompok</th>
+                                <th class="text-center">Anggota</th>
+                                <th>Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($data as $index => $item)
+                            <tr>
+                                <td colspan="6" class="text-center" style="background: #f2f2f2">
+                                    <b>{{$item->kuliahLapangan->kuliah_lapangan_nama}}
+                                        ({{$item->kuliahLapangan->tahunAkademik->sebutan}})</b>
+                                </td>
+                            </tr>
+                            <!-- <tr>
                             <td rowspan="{{$item->rowspan}}">
                                 <b>Pelaksanaan<br>
                                 {{$item->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$item->kuliahLapangan->waktu_pelaksanaan_selesai}}</b>
                             </td>
                         </tr> -->
-                        @php $noUrut = 1 @endphp
-                        @foreach($item->kuliahLapangan->lokasi as $lokasi)
-                        @foreach($lokasi->kelompok as $kelompok)
-                        <tr>
-                            <td class="text-center">{{$noUrut}}</td>
-                            <td>
-                                {{$lokasi->lokasi}}
-                                @if($lokasi->alamat!='-' AND $lokasi->alamat!='')
-                                ({{$lokasi->alamat}})
-                                @endif
-                            </td>
-                            <td>{{$kelompok->nama_kelompok}}</td>
-                            <td class="text-center">{{$kelompok->anggota_count}}</td>
-                            <td><a href="{{route('pembimbing.detail.kelompok',$kelompok->id)}}" class="btn btn-primary btn-sm mb-0">Detail</a></td>
-                        </tr>
-                        @php $noUrut++ @endphp
-                        @endforeach
-                        @endforeach
+                            @php $noUrut = 1 @endphp
+                            @foreach($item->kuliahLapangan->lokasi as $lokasi)
+                            @foreach($lokasi->kelompok as $kelompok)
+                            <tr>
+                                <td class="text-center">{{$noUrut}}</td>
+                                <td>
+                                    {{$lokasi->lokasi}}
+                                    @if($lokasi->alamat!='-' AND $lokasi->alamat!='')
+                                    ({{$lokasi->alamat}})
+                                    @endif
+                                </td>
+                                <td>{{$kelompok->nama_kelompok}}</td>
+                                <td class="text-center">{{$kelompok->anggota_count}}</td>
+                                <td><a href="{{route('pembimbing.detail.kelompok',$kelompok->id)}}" class="btn btn-primary btn-sm mb-0">Detail</a></td>
+                            </tr>
+                            @php $noUrut++ @endphp
+                            @endforeach
+                            @endforeach
 
-                        @endforeach
+                            @endforeach
 
 
-                    </tbody>
-                </table>
-                <!-- @if(count($data)>0)
+                        </tbody>
+                    </table>
+                    <!-- @if(count($data)>0)
                 @foreach($data as $item)
                 <h5>Nama PLP : &nbsp; <strong class="text-dark">{{$item->kuliahLapangan->kuliah_lapangan_nama}}</strong></h5>
                 @foreach($item->kuliahLapangan->lokasi as $lokasi)
@@ -88,6 +88,7 @@
                 @endif -->
 
 
+                </div>
             </div>
         </div>
     </div>

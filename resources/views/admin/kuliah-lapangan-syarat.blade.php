@@ -15,20 +15,22 @@
                 </div>
             </div>
             <div class="card-body pb-2">
-                <table class="table table-striped">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col">No</th>
-                            <th scope="col">Prodi</th>
-                            <th scope="col">Syarat SKS</th>
-                            <th scope="col">Jadikan Syarat</th>
-                            <th scope="col">Syarat Mata Kuliah</th>
-                        </tr>
-                    </thead>
-                    <tbody id="list-prodi">
+                <div style="overflow-x:auto;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">No</th>
+                                <th scope="col">Prodi</th>
+                                <th scope="col">Syarat SKS</th>
+                                <th scope="col">Jadikan Syarat</th>
+                                <th scope="col">Syarat Mata Kuliah</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-prodi">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

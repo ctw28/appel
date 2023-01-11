@@ -38,37 +38,39 @@
                 </div>
             </div>
             <div class="card-body p-3 pt-1">
-                <table class="table table-hover">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col" class="text-center">No</th>
-                            <th scope="col">NIM</th>
-                            <th scope="col">NAMA</th>
-                            <th scope="col">PRODI</th>
-                            <th scope="col">NO HP</th>
-                            <th scope="col">AKSI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if(count($data[0]->anggota)==0)
-                        <tr>
-                            <td class="text-center" colspan="6">Tidak ada anggota kelompok</td>
-                        </tr>
-                        @else
-                        @foreach($data[0]->anggota as $index => $item)
-                        <tr class="text-center">
-                            <td class="text-center">{{$index + 1}}</td>
-                            <td>{{$item->pendaftar->mahasiswa->nim}}</td>
-                            <td class="text-center">{{$item->pendaftar->mahasiswa->dataDiri->nama_lengkap}}</td>
-                            <td>{{$item->pendaftar->mahasiswa->prodi->prodi_nama}} ({{$item->pendaftar->mahasiswa->prodi->prodi_kode}})</td>
-                            <td>{{$data[0]->pembimbing->pegawai->dataDiri->no_hp}}</td>
-                            <td><a href="{{route('pembimbing.detail.lkh',[$data[0]->id,$item->id])}}" class="btn btn-primary btn-sm mb-0">Lihat LKH</a></td>
-                        </tr>
-                        @endforeach
+                <div style="overflow-x:auto;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col" class="text-center">No</th>
+                                <th scope="col">NIM</th>
+                                <th scope="col">NAMA</th>
+                                <th scope="col">PRODI</th>
+                                <th scope="col">NO HP</th>
+                                <th scope="col">AKSI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($data[0]->anggota)==0)
+                            <tr>
+                                <td class="text-center" colspan="6">Tidak ada anggota kelompok</td>
+                            </tr>
+                            @else
+                            @foreach($data[0]->anggota as $index => $item)
+                            <tr class="text-center">
+                                <td class="text-center">{{$index + 1}}</td>
+                                <td>{{$item->pendaftar->mahasiswa->nim}}</td>
+                                <td class="text-center">{{$item->pendaftar->mahasiswa->dataDiri->nama_lengkap}}</td>
+                                <td>{{$item->pendaftar->mahasiswa->prodi->prodi_nama}} ({{$item->pendaftar->mahasiswa->prodi->prodi_kode}})</td>
+                                <td>{{$data[0]->pembimbing->pegawai->dataDiri->no_hp}}</td>
+                                <td><a href="{{route('pembimbing.detail.lkh',[$data[0]->id,$item->id])}}" class="btn btn-primary btn-sm mb-0">Lihat LKH</a></td>
+                            </tr>
+                            @endforeach
 
-                        @endif
-                    </tbody>
-                </table>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

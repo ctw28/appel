@@ -25,18 +25,20 @@
                     <input style="height: 41px;" type="text" class="form-control" id="cari-pegawai" name="q" placeholder="ketikkan Nama / NIP untuk pencarian">
                     <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
                 </div>
-                <table class="table table-striped responsive">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col">Nip</th>
-                            <th scope="col">Nama</th>
-                            <th>+</th>
-                        </tr>
-                    </thead>
-                    <tbody id="list-pegawai">
+                <div style="overflow-x:auto;">
+                    <table class="table table-striped responsive">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">Nip</th>
+                                <th scope="col">Nama</th>
+                                <th>+</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-pegawai">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -73,19 +75,21 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col">No</th>
-                            <th scope="col">NIP</th>
-                            <th scope="col">Nama Pembimbing</th>
-                            <th scope="col">Hapus</th>
-                        </tr>
-                    </thead>
-                    <tbody id="list-pembimbing">
+                <div style="overflow-x:auto;">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">No</th>
+                                <th scope="col">NIP</th>
+                                <th scope="col">Nama Pembimbing</th>
+                                <th scope="col">Hapus</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-pembimbing">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <small>

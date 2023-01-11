@@ -26,7 +26,7 @@
 <div class="col-12">
     <div class="row">
         @foreach($data->kuliahLapangan as $index => $row)
-        <div class="col-6 mb-3">
+        <div class="col-md-6 col-sm-12 mb-3">
             <div class="card card-body">
                 <div class="card card-plain h-100">
                     <div class="card-header pb-0 p-3">

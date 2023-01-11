@@ -36,20 +36,22 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col">No</th>
-                            <th scope="col">NIM</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">Prodi</th>
-                            <!-- <th scope="col">Hapus</th> -->
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
+                <div style="overflow-x:auto;">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">No</th>
+                                <th scope="col">NIM</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col">Prodi</th>
+                                <!-- <th scope="col">Hapus</th> -->
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <small>

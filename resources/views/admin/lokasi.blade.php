@@ -42,19 +42,21 @@
                     </div>
                 </div>
             </div>
-            <table id="datatable" class="table table-bordered">
-                <thead>
-                    <tr class="text-center">
-                        <th>No</th>
-                        <th>Lokasi</th>
-                        <th>Alamat</th>
-                        <th>Keterangan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                </tbody>
-            </table>
+            <div style="overflow-x:auto;">
+                <table id="datatable" class="table table-bordered">
+                    <thead>
+                        <tr class="text-center">
+                            <th>No</th>
+                            <th>Lokasi</th>
+                            <th>Alamat</th>
+                            <th>Keterangan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    </tbody>
+                </table>
+            </div>
             <div class="row">
                 <div class="col-sm-6">
                     <small>
