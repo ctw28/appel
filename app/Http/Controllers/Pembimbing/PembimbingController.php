@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PplPembimbingInternal;
 use App\Models\PplKelompok;
 use App\Models\PplNilai;
-use App\Models\PplLkh;
+use App\Models\Lkh;
 use App\Models\Pembimbing;
 use App\Models\Kelompok;
 use Carbon\Carbon;
@@ -151,7 +151,7 @@ class PembimbingController extends Controller
     {
         $data['title'] = "Detail LKH";
 
-        $lkh = PplLkh::where('ppl_kelompok_anggota_id', $id)->orderBy('tgl_lkh', 'DESC')->get();
+        $lkh = Lkh::with('dokumentasi')->where('kelompok_anggota_id', $id)->orderBy('tgl_lkh', 'DESC')->get();
         $lkh->map(function ($item) {
             $tglIndo = Carbon::parse($item->tgl_lkh)->locale('id');
             $tglIndo->settings(['formatFunction' => 'translatedFormat']);

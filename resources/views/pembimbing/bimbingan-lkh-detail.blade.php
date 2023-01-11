@@ -16,7 +16,9 @@
                 <h5>Uraian Kegiatan</h5>
                 <p>{{$value->kegiatan}}</p>
                 <h5>Dokumentasi</h5>
-                <img src="{{asset('storage/')}}/{{$value->foto_path}}" alt="dokumentasi" class="img-fluid" width="300px">
+                @foreach($value->dokumentasi as $dokumentasi)
+                <img src="{{asset('/storage/app/')}}/{{$dokumentasi->foto_path}}" alt="dokumentasi" class="img-fluid" width="300px">
+                @endforeach
                 <hr>
                 @endforeach
             </div>
