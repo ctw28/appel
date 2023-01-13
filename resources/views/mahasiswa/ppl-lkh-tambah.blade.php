@@ -1,5 +1,8 @@
 @extends('template')
 
+@section('css')
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+@endsection
 @section('content')
 <div class="col-md-12">
 
@@ -30,8 +33,16 @@
                     <label class="form-label">Uraian Kegiatan</label>
                     <textarea name="kegiatan" class="form-control" rows="7" cols="50" required>{{old('kegiatan')}}</textarea>
                 </div>
+                <!-- Create the editor container -->
+                <!-- <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Foto / Dokumentasi (ukuran maksimal 300kb, maksimal 3 foto)</h6>
+                <div id="editor">
+                    <p>Hello World!</p>
+                    <p>Some initial <strong>bold</strong> text</p>
+                    <p><br></p>
+                </div> -->
+                <!-- <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Foto / Dokumentasi (ukuran maksimal 300kb, maksimal 3 foto)</h6> -->
 
-                <div class="input-group input-group-outline is-filled my-3">
+                <div class="input-group input-group-static is-filled my-3">
                     <label class="form-label">Foto / Dokumentasi (ukuran maksimal 500kb, maksimal 4 foto)</label>
                     <input type="file" name="photos[]" class="form-control" multiple required>
                 </div>
@@ -51,6 +62,15 @@
 @endsection
 
 @section('script')
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+</script>
 <script>
     const textarea = document.querySelector('textarea');
     textarea.addEventListener('input', function(e) {

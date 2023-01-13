@@ -41,10 +41,10 @@ class MahasiswaController extends Controller
         // return $data;
         // $data->map(function ($item) {
         // });
-        $data->kuliahLapangan->waktu_pelaksanaan_mulai = \FormatWaktu::tanggalIndonesia($data->kuliahLapangan->waktu_pelaksanaan_mulai);
-        $data->kuliahLapangan->waktu_pelaksanaan_selesai = \FormatWaktu::tanggalIndonesia($data->kuliahLapangan->waktu_pelaksanaan_selesai);
 
         if (!empty($data)) {
+            $data->kuliahLapangan->waktu_pelaksanaan_mulai = \FormatWaktu::tanggalIndonesia($data->kuliahLapangan->waktu_pelaksanaan_mulai);
+            $data->kuliahLapangan->waktu_pelaksanaan_selesai = \FormatWaktu::tanggalIndonesia($data->kuliahLapangan->waktu_pelaksanaan_selesai);
             if (Carbon::now()->gte($data->kuliahLapangan->waktu_publikasi_kelompok))
                 // return $data;
 
