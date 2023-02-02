@@ -60,8 +60,7 @@ class UserController extends Controller
 
             $userRole = UserRole::create([
                 'role_id' => $roleId,
-                'user_id' => $user->id,
-                'aplikasi_id' => 'appel'
+                'user_id' => $user->id
             ]);
 
 
