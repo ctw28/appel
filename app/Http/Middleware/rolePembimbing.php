@@ -17,9 +17,9 @@ class rolePembimbing
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->roleDefault()->role->nama_role == 'pembimbing' || Auth::user()->roleDefault()->role->nama_role == 'tenaga_kependidikan') {
+        $role = session('role');
+        if ($role == 'dosen' || $role == 'tenaga_kependidikan') {
             return $next($request);
-            // return redirect('login');
         }
         return redirect()->back();
     }

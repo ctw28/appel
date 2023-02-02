@@ -8,6 +8,7 @@ use App\Models\PplPendaftar;
 use App\Models\MasterProdi;
 use App\Models\User;
 use App\Models\KuliahLapanganFakultas;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -38,24 +39,18 @@ class LoginController extends Controller
             ]);
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
-                $role  = Auth::user()->roleDefault()->role->nama_role;
+                // $role  = Auth::user()->roleDefault()->role->nama_role;
+                $role = Auth::user()->userRole->role->nama_role;
                 if ($role == "administrator" || $role == "admin_fakultas") {
                     $data = KuliahLapanganFakultas::with('fakultas')->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id)->first();
-                    session(
-                        [
-                            'fakultasData' => $data
-                        ]
-                    );
+                    session(['role' => $role, 'fakultasData' => $data]);
                     return redirect()->intended(route('dashboard'));
                 } else if ($role == "mahasiswa") {
                     $data = KuliahLapanganFakultas::with('fakultas')->where('master_fakultas_id', Auth::user()->userMahasiswa->mahasiswa->prodi->master_fakultas_id)->first();
-                    session(
-                        [
-                            'fakultasData' => $data
-                        ]
-                    );
+                    session(['role' => $role, 'fakultasData' => $data]);
                     return redirect()->intended(route('mahasiswa.dashboard'));
-                } else if ($role == "pembimbing" || $role == "tenaga_kependidikan" || $role == "dosen") {
+                } else if ($role == "tenaga_kependidikan" || $role == "dosen") {
+                    session(['role' => $role]);
                     return redirect()->intended(route('pembimbing.dashboard'));
                 }
             }
@@ -71,6 +66,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+        Session::flush();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login-page');

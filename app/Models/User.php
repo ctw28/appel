@@ -45,12 +45,11 @@ class User extends Authenticatable
 
     public function userRole()
     {
-        return $this->hasMany('App\Models\UserRole');
+        return $this->hasOne('App\Models\UserRole');
     }
-
-    public function roleDefault()
+    public function userRoleApp()
     {
-        return $this->userRole()->where('is_default', '=', true)->with('role')->first();
+        return $this->hasMany('App\Models\UserRoleApp');
     }
 
     public function userFakultas()

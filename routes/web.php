@@ -12,6 +12,7 @@ use App\Http\Controllers\PplKelompokAnggotaController;
 use App\Http\Controllers\PplNilaiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PengaturanFakultasController;
+use App\Http\Controllers\ProvinsiController;
 
 //mahasiswa Controller
 use App\Http\Controllers\Mahasiswa\MahasiswaController;
@@ -32,6 +33,9 @@ use App\Http\Controllers\Pembimbing\PembimbingController as pembimbing;
 // Route::get('/', function () {
 //     return redirect()->route('login-page');
 // })->middleware('guest');
+Route::get('/get-pronvinsi', [ProvinsiController::class, 'index']);
+
+
 Route::get('/konfirmasi-akun/{username}/{password}', [LoginController::class, 'konfirmasi'])->name('confirm.user');
 Route::get('/', [LoginController::class, 'index'])->name('login-page')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
@@ -98,7 +102,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/detail-kelompok/{kelompokId}', [MahasiswaController::class, 'detailKelompok'])->name('mahasiswa.kelompok.detail');
         Route::get('/kelompok/{kelompokId}/lkh/{id}', [MahasiswaController::class, 'detailLkh'])->name('mahasiswa.detail.lkh');
     });
-    Route::group(['prefix' => 'pembimbing', 'middleware' => 'role.pembimbing'], function () {
+    Route::group(['prefix' => 'pembimbing'], function () {
+        // Route::group(['prefix' => 'pembimbing', 'middleware' => 'role.pembimbing'], function () {
         Route::get('/dashboard', [pembimbing::class, 'index'])->name('pembimbing.dashboard');
         Route::get('/bimbingan/list', [pembimbing::class, 'list'])->name('pembimbing.list');
         Route::get('/bimbingan/kelompok/{kelompokId}/nilai/input', [pembimbing::class, 'nilaiInput'])->name('pembimbing.nilai.input');

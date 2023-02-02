@@ -13,9 +13,9 @@ class AddSomeAttribute extends Migration
      */
     public function up()
     {
-        Schema::table('kuliah_lapangan_kelompoks', function (Blueprint $table) {
-            $table->string('pembimbing_eksternal', 100);
-        });
+        // Schema::table('kuliah_lapangan_kelompoks', function (Blueprint $table) {
+        //     $table->string('pembimbing_eksternal', 100);
+        // });
         // Schema::table('kuliah_lapangan_fakultas', function (Blueprint $table) {
         //     $table->string('singkatan');
         // });

@@ -3,11 +3,17 @@
 @section('content')
 <div class="col-md-12 mb-5 mt-3">
     <h2>Selamat Datang,
+        @if(Auth::user()->userPegawai->pegawai->gelar)
         @if(Auth::user()->userPegawai->pegawai->gelar->gelar_depan!="-")
         {{Auth::user()->userPegawai->pegawai->gelar->gelar_depan}}
         @endif
+        @endif
         {{Auth::user()->userPegawai->pegawai->dataDiri->nama_lengkap}}
+        @if(Auth::user()->userPegawai->pegawai->gelar)
+        @if(Auth::user()->userPegawai->pegawai->gelar->gelar_belakang!="-")
         {{Auth::user()->userPegawai->pegawai->gelar->gelar_belakang}}
+        @endif
+        @endif
     </h2>
 </div>
 

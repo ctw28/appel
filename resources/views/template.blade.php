@@ -29,11 +29,11 @@
 
         <hr class="horizontal light mt-0 mb-2">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-            @if(Auth::user()->roleDefault()->role->nama_role=="administrator" || Auth::user()->roleDefault()->role->nama_role =="admin_fakultas")
+            @if(session('role')=="administrator" || session('role') =="admin_fakultas")
             @include('parts/menu-admin')
-            @elseif(Auth::user()->roleDefault()->role->nama_role=="mahasiswa")
+            @elseif(session('role')=="mahasiswa")
             @include('parts/menu-mahasiswa')
-            @elseif(Auth::user()->roleDefault()->role->nama_role=="pembimbing")
+            @elseif(session('role')=="dosen" || session('role') =="tenaga_kependidikan")
             @include('parts/menu-pembimbing')
             @endif
         </div>
@@ -76,16 +76,24 @@
                             <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                                 <i class="fa fa-user me-sm-1"></i>
                                 <span class="d-sm-inline">
-                                    @if(Auth::user()->roleDefault()->role->nama_role=="administrator" || Auth::user()->roleDefault()->role->nama_role =="admin_fakultas")
+                                    @if(session('role')=="administrator" || session('role') =="admin_fakultas")
                                     {{Auth::user()->name}}
-                                    @elseif(Auth::user()->roleDefault()->role->nama_role=="mahasiswa")
+                                    @elseif(session('role')=="mahasiswa")
                                     {{Auth::user()->userMahasiswa->mahasiswa->dataDiri->nama_lengkap}}
-                                    @elseif(Auth::user()->roleDefault()->role->nama_role=="pembimbing")
+                                    @elseif(session('role')=="dosen" || session('role')=="tenaga_kependidikan")
+
+                                    @if(Auth::user()->userPegawai->pegawai->gelar)
                                     @if(Auth::user()->userPegawai->pegawai->gelar->gelar_depan!="-")
                                     {{Auth::user()->userPegawai->pegawai->gelar->gelar_depan}}
                                     @endif
+                                    @endif
                                     {{Auth::user()->userPegawai->pegawai->dataDiri->nama_lengkap}}
-                                    {{Auth::user()->userPegawai->pegawai->gelar->gelar_belakang}} @endif
+                                    @if(Auth::user()->userPegawai->pegawai->gelar)
+                                    @if(Auth::user()->userPegawai->pegawai->gelar->gelar_belakang!="-")
+                                    {{Auth::user()->userPegawai->pegawai->gelar->gelar_belakang}}
+                                    @endif
+                                    @endif
+                                    @endif
                                 </span>
                             </a>
                         </li>

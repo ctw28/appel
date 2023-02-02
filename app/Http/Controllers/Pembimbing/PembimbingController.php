@@ -18,7 +18,8 @@ class PembimbingController extends Controller
     //
     public function index()
     {
-        // return Auth::user()->userPegawai->pegawai_id;
+        // return Auth::user()->userPegawai->pegawai;
+        // return session('role');
         $data['title'] = "Dashboard";
         // $data['data'] = Pembimbing::with(['kuliahLapangan' => function ($kuliahLapangan) {
         //     $kuliahLapangan->with(['tahunAkademik', 'lokasi.kelompok.anggota.pendaftar.mahasiswa.dataDiri'])->where(['is_active' => true, 'is_ppl' => true]);

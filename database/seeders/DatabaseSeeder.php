@@ -14,6 +14,72 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::table('provinsis')->insert([
+            [
+                'provinsi_nama' => 'Sulawesi Tenggara',
+            ],
+            [
+                'provinsi_nama' => 'Sulawesi Selatan',
+            ],
+        ]);
+
+        DB::table('jenis_kabupatens')->insert([
+            [
+                'jenis' => 'Kota',
+            ],
+            [
+                'jenis' => 'Kabupaten',
+            ],
+        ]);
+
+
+        DB::table('kabupatens')->insert([
+            [
+                'id_provinsi' => 1,
+                'jenis_kabupaten_id' => 1,
+                'kabupaten_nama' => 'Kota Kendari',
+            ],
+            [
+                'id_provinsi' => 1,
+                'jenis_kabupaten_id' => 2,
+                'kabupaten_nama' => 'Konawe Selatan',
+            ],
+            [
+                'id_provinsi' => 2,
+                'jenis_kabupaten_id' => 2,
+                'kabupaten_nama' => 'Gowa',
+            ],
+            [
+                'id_provinsi' => 2,
+                'jenis_kabupaten_id' => 1,
+                'kabupaten_nama' => 'Kota Pare-Pare',
+            ],
+        ]);
+        DB::table('kecamatans')->insert([
+            [
+                'kabupaten_id' => 1,
+                'kecamatan_nama' => 'Wua-Wua',
+            ],
+            [
+                'kabupaten_id' => 1,
+                'kecamatan_nama' => 'Kendari Barat',
+            ],
+            [
+                'kabupaten_id' => 2,
+                'kecamatan_nama' => 'Ranomeeto',
+            ],
+            [
+                'kabupaten_id' => 3,
+                'kecamatan_nama' => 'Gowa Kecamatan',
+            ],
+            [
+                'kabupaten_id' => 4,
+                'kecamatan_nama' => 'Pare Kecamatan',
+            ],
+
+
+        ]);
         // \App\Models\User::factory(2)->create();
 
         // $fatik = "Fakultas Tarbiyah dan Ilmu Keguruan";
@@ -530,31 +596,31 @@ class DatabaseSeeder extends Seeder
         //     ],
         // ]);
 
-        DB::table('kuliah_lapangan_fakultas')->insert([
-            [
-                'master_fakultas_id' => 1,
-                'sebutan' => 'Pengenalan Lapangan Persekolahan',
-                'singkatan' => 'PLP',
-                'sebutan_eksternal' => 'Pamong',
-            ],
-            [
-                'master_fakultas_id' => 2,
-                'sebutan' => 'Program Pengalaman Lapangan',
-                'singkatan' => 'PPL / Magang',
-                'sebutan_eksternal' => 'Supervisor',
-            ],
-            [
-                'master_fakultas_id' => 3,
-                'sebutan' => 'Program Pengalaman Lapangan',
-                'singkatan' => 'PPL / Magang',
-                'sebutan_eksternal' => 'Supervisor',
-            ],
-            [
-                'master_fakultas_id' => 4,
-                'sebutan' => 'Program Pengalaman Lapangan',
-                'singkatan' => 'PPL / Magang',
-                'sebutan_eksternal' => 'Supervisor',
-            ],
-        ]);
+        // DB::table('kuliah_lapangan_fakultas')->insert([
+        //     [
+        //         'master_fakultas_id' => 1,
+        //         'sebutan' => 'Pengenalan Lapangan Persekolahan',
+        //         'singkatan' => 'PLP',
+        //         'sebutan_eksternal' => 'Pamong',
+        //     ],
+        //     [
+        //         'master_fakultas_id' => 2,
+        //         'sebutan' => 'Program Pengalaman Lapangan',
+        //         'singkatan' => 'PPL / Magang',
+        //         'sebutan_eksternal' => 'Supervisor',
+        //     ],
+        //     [
+        //         'master_fakultas_id' => 3,
+        //         'sebutan' => 'Program Pengalaman Lapangan',
+        //         'singkatan' => 'PPL / Magang',
+        //         'sebutan_eksternal' => 'Supervisor',
+        //     ],
+        //     [
+        //         'master_fakultas_id' => 4,
+        //         'sebutan' => 'Program Pengalaman Lapangan',
+        //         'singkatan' => 'PPL / Magang',
+        //         'sebutan_eksternal' => 'Supervisor',
+        //     ],
+        // ]);
     }
 }

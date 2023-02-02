@@ -18,10 +18,12 @@ class roleMahasiswa
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->roleDefault()->role->nama_role != "mahasiswa") {
-            return redirect()->back();
-            // return redirect('login');
-        }
-        return $next($request);
+        $role = session('role');
+        if ($role == "mahasiswa")
+            return $next($request);
+        return redirect()->back();
+        // if (Auth::user()->roleDefault()->role->nama_role != "mahasiswa") {
+        // return redirect('login');
+        // }
     }
 }
