@@ -62,7 +62,7 @@
                                 <td>{{$item->pendaftar->mahasiswa->nim}}</td>
                                 <td class="text-center">{{$item->pendaftar->mahasiswa->dataDiri->nama_lengkap}}</td>
                                 <td>{{$item->pendaftar->mahasiswa->prodi->prodi_nama}} ({{$item->pendaftar->mahasiswa->prodi->prodi_kode}})</td>
-                                <td><a href="https://web.whatsapp.com/send?phone={{$item->pendaftar->mahasiswa->dataDiri->no_hp}}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true" style="font-size: 16px;color:green"> {{$item->pendaftar->mahasiswa->dataDiri->no_hp}}</a></td>
+                                <td><a id="kirimwa_{{$item->id}}" href="https://web.whatsapp.com/send?phone={{$item->pendaftar->mahasiswa->dataDiri->no_hp}}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true" style="font-size: 16px;color:green"> {{$item->pendaftar->mahasiswa->dataDiri->no_hp}}</a></td>
                                 <td><a href="{{route('pembimbing.detail.lkh',[$data[0]->id,$item->id])}}" class="btn btn-primary btn-sm mb-0">Lihat LKH</a></td>
                             </tr>
                             @endforeach
@@ -75,4 +75,20 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+@foreach($data[0]->anggota as $index => $item)
+<script>
+    let kirimwa = document.querySelector('#kirimwa_{{$item->id}}')
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        jenisDevice = 'smartphone'
+        kirimwa.href = 'https://wa.me/{{$item->pendaftar->mahasiswa->dataDiri->no_hp}}'
+    } else {
+        jenisDevice = 'pclaptop'
+        kirimwa.href = 'https://web.whatsapp.com/send?phone={{$item->pendaftar->mahasiswa->dataDiri->no_hp}}'
+    }
+</script>
+@endforeach
+
 @endsection
