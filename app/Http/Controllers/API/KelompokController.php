@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\KuliahLapangan;
+use App\Models\PegawaiGelar;
 use App\Models\Kelompok;
 use App\Models\KelompokAnggota;
 use App\Http\Requests\KelompokRequest;
@@ -17,6 +18,22 @@ class KelompokController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function importGelar(Request $request)
+    {
+        $data = json_decode($request->data);
+        foreach ($data as $value) {
+            PegawaiGelar::create([
+                'pegawai_id' => $value,
+                'gelar_depan' => $value->glrdepan,
+                'gelar_belakang' => $value->glrbelakang,
+                'gelar_tanggal' => '2023-01-01',
+                'is_aktif' => 1,
+            ]);
+        }
+    }
+
     public function index($kuliahLapanganId, $lokasiId)
     {
         $data = KuliahLapangan::select('id', 'tahun_akademik_id', 'kuliah_lapangan_nama')->with(['ppl', 'tahunAkademik', 'lokasi' => function ($lokasi) use ($lokasiId) {

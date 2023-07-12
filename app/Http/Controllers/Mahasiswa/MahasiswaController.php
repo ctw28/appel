@@ -33,7 +33,7 @@ class MahasiswaController extends Controller
             'kuliahLapangan' => function ($kuliahLapangan) {
                 $kuliahLapangan->where('is_active', true);
             }, 'anggota' => function ($anggota) {
-                $anggota->with(['kelompok.lokasi', 'kelompok.pembimbing.pegawai.dataDiri']);
+                $anggota->with(['kelompok.lokasi', 'kelompok.pembimbing.pegawai.dataDiri', 'kelompok.pembimbing.pegawai.gelar']);
             }
         ])->whereHas('kuliahLapangan', function ($kuliahLapangan) {
             $kuliahLapangan->where('is_active', true);

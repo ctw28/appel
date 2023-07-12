@@ -60,8 +60,8 @@ class PembimbingController extends Controller
                 $kelompokCount = $kelompokCount + count($lokasi->kelompok);
             }
             $item->rowspan = $kelompokCount + $lokasiCount + 2;
-            $item->kuliahLapangan->waktu_pelaksanaan_mulai = \FormatWaktu::tanggalIndonesia($item->kuliahLapangan->waktu_pelaksanaan_mulai);
-            $item->kuliahLapangan->waktu_pelaksanaan_selesai = \FormatWaktu::tanggalIndonesia($item->kuliahLapangan->waktu_pelaksanaan_selesai);
+            // $item->kuliahLapangan->waktu_pelaksanaan_mulai = \FormatWaktu::tanggalIndonesia($item->kuliahLapangan->waktu_pelaksanaan_mulai);
+            // $item->kuliahLapangan->waktu_pelaksanaan_selesai = \FormatWaktu::tanggalIndonesia($item->kuliahLapangan->waktu_pelaksanaan_selesai);
         });
         // return $data;
         return view('pembimbing.dashboard', $data);
