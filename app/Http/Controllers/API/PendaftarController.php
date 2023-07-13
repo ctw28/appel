@@ -68,7 +68,7 @@ class PendaftarController extends Controller
                 ->get();
         } else {
             $data = KuliahLapanganPendaftar::where('kuliah_lapangan_id', $kuliahLapanganId)
-                ->with(['mahasiswa.dataDiri', 'mahasiswa.prodi'])
+                ->with(['mahasiswa.dataDiri', 'mahasiswa.prodi', 'anggota.kelompok.lokasi'])
                 ->paginate($limit);
         }
         if ($data->count() == 0)

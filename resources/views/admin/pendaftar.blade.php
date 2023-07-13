@@ -43,7 +43,8 @@
                                 <th scope="col">No</th>
                                 <th scope="col">NIM</th>
                                 <th scope="col">Nama</th>
-                                <th scope="col">Prodi</th>
+                                <!-- <th scope="col">Prodi</th> -->
+                                <th scope="col">Kelompok</th>
                                 <!-- <th scope="col">Hapus</th> -->
                             </tr>
                         </thead>
@@ -158,11 +159,15 @@
                 tdNim.textContent = data.mahasiswa.nim
                 tr.appendChild(tdNim)
                 const tdNama = document.createElement('td')
-                tdNama.textContent = data.mahasiswa.data_diri.nama_lengkap
+                tdNama.textContent = `${data.mahasiswa.data_diri.nama_lengkap} (${data.mahasiswa.prodi.prodi_kode})`
                 tr.appendChild(tdNama)
-                const tdProdi = document.createElement('td')
-                tdProdi.textContent = data.mahasiswa.prodi.prodi_kode
-                tr.appendChild(tdProdi)
+
+                const tdKelompok = document.createElement('td')
+                if (data.anggota == null)
+                    tdKelompok.innerHTML = `<span class="badge bg-gradient-danger">-</span>`
+                else
+                    tdKelompok.innerHTML = `<span class="badge bg-gradient-info">${data.anggota.kelompok.nama_kelompok} - ${data.anggota.kelompok.lokasi.lokasi}</span>`
+                tr.appendChild(tdKelompok)
                 fragment.appendChild(tr)
                 tbody.appendChild(fragment)
                 number++
