@@ -14,6 +14,7 @@
                 </div>
             </div>
             <div class="card-body p-3 pt-0">
+                @if(!empty($data))
                 <ul class="list-group mb-2">
                     <li class="list-group-item border-0 ps-0 text-sm">Nama Kuliah : &nbsp; <strong class="text-dark">{{$data->kuliahLapangan->kuliah_lapangan_nama}} - {{$data->kuliahLapangan->tahunAkademik->sebutan}}</strong></li>
                     <li class="list-group-item border-0 ps-0 text-sm">Waktu Pelaksanaan : &nbsp; <strong class="text-dark">{{$data->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$data->kuliahLapangan->waktu_pelaksanaan_selesai}}</strong></li>
