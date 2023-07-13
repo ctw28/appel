@@ -81,12 +81,15 @@
 @foreach($data[0]->anggota as $index => $item)
 <script>
     let kirimwa = document.querySelector('#kirimwa_{{$item->id}}')
+    let noHp = "{{$item->pendaftar->mahasiswa->dataDiri->no_hp}}"
+    let noHpubah = noHp.replace(/^08/, "628")
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         jenisDevice = 'smartphone'
-        kirimwa.href = 'https://wa.me/{{$item->pendaftar->mahasiswa->dataDiri->no_hp}}'
+        kirimwa.href = `https://wa.me/${noHpubah}`
     } else {
         jenisDevice = 'pclaptop'
-        kirimwa.href = 'https://web.whatsapp.com/send?phone={{$item->pendaftar->mahasiswa->dataDiri->no_hp}}'
+        kirimwa.href = `https://wa.me/${noHpubah}`
+        // kirimwa.href = `https://web.whatsapp.com/send?phone=${noHpubah}`
     }
 </script>
 @endforeach
