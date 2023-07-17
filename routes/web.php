@@ -37,7 +37,7 @@ Route::get('/get-pronvinsi', [ProvinsiController::class, 'index']);
 
 
 Route::get('/konfirmasi-akun/{username}/{password}', [LoginController::class, 'konfirmasi'])->name('confirm.user');
-Route::get('/', [LoginController::class, 'index'])->name('login-page')->middleware('guest');
+Route::get('/', [LoginController::class, 'index'])->name('login-page');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 

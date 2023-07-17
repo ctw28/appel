@@ -22,6 +22,7 @@
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
+                                    <option value="250">250</option>
                                 </select>
                                 <small class="px-0">&nbsp;Data</small>
                             </div>
