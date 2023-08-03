@@ -92,9 +92,9 @@
             foto += `
             @if(env('APP_ENV')=="local")
             
-            <img width='200px' src='{{asset('/storage')}}/${data.foto_path}' alt='ggwp'>
+            <img width='200px' src='{{asset('/>')}}/${data.foto_path}' alt='ggwp'>
             @else
-            <img width='200px' src='{{asset('/storage/app/')}}/${data.foto_path}' alt='ggwp'>
+            <img width='200px' src='{{asset('/')}}/${data.foto_path}' alt='ggwp'>
             @endif
             `
         })
