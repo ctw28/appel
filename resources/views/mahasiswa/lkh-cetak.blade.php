@@ -3,9 +3,9 @@
 <p>{{$lkh->kegiatan}}</p>
 @foreach($lkh->dokumentasi as $dokumentasi)
 @if(env('APP_ENV')=="local")
-<img src="{{asset('/storage/')}}/{{$dokumentasi->foto_path}}" alt="dokumentasi" class="img-fluid" width="200px">
+<img src="{{asset('/')}}/{{$dokumentasi->foto_path}}" alt="dokumentasi" class="img-fluid" width="200px">
 @else
-<img src="{{asset('/storage/app/')}}/{{$dokumentasi->foto_path}}" alt="dokumentasi" class="img-fluid" width="200px">
+<img src="{{asset('/')}}/{{$dokumentasi->foto_path}}" alt="dokumentasi" class="img-fluid" width="200px">
 @endif
 @endforeach
 <hr>
