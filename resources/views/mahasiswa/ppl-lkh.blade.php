@@ -174,9 +174,9 @@
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <a class="d-block blur-shadow-image">
                         @if(env('APP_ENV')=="local")
-                            <img src="{{asset('/storage/')}}/${data.dokumentasi[0].foto_path}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                            <img src="{{asset('/')}}/${data.dokumentasi[0].foto_path}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                         @else
-                            <img src="{{asset('/storage/app/')}}/${data.dokumentasi[0].foto_path}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                            <img src="{{asset('/')}}/${data.dokumentasi[0].foto_path}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                             @endif
                             </a>
                         <div class="colored-shadow" style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);"></div>
