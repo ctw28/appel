@@ -15,6 +15,7 @@ use App\Models\MasterProdi;
 use App\Models\PplPendaftar;
 use App\Models\Lkh;
 use App\Models\Kelompok;
+use App\Models\Laporan;
 use App\Models\LkhDokumentasi;
 use Carbon\Carbon;
 use Storage;
@@ -33,7 +34,9 @@ class MahasiswaController extends Controller
             'kuliahLapangan' => function ($kuliahLapangan) {
                 $kuliahLapangan->where('is_active', true);
             }, 'anggota' => function ($anggota) {
-                $anggota->with(['kelompok.lokasi', 'kelompok.pembimbing.pegawai.dataDiri', 'kelompok.pembimbing.pegawai.gelar']);
+                $anggota->with(['lkh' => function ($lkh) {
+                    $lkh->with('dokumentasi')->take(8)->orderBy('tgl_lkh', 'desc');
+                }, 'kelompok.anggota.pendaftar.mahasiswa.dataDiri', 'kelompok.lokasi', 'kelompok.pembimbing.pegawai.dataDiri', 'kelompok.pembimbing.pegawai.gelar', 'laporan']);
             }
         ])->whereHas('kuliahLapangan', function ($kuliahLapangan) {
             $kuliahLapangan->where('is_active', true);
@@ -41,9 +44,20 @@ class MahasiswaController extends Controller
         // return $data;
         // $data->map(function ($item) {
         // });
+        if (!empty($data->anggota)) {
 
+            $data->anggota->lkh->map(function ($item) {
+                $tglIndo = Carbon::parse($item->tgl_lkh)->locale('id');
+                $tglIndo->settings(['formatFunction' => 'translatedFormat']);
+                $item->tgl_lkh = $tglIndo->format('l, j F Y');
+                $item->kegiatan = \Illuminate\Support\Str::limit($item->kegiatan, 50, $end = '...');
+            });
+        }
         if (!empty($data)) {
             $data->kuliahLapangan->waktu_pelaksanaan_mulai = \FormatWaktu::tanggalIndonesia($data->kuliahLapangan->waktu_pelaksanaan_mulai);
+            $sisa = Carbon::parse($data->kuliahLapangan->waktu_pelaksanaan_selesai);
+            $sisaHari = $sisa->diffInDays(Carbon::now());
+            $data->kuliahLapangan->sisa_hari = $sisaHari + 1;
             $data->kuliahLapangan->waktu_pelaksanaan_selesai = \FormatWaktu::tanggalIndonesia($data->kuliahLapangan->waktu_pelaksanaan_selesai);
             if (Carbon::now()->gte($data->kuliahLapangan->waktu_publikasi_kelompok))
                 // return $data;
@@ -209,7 +223,9 @@ class MahasiswaController extends Controller
             'kuliahLapangan',
             'anggota.kelompok.lokasi',
             'anggota.kelompok.pembimbing.pegawai.dataDiri',
-            'anggota.lkh.dokumentasi',
+            'anggota.lkh' => function ($lkh) {
+                $lkh->with('dokumentasi')->orderBy('tgl_lkh', 'desc');
+            },
         ])
             ->where([
                 'kuliah_lapangan_id' => $kuliahLapanganId,
@@ -389,5 +405,95 @@ class MahasiswaController extends Controller
         // return $data;
 
         return view('mahasiswa.lkh-detail', $data);
+    }
+
+
+
+    public function laporanAdd()
+    {
+        $data['title'] = "Pelaporan";
+        // $data['data'] = KelompokAnggota::with(['laporan'])
+        //     ->where('id', Auth::user()->userMahasiswa->mahasiswa->kuliahLapanganPendaftar[0]->anggota->id)->get();
+        $anggotaLaporan = KelompokAnggota::with(['laporan'])
+            ->where('id', Auth::user()->userMahasiswa->mahasiswa->kuliahLapanganPendaftar[0]->anggota->id)->get();
+        $data['data'] = $anggotaLaporan;
+        $laporanAkhir = [];
+        $laporanSekolah = [];
+
+        if (count($anggotaLaporan[0]->laporan) != 0) {
+            foreach ($anggotaLaporan[0]->laporan as $item) {
+                // $anggotaLaporan[0]->laporan->map(function ($item) use ($laporanAkhir, $laporanSekolah) {
+                if ($item->kategori == "laporan_akhir")
+                    $laporanAkhir[] = $item;
+                else if ($item->kategori == "laporan_sekolah")
+                    $laporanSekolah[] = $item;
+            };
+        }
+        $data['laporanAkhir'] = $laporanAkhir;
+        $data['laporanSekolah'] = $laporanSekolah;
+        // if($anggotaLaporan[0]->laporan)
+        // return $data;
+        return view('mahasiswa.laporan', $data);
+    }
+
+    public function laporanStore(Request $request)
+    {
+        // if ($request->hasFile('file_path')) {
+
+        //     // return $request->file('file_path');
+        //     $uploadedFiles = [];
+
+        //     foreach ($request->file('file_path') as $file) {
+        //         $filename = $file->getClientOriginalName();
+        //         $file->storeAs('laporan/bukti_setor_sekolah', $filename);
+        //         $uploadedFiles[] = $filename;
+        //     }
+        //     return $uploadedFiles;
+        // }
+        // return $request->all();
+        try {
+
+            $request->validate([
+                'kelompok_anggota_id' => 'required',
+                'kategori' => 'required',
+                'file_path' => 'required',
+                'status' => 'required',
+                'file_delete_if_update' => 'string', //ini nama file yang akan di remove jika update sukses
+                // 'photos' => 'max:3'
+            ]);
+            $imagefile = $request->file('file_path');
+            $filenameWithExt = $imagefile->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $imagefile->getClientOriginalExtension();
+            $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+
+            $upload = $imagefile->storeAs('laporan', $filenameSimpan);
+            $laporan = Laporan::updateOrCreate(
+                [
+                    'kelompok_anggota_id' => $request->kelompok_anggota_id,
+                    'kategori' => $request->kategori
+                ],
+                ['file_path' => $upload]
+            );
+
+            if ($request->status == 'update')
+                Storage::delete($request->file_delete_if_update);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Sukses ditambahkan',
+                'data' => $laporan,
+            ], 200);
+            // return redirect()->route('mahasiswa.lkh', $request->kuliah_lapangan_id)->with('success', 'LKH berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            // return $th;
+            return response()->json([
+                'status' => false,
+                'message' => 'gagal insert',
+                'data' => $th,
+            ], 500);
+
+            return redirect()->back()->withInput($request->input())->with('error', 'LKH gagal ditambahkan, pastikan inputan dan file yang diupload sesuai ketentuan!');
+        }
     }
 }

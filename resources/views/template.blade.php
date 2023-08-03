@@ -17,7 +17,7 @@
 
 @include("parts/head")
 
-<body class="g-sidenav-show  bg-gray-200">
+<body class="g-sidenav-show bg-gray-200 g-sidenav-hidden">
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -42,7 +42,7 @@
         <div class="sidenav-footer position-absolute w-100 bottom-0 ">
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mx-3">
                 @csrf
-                <button type="submit" class="btn btn-primary align-items-center w-100">Logout</button>
+                <button type="submit" class="btn btn-primary align-items-center w-100"><i class="material-icons opacity-10">logout</i></button>
             </form>
         </div>
 
@@ -132,8 +132,8 @@
                                     document.write(new Date().getFullYear())
                                 </script>,
                                 made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                                for a better web.
+                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Tim Pengembang Sistem UTP TIPD IAIN KENDARI</a>
+                                2023.
                             </div>
                         </div>
 

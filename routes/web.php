@@ -101,6 +101,9 @@ Route::group(['middleware' => 'auth'], function () {
         //DETAIL KELOMPOK
         Route::get('/detail-kelompok/{kelompokId}', [MahasiswaController::class, 'detailKelompok'])->name('mahasiswa.kelompok.detail');
         Route::get('/kelompok/{kelompokId}/lkh/{id}', [MahasiswaController::class, 'detailLkh'])->name('mahasiswa.detail.lkh');
+
+        //PELAPORAN
+        Route::get('/pelaporan', [MahasiswaController::class, 'laporanAdd'])->name('mahasiswa.laporan.add');
     });
     Route::group(['prefix' => 'pembimbing'], function () {
         // Route::group(['prefix' => 'pembimbing', 'middleware' => 'role.pembimbing'], function () {

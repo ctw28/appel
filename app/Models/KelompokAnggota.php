@@ -41,4 +41,9 @@ class KelompokAnggota extends Model
     {
         return $this->hasOne('App\Models\Nilai');
     }
+
+    public function laporan()
+    {
+        return $this->hasMany('App\Models\Laporan');
+    }
 }

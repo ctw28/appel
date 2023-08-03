@@ -84,12 +84,12 @@ class ApiController extends Controller
 
     public function lkhIndex($id)
     {
-        $lkh = Lkh::where('kelompok_anggota_id', $id)->orderBy('tgl_lkh', 'DESC')->paginate(10);
+        $lkh = Lkh::with('dokumentasi')->where('kelompok_anggota_id', $id)->orderBy('tgl_lkh', 'DESC')->paginate(8);
         $lkh->map(function ($item) {
             $tglIndo = Carbon::parse($item->tgl_lkh)->locale('id');
             $tglIndo->settings(['formatFunction' => 'translatedFormat']);
             $item->tgl_lkh = $tglIndo->format('l, j F Y');
-            $item->kegiatan = \Illuminate\Support\Str::limit($item->kegiatan, 30, $end = '...');
+            $item->kegiatan = \Illuminate\Support\Str::limit($item->kegiatan, 50, $end = '...');
         });
         return $lkh;
     }

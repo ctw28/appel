@@ -8,89 +8,22 @@
 </style>
 @endsection
 @section('content')
-<div class="col-md-12">
 
-    <div class="card my-4">
-        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-            <div class="bg-gradient-info shadow-info border-radius-lg pt-3 pb-2 mb-3">
-                <h6 class="text-white text-capitalize ps-3">{{$title}}</h6>
-            </div>
-        </div>
-        <div class="card-body pb-2 pt-0">
-            @if(!empty($data))
-            <ul class="list-group mb-2">
-                <li class="list-group-item border-0 ps-0 text-sm">Nama Kuliah : &nbsp; <strong class="text-dark"></strong></li>
-                @if(!empty($data->anggota))
-                <li class="list-group-item border-0 ps-0 text-sm">Lokasi : &nbsp; <strong class="text-dark">{{$data->anggota->kelompok->lokasi->lokasi}}</strong></li>
-                <li class="list-group-item border-0 ps-0 text-sm">Kelompok : &nbsp; <strong class="text-dark">{{$data->anggota->kelompok->nama_kelompok}}</strong></li>
-                <li class="list-group-item border-0 ps-0 text-sm">Pembimbing : &nbsp; <strong class="text-dark">
+<div class="col-lg-12 position-relative">
+    <a href="{{route('mahasiswa.lkh.add',[$data->kuliah_lapangan_id,$data->anggota->id])}}" class="btn btn-primary btn-sm mb-0">+ Tambah LKH</a>
+    <a href="{{route('mahasiswa.lkh.print',[$data->kuliah_lapangan_id])}}" class="btn btn-success btn-sm mb-0">Cetak LKH</a>
+    <div class="row" id="contents">
 
-                        @if($data->anggota->kelompok->pembimbing->pegawai->gelar->gelar_depan!="-")
-                        {{$data->anggota->kelompok->pembimbing->pegawai->gelar->gelar_depan}}
-                        @endif
-                        {{$data->anggota->kelompok->pembimbing->pegawai->dataDiri->nama_lengkap}}
-                        {{$data->anggota->kelompok->pembimbing->pegawai->gelar->gelar_belakang}}
-                    </strong></li>
-                @else
-                <li class="list-group-item border-0 ps-0 text-sm">Lokasi : &nbsp; <strong class="text-dark">-</strong></li>
-                <li class="list-group-item border-0 ps-0 text-sm">Kelompok : &nbsp; <strong class="text-dark">-</strong></li>
-                <li class="list-group-item border-0 ps-0 text-sm">Pembimbing : &nbsp; <strong class="text-dark">-</strong></li>
-
-                @endif
-
-
+    </div>
+    <div class="row mt-5" id="contents">
+        <nav aria-label="Page navigation">
+            <ul class="pagination pagination-primary" id="pagination">
+                <!-- Pagination akan ditampilkan di sini -->
             </ul>
-            <div class="text-start">
-                <a href="{{route('mahasiswa.lkh.add',[$data->kuliah_lapangan_id,$data->anggota->id])}}" class="btn btn-primary btn-sm mb-0">+ Tambah LKH</a>
-                <a href="{{route('mahasiswa.lkh.print',[$data->kuliah_lapangan_id])}}" class="btn btn-success btn-sm mb-0">Cetak LKH</a>
-                <!-- <button type="button" class="btn btn-primary" id="add"><i class="material-icons opacity-10">add</i> Tambah</button> -->
-
-                @if(session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <span class="alert-text text-white">{{session('success')}}</span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
-
-            </div>
-            @else
-            <p>Anda belum mengikuti PLP</p>
-            @endif
-            <div style="overflow-x:auto;">
-                <table class="table table-hover">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col" class="text-center">No</th>
-                            <th scope="col">Hari / Tanggal</th>
-                            <th scope="col">Uraian Kegiatan</th>
-                            <!-- <th scope="col">Dokumentasi</th> -->
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lkh-data">
-
-                        <!-- @foreach ($data->anggota->lkh as $key => $item)
-                    <tr>
-                        <td class="text-center">{{$key+1}}</td>
-                        <td>{{$item->tgl_lkh}}</td>
-                        <td><a href="#" data-id="{{$item->id}}" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="detail(event)">{{\Illuminate\Support\Str::limit($item->kegiatan, 30, $end='...')}}</a></td>
-                        <td>
-                            <a href="{{route('mahasiswa.lkh.delete', $item->id)}}" onclick="return confirm('Yakin Hapus?')" class="btn btn-danger btn-sm"><i class="material-icons opacity-10">delete</i></a>
-                        </td>
-
-                    </tr>
-                    @endforeach -->
-
-
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
+        </nav>
     </div>
 </div>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -133,6 +66,8 @@
         </div>
     </div>
 </div> -->
+
+
 @endsection
 
 @section('script')
@@ -154,7 +89,14 @@
         uraian.textContent = response.kegiatan
         let foto = ''
         response.dokumentasi.forEach(function(data) {
-            foto += `<img width='200px' src='{{asset('/storage/app/')}}/${data.foto_path}' alt='ggwp'>`
+            foto += `
+            @if(env('APP_ENV')=="local")
+            
+            <img width='200px' src='{{asset('/storage')}}/${data.foto_path}' alt='ggwp'>
+            @else
+            <img width='200px' src='{{asset('/storage/app/')}}/${data.foto_path}' alt='ggwp'>
+            @endif
+            `
         })
         dokumentasi.innerHTML = foto
         buttonEdit.dataset.id = response.id
@@ -217,55 +159,91 @@
         buttonArea.innerHTML = `<button class="btn btn-warning" data-id="${e.target.dataset.id}" id="buttonEdit" onclick="edit(event)">Edit</button>`
     }
     showData()
-    async function showData() {
+    async function showData(page = 1) {
         let url = "{{route('lkh.index',':id')}}"
         url = url.replace(':id', "{{$data->anggota->id}}")
+        url += `?page=${page}`
         let send = await fetch(url);
         let response = await send.json()
         console.log(response);
-        let fragment = document.createDocumentFragment();
-        const lkhData = document.querySelector('#lkh-data');
-        lkhData.innerHTML = ""
+        let contents = ''
         response.data.forEach(function(data, i) {
-            let tr = document.createElement('tr');
-            tr.className = 'text-center'
-            tr.dataset.id = data.id
-            let tdNo = document.createElement('td');
-            tdNo.innerText = i + 1
-            let tdTanggal = document.createElement('td');
-            tdTanggal.innerText = data.tgl_lkh
-            let tdKegiatan = document.createElement('td');
-            let detail = document.createElement('a')
-            detail.href = "#"
-            detail.dataset.id = data.id
-            detail.dataset.bsToggle = "modal"
-            detail.dataset.bsTarget = "#exampleModal"
-            detail.setAttribute('onclick', "detail(event)")
-            detail.innerText = data.kegiatan
-            // data-bs-toggle="modal" data-bs-target="#exampleModal"
-            // tdKegiatan.innerText = data.kegiatan
-            tdKegiatan.appendChild(detail)
-            let tdAct = document.createElement('td');
-            let icon = document.createElement('i');
-            icon.setAttribute('onclick', 'remove(event)')
-            icon.className = "fa fa-times text-danger remove"
-            tdAct.appendChild(icon)
-            tr.appendChild(tdNo)
-            tr.appendChild(tdTanggal)
-            tr.appendChild(tdKegiatan)
-            tr.appendChild(tdAct)
-            fragment.appendChild(tr);
+            contents += `
+            <div class="col-xl-3 col-lg-4 col-md-6 mt-5">
+                <div class="card" data-animation="true">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <a class="d-block blur-shadow-image">
+                        @if(env('APP_ENV')=="local")
+                            <img src="{{asset('/storage/')}}/${data.dokumentasi[0].foto_path}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                        @else
+                            <img src="{{asset('/storage/app/')}}/${data.dokumentasi[0].foto_path}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                            @endif
+                            </a>
+                        <div class="colored-shadow" style="background-image: url(&quot;https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg&quot;);"></div>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="d-flex mt-n6 mx-auto">
+                            <a onclick="remove(event)" data-id="${data.id}"" class="btn btn-link text-primary ms-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="hapus">
+                                <i data-id="${data.id}" class="material-icons text-lg">delete</i>
+                            </a>
+                            <button data-id="${data.id}" onclick="detail(event)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lihat atau Edit">
+                                <i data-id="${data.id}" class="material-icons text-lg">edit</i>
+                            </button>
+                        </div>
+               
+                        <p class="text-md text-dark text-start mb-0">
+                        <b><a href="#" data-id="${data.id}" onclick="detail(event)" data-bs-toggle="modal" data-bs-target="#exampleModal">${data.tgl_lkh}</a></b>
+                       <br>
+                            ${data.kegiatan}
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>`
         });
-        lkhData.innerHTML = ""
-        lkhData.appendChild(fragment);
+
+
+        document.querySelector('#contents').innerHTML = contents
+        displayPagination(response);
     }
+
+    // Function untuk membuat elemen pagination link
+    function createPaginationLink(page, active) {
+        const li = document.createElement('li');
+        li.classList.add('page-item');
+        const link = document.createElement('a');
+        link.href = '#';
+        link.textContent = page;
+        link.classList.add('page-link');
+
+        if (active) {
+            li.classList.add('active');
+        }
+        link.addEventListener('click', () => showData(page));
+        // console.log(link);
+        li.appendChild(link)
+        return li;
+    }
+
+    // Function untuk menampilkan pagination links ke halaman
+    function displayPagination(pagination) {
+        // return console.log('sakdfjkahs');
+        const paginationDiv = document.getElementById('pagination');
+        paginationDiv.innerHTML = ''; // Kosongkan konten sebelumnya
+        console.log(pagination);
+        for (let i = 1; i <= pagination.last_page; i++) {
+            const link = createPaginationLink(i, i === pagination.current_page);
+            paginationDiv.appendChild(link);
+        }
+    }
+
 
     async function remove(e) {
         // alert(e.target.parentNode.parentNode.dataset.id)
         // let confirm = 
         if (confirm('yakin hapus data?')) {
             let url = "{{route('lkh.delete',':id')}}"
-            url = url.replace(':id', e.target.parentNode.parentNode.dataset.id)
+            url = url.replace(':id', e.target.dataset.id)
             let send = await fetch(url);
             let response = await send.json()
             console.log(response.status);

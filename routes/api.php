@@ -17,6 +17,8 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\KelompokController;
 use App\Http\Controllers\API\PendaftarController;
 
+use App\Http\Controllers\Mahasiswa\MahasiswaController as Mahasiswa;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -104,6 +106,10 @@ Route::get('/lkh/{id}/detail', [ApiController::class, 'lkhDetail'])->name('lkh.d
 Route::get('/lkh/{id}/edit', [ApiController::class, 'lkhEdit'])->name('lkh.edit');
 Route::post('/lkh/{id}/update', [ApiController::class, 'lkhUpdate'])->name('lkh.update');
 Route::get('/lkh/{id}/hapus', [ApiController::class, 'lkhDelete'])->name('lkh.delete');
+
+
+//PELAPORAN
+Route::post('/laporan/simpan', [Mahasiswa::class, 'laporanStore'])->name('laporan.store');
 
 // Route::get('lokasi/{lokasiId}/kelompok', [PembimbingController::class, 'destroy'])->name('ppl.kelompok');
 
