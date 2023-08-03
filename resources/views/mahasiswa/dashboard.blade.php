@@ -88,9 +88,9 @@
                                                 <a class="d-block shadow-xl border-radius-xl">
                                                     @if(env('APP_ENV')=="local")
 
-                                                    <img src="{{asset('/storage/')}}/{{$lkh->dokumentasi[0]->foto_path}}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                                                    <img src="{{asset('/')}}/{{$lkh->dokumentasi[0]->foto_path}}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
                                                     @else
-                                                    <img src="{{asset('/storage/app/')}}/{{$lkh->dokumentasi[0]->foto_path}}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                                                    <img src="{{asset('/')}}/{{$lkh->dokumentasi[0]->foto_path}}" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
                                                     @endif
                                                 </a>
                                             </div>
