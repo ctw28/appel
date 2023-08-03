@@ -15,7 +15,7 @@
                 <p><strong class="text-dark">{{$value->tgl_lkh}}</strong></p>
                 <p>{{$value->kegiatan}}</p>
                 @foreach($value->dokumentasi as $dokumentasi)
-                <img src="{{asset('//')}}/{{$dokumentasi->foto_path}}" alt="dokumentasi" class="img-fluid" width="300px">
+                <img src="{{asset('/')}}/{{$dokumentasi->foto_path}}" alt="dokumentasi" class="img-fluid" width="300px">
                 @endforeach
                 <hr>
                 @endforeach
