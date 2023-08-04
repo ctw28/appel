@@ -1,102 +1,125 @@
 @extends('template')
 
 @section('content')
-<div class="col-md-12 mb-5 mt-3">
-    <h2>Selamat Datang,
-        @if(Auth::user()->userPegawai->pegawai->gelar)
-        @if(Auth::user()->userPegawai->pegawai->gelar->gelar_depan!="-")
-        {{Auth::user()->userPegawai->pegawai->gelar->gelar_depan}}
-        @endif
-        @endif
-        {{Auth::user()->userPegawai->pegawai->dataDiri->nama_lengkap}}
-        @if(Auth::user()->userPegawai->pegawai->gelar)
-        @if(Auth::user()->userPegawai->pegawai->gelar->gelar_belakang!="-")
-        {{Auth::user()->userPegawai->pegawai->gelar->gelar_belakang}}
-        @endif
-        @endif
-    </h2>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="card mb-5 px-3">
-            <div class="card-header p-0 position-relative mt-n4 mx-1 z-index-2">
-                <div class="bg-gradient-info shadow-info border-radius-lg pt-3 pb-2 mb-3">
-                    <h6 class="text-white text-capitalize ps-3">Bimbingan Saat Ini</h6>
+<div class="container-fluid px-2 px-md-4">
+    <div class="page-header min-height-200 border-radius-xl" style="background-image: url('{{asset('/')}}/back-2.jpg');">
+        <span class="mask bg-gradient-info opacity-6"></span>
+    </div>
+    <div class="card card-body mx-3 mx-md-4 mt-n6">
+        <div class="row gx-4">
+            <div class="col-auto">
+                <div class="avatar avatar-xl position-relative">
+                    <img src="{{asset('/')}}assets/img/user_icon.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
                 </div>
             </div>
-            <div class="card-body p-3 pt-1">
-                <div style="overflow-x:auto;">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th class="text-center">No</th>
-                                <!-- <th>Waktu</th> -->
-                                <th>Lokasi</th>
-                                <th>Kelompok</th>
-                                <th class="text-center">Anggota</th>
-                                <th>Detail</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($data as $index => $item)
-                            <tr>
-                                <td colspan="6" class="text-center" style="background: #f2f2f2">
-                                    <b>{{$item->kuliahLapangan->kuliah_lapangan_nama}}
-                                        ({{$item->kuliahLapangan->tahunAkademik->sebutan}})</b>
-                                </td>
-                            </tr>
-                            <!-- <tr>
-                            <td rowspan="{{$item->rowspan}}">
-                                <b>Pelaksanaan<br>
-                                {{$item->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$item->kuliahLapangan->waktu_pelaksanaan_selesai}}</b>
-                            </td>
-                        </tr> -->
-                            @php $noUrut = 1 @endphp
-                            @foreach($item->kuliahLapangan->lokasi as $lokasi)
-                            @foreach($lokasi->kelompok as $kelompok)
-                            <tr>
-                                <td class="text-center">{{$noUrut}}</td>
-                                <td>
-                                    {{$lokasi->lokasi}}
-                                    @if($lokasi->alamat!='-' AND $lokasi->alamat!='')
-                                    ({{$lokasi->alamat}})
-                                    @endif
-                                </td>
-                                <td>{{$kelompok->nama_kelompok}}</td>
-                                <td class="text-center">{{$kelompok->anggota_count}}</td>
-                                <td><a href="{{route('pembimbing.detail.kelompok',$kelompok->id)}}" class="btn btn-primary btn-sm mb-0">Detail</a></td>
-                            </tr>
-                            @php $noUrut++ @endphp
-                            @endforeach
-                            @endforeach
+            <div class="col-auto my-auto">
+                <div class="h-100">
+                    <h5 class="mb-1">
+                        @if(Auth::user()->userPegawai->pegawai->gelar)
+                        @if(Auth::user()->userPegawai->pegawai->gelar->gelar_depan!="-")
+                        {{Auth::user()->userPegawai->pegawai->gelar->gelar_depan}}
+                        @endif
+                        @endif
+                        {{Auth::user()->userPegawai->pegawai->dataDiri->nama_lengkap}}
+                        @if(Auth::user()->userPegawai->pegawai->gelar)
+                        @if(Auth::user()->userPegawai->pegawai->gelar->gelar_belakang!="-")
+                        {{Auth::user()->userPegawai->pegawai->gelar->gelar_belakang}}
+                        @endif
+                        @endif
+                    </h5>
+                    <p class="mb-0 font-weight-normal text-sm">
+                        Pembimbing
+                    </p>
+                </div>
+            </div>
 
-                            @endforeach
+        </div>
+    </div>
+</div>
+
+<div class="col-md-8 me-auto my-auto text-left mt-4">
+    <h5>Bimbingan Saat Ini</h5>
+</div>
+
+@foreach($data as $index => $item)
+@foreach($item->kuliahLapangan->lokasi as $lokasi)
+<div class="col-md-12 mb-lg-0 mb-4">
+    <div class="card mt-3">
+        <div class="card-header pb-0 p-4">
+            <div class="row">
+                <div class="col-6 d-flex align-items-center ">
+                    <i class="material-icons opacity-10 text-dark me-2" style="font-size:30px">villa</i>
+                    <h5 class="mb-0 me-2">
+
+                        {{$lokasi->lokasi}}
+                    </h5>
+                    @if($lokasi->alamat!='-' AND $lokasi->alamat!='')
+                    <span class="text-sm">
+                        ({{$lokasi->alamat}})
+                    </span>
+                    @endif
+                </div>
+
+            </div>
+        </div>
+        <div class="card-body p-3">
+            <div class="row">
+                @foreach($lokasi->kelompok as $kelompok)
+
+                <div class="col-md-4 mb-md-0 mb-4 ">
+                    <div class="card card-body">
 
 
-                        </tbody>
-                    </table>
-                    <!-- @if(count($data)>0)
-                @foreach($data as $item)
-                <h5>Nama PLP : &nbsp; <strong class="text-dark">{{$item->kuliahLapangan->kuliah_lapangan_nama}}</strong></h5>
-                @foreach($item->kuliahLapangan->lokasi as $lokasi)
-                <ul class="list-group mb-2">
-                    <li class="list-group-item border-0 ps-0 text-sm"><i class="material-icons opacity-10">pin_drop</i> <strong class="text-dark">{{$lokasi->lokasi}} ({{$lokasi->alamat}})</strong></li>
-                </ul>
-                <div class="text-end">
-                    <a href="{{route('pembimbing.detail.kelompok',$item->id)}}" class="btn btn-primary">Detail <i class="material-icons">double_arrow</i></a>
+                        <div class="row gx-4">
+                            <div class="col-auto">
+                                <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg me-3">
+                                    <i class="material-icons opacity-10">list_alt</i>
+                                </div>
+                            </div>
+                            <div class="col-auto my-auto">
+                                <div class="h-100">
+                                    <h5 class="mb-1">
+                                        {{$kelompok->nama_kelompok}}
+
+                                    </h5>
+                                    <p class="mb-0 font-weight-normal text-md">
+                                        {{$kelompok->anggota_count}} Peserta
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-3 text-end">
+
+                                <a href="{{route('pembimbing.detail.kelompok',$kelompok->id)}}" class="btn btn-dark btn-sm me-2">
+                                    Detail
+                                    <i class="material-icons opacity-10" style="font-size:14px">navigate_next</i>
+                                </a>
+                                <a href="{{route('pembimbing.nilai.input',$kelompok->id)}}" class="btn btn-warning btn-sm ">
+                                    Penilaian
+                                    <i class="material-icons opacity-10" style="font-size:14px">grade</i>
+                                </a>
+                            </div>
+                        </div>
+
+
+
+                        <!-- <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Edit Card">edit</i> -->
+                    </div>
                 </div>
                 @endforeach
-                <hr>
-                @endforeach
-                @else
-                <p>Anda tidak memiliki bimbingan PLP</p>
-                @endif -->
 
-
-                </div>
+                <!-- <div class="col-md-6">
+                    <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                        <img class="w-10 me-3 mb-0" src="../../../assets/img/logos/visa.png" alt="logo">
+                        <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248</h6>
+                        <i class="material-icons ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Edit Card">edit</i>
+                    </div>
+                </div> -->
             </div>
         </div>
     </div>
 </div>
+@endforeach
+
+@endforeach
+
 @endsection

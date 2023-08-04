@@ -10,6 +10,8 @@ use App\Http\Controllers\PplKelompokAnggotaController;
 use App\Http\Controllers\PembimbingController;
 use App\Http\Controllers\ApiController;
 
+use App\Http\Controllers\Pembimbing\PembimbingController as Pembimbing;
+
 use App\Http\Controllers\API\KuliahLapanganController;
 use App\Http\Controllers\API\LokasiController;
 use App\Http\Controllers\API\MahasiswaController;
@@ -92,6 +94,7 @@ Route::post('/peserta/hapus', [PplKelompokAnggotaController::class, 'destroy'])-
 
 Route::post('/ppl/{pplId}/pembimbing-internal/simpan', [PembimbingController::class, 'store'])->name('pembimbing-internal.store');
 Route::post('/ppl/{pplId}/pembimbing/hapus', [PembimbingController::class, 'destroy'])->name('pembimbing-internal.destroy');
+Route::get('/anggota/{id}/laporan', [Pembimbing::class, 'laporanShow'])->name('laporan.show');
 
 
 Route::get('/kuliah-lapangan/{id}/syarat-prodi', [ApiController::class, 'getSyaratProdi'])->name('get.prodi');

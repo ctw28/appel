@@ -110,7 +110,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/dashboard', [pembimbing::class, 'index'])->name('pembimbing.dashboard');
         Route::get('/bimbingan/list', [pembimbing::class, 'list'])->name('pembimbing.list');
         Route::get('/bimbingan/kelompok/{kelompokId}/nilai/input', [pembimbing::class, 'nilaiInput'])->name('pembimbing.nilai.input');
-        Route::post('/bimbingan/kelompok/{kelompokId}/nilai/store}', [pembimbing::class, 'nilaiStore'])->name('pembimbing.nilai.store');
+        Route::post('/nilai/store}', [pembimbing::class, 'nilaiStore'])->name('pembimbing.nilai.store');
         Route::get('/bimbingan/kelompok/{kelompokId}/detail', [pembimbing::class, 'detailKelompok'])->name('pembimbing.detail.kelompok');
         Route::get('/bimbingan/kelompok/{kelompokId}/lkh/{id}', [pembimbing::class, 'detailLkh'])->name('pembimbing.detail.lkh');
     });

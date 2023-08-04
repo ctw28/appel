@@ -9,10 +9,11 @@ class Nilai extends Model
 {
     use HasFactory;
 
+    protected $table = 'kuliah_lapangan_nilais';
     protected $fillable = [
         'kelompok_anggota_id',
-        'nilai',
-        'sumber_nilai'
+        'nilai_pembimbing',
+        'nilai_eksternal'
     ];
 
     public function anggota()

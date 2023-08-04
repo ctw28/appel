@@ -16,8 +16,8 @@ class CreateKuliahLapanganNilaisTable extends Migration
         Schema::create('kuliah_lapangan_nilais', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('kelompok_anggota_id');
-            $table->double('nilai');
-            $table->enum('sumber_nilai', ['internal', 'eksternal']);
+            $table->double('nilai_pembimbing');
+            $table->double('nilai_eksternal');
             $table->timestamps();
             $table->foreign('kelompok_anggota_id')->references('id')->on('kuliah_lapangan_kelompok_anggotas')->onDelete('cascade');
         });

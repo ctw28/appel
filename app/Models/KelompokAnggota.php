@@ -29,7 +29,7 @@ class KelompokAnggota extends Model
 
     public function jabatan()
     {
-        return $this->belongsTo('App\Models\MasterJabatanKelompok');
+        return $this->belongsTo('App\Models\KuliahLapanganJabatan');
     }
 
     public function lkh()

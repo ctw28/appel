@@ -10,6 +10,8 @@ use App\Models\PplNilai;
 use App\Models\Lkh;
 use App\Models\Pembimbing;
 use App\Models\Kelompok;
+use App\Models\Laporan;
+use App\Models\Nilai;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,18 +72,18 @@ class PembimbingController extends Controller
     public function list(Request $request)
     {
         $data['title'] = "Penilaian";
-        $data['data'] = PplPembimbingInternal::with([
+        $data['data'] = Pembimbing::with([
             // 'ppl.pplLokasi.pplKelompok.pplKelompokAnggota.pplPendaftar',
             // 'ppl.pplLokasi.pplKelompok.pplPembimbing',
             // 'pplPembimbing.pplKelompok.pplLokasi.ppl',
-            'pplPembimbing.pplKelompok' => function ($pplKelompok) {
-                $pplKelompok->withCount(['pplKelompokAnggota']);
+            'kelompok' => function ($pplKelompok) {
+                $pplKelompok->withCount(['anggota']);
             },
-            'pplPembimbing.pplKelompok.pplLokasi',
-            'ppl.tahunAjar'
+            'kelompok.lokasi',
+            'kuliahLapangan.tahunAkademik'
         ])
             // ->whereHas('pplPembimbing.pplKelompok')
-            ->where('idpeg', $request->session()->get('data'))
+            ->where('pegawai_id', Auth::user()->userPegawai->pegawai_id)
             // ->where('ppl_id', 1)
             ->get();
         // return $data;
@@ -90,17 +92,58 @@ class PembimbingController extends Controller
     public function nilaiInput($kelompokId)
     {
         $data['title'] = "Input Nilai";
-        $data['data'] = PplKelompok::with([
-            'pplKelompokAnggota.pplPendaftar',
-            'pplKelompokAnggota.pplNilai',
-            'pplKelompokAnggota.kelompokJabatan',
-            'pplLokasi'
+        $nilai = Kelompok::with([
+            'anggota.pendaftar',
+            'anggota.nilai',
+            'anggota.jabatan',
+            'lokasi'
         ])->find($kelompokId);
+        // return $data;
+        $rentang = [
+            ['rentang_bawah' => 96, 'rentang_atas' => 100, 'nilai_angka' => "4.00", 'huruf' => "A", 'keterangan' => "L"],
+            ['rentang_bawah' => 91, 'rentang_atas' => 95.99, 'nilai_angka' => "3.60 - 3.90", 'huruf' => "A-", 'keterangan' => "L"],
+            ['rentang_bawah' => 86, 'rentang_atas' => 90.99, 'nilai_angka' => "3.10 - 3.50", 'huruf' => "B+", 'keterangan' => "L"],
+            ['rentang_bawah' => 81, 'rentang_atas' => 85.99, 'nilai_angka' => "3.00", 'huruf' => "B", 'keterangan' => "L"],
+            ['rentang_bawah' => 76, 'rentang_atas' => 80.99, 'nilai_angka' => "2.60 - 2.90", 'huruf' => "B-", 'keterangan' => "L"],
+            ['rentang_bawah' => 71, 'rentang_atas' => 75.99, 'nilai_angka' => "2.10 - 2.50", 'huruf' => "C+", 'keterangan' => "L"],
+            ['rentang_bawah' => 66, 'rentang_atas' => 70.99, 'nilai_angka' => "2.00", 'huruf' => "C", 'keterangan' => "L"],
+            ['rentang_bawah' => 61, 'rentang_atas' => 65.99, 'nilai_angka' => "1.60 - 1.90", 'huruf' => "C-", 'keterangan' => "TL"],
+            ['rentang_bawah' => 56, 'rentang_atas' => 60.99, 'nilai_angka' => "1.10 - 1.50", 'huruf' => "D+", 'keterangan' => "TL"],
+            ['rentang_bawah' => 51, 'rentang_atas' => 55.99, 'nilai_angka' => "1", 'huruf' => "D-", 'keterangan' => "TL"],
+            ['rentang_bawah' => 0, 'rentang_atas' => 50.99, 'nilai_angka' => "0", 'huruf' => "E", 'keterangan' => "TL"],
+        ];
+        // return $nilai;
+
+        foreach ($nilai->anggota as $anggota) {
+            // $anggota->nilai->total_nilai = 0;
+            // $anggota->nilai->nilai_angka = '0';
+            // $anggota->nilai->nilai_huruf = 'E';
+            // $anggota->nilai->keterangan = 'TL';
+            if ($anggota->nilai != null) {
+
+                $totalNilai = (0.7 * $anggota->nilai->nilai_eksternal) + (0.3 * $anggota->nilai->nilai_pembimbing);
+                $anggota->nilai->total_nilai = $totalNilai;
+                foreach ($rentang as $row) {
+                    //disini mau tentukan berapa nilai angkanya
+                    if ($totalNilai >= $row['rentang_bawah'] && $totalNilai <= $row['rentang_atas']) {
+                        $anggota->nilai->nilai_angka = $row['nilai_angka'];
+                        $anggota->nilai->nilai_huruf = $row['huruf'];
+                        $anggota->nilai->keterangan = $row['keterangan'];
+                        $anggota->nilai->label = 'success';
+                        if ($row['keterangan'] == "TL")
+                            $anggota->nilai->label = 'danger';
+                        break; // Keluar dari loop jika rentang ditemukan
+                    }
+                }
+            }
+        }
+
+        $data['data'] = $nilai;
         // return $data;
         return view('pembimbing.nilai-input', $data);
     }
 
-    public function nilaiStore($kelompokId, Request $request)
+    public function nilaiStore(Request $request)
     {
         // return $request->all();
         try {
@@ -108,15 +151,19 @@ class PembimbingController extends Controller
             $i = 0;
             $data = [];
             foreach ($request->nilai as $key => $value) {
-                $data[$i]['ppl_kelompok_anggota_id'] = $key;
-                $data[$i]['nilai'] = $value;
-                $data[$i]['sumber_nilai'] = 'internal';
-                $data[$i]['created_at'] =  Carbon::now();
-                $data[$i]['updated_at'] = Carbon::now();
-                $i++;
-                $nilai = PplNilai::where('ppl_kelompok_anggota_id', $key)->delete();
+                // $data[$i]['kelompok_anggota_id'] = $key;
+                // $data[$i]['nilai_pembimbing'] = $value;
+                // $data[$i]['nilai_eksternal'] = $request->nilai_eksterl[$key];
+                // $data[$i]['created_at'] =  Carbon::now();
+                // $data[$i]['updated_at'] = Carbon::now();
+                // $i++;
+
+                Nilai::updateOrCreate(
+                    ['kelompok_anggota_id' => $key],
+                    ['nilai_pembimbing' => $value, 'nilai_eksternal' => $request->nilai_eksternal[$key]]
+                );
             }
-            PplNilai::insert($data);
+            // Nilai::insert($data);
             return redirect()->back()->with('info', 'Nilai Berhasil ditambahkan');
         } catch (\Throwable $th) {
             throw $th;
@@ -172,5 +219,23 @@ class PembimbingController extends Controller
         // return $data;
 
         return view('pembimbing.bimbingan-lkh-detail', $data);
+    }
+
+    public function laporanShow($id)
+    {
+        $laporan = Laporan::where('kelompok_anggota_id', $id)->first();
+        // return $id;
+        if ($laporan)
+            return response()->json([
+                'status' => true,
+                'message' => 'data ditemukan',
+                'data' => $laporan,
+            ], 200);
+
+        return response()->json([
+            'status' => false,
+            'message' => 'data tidak ditemukan',
+            'data' => $laporan,
+        ], 404);
     }
 }

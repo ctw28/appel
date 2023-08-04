@@ -27,7 +27,7 @@
                     $index = 0
                     @endphp
                     @foreach($data as $item)
-                    @foreach($item->pplPembimbing as $row)
+                    @foreach($item->pembimbing as $row)
 
                     <tr>
                         <td class="text-center">{{$index + 1}}</td>
