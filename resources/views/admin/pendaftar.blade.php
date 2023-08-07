@@ -46,6 +46,7 @@
                                 <th scope="col">Nama</th>
                                 <!-- <th scope="col">Prodi</th> -->
                                 <th scope="col">Kelompok</th>
+                                <th scope="col">No. HP</th>
                                 <!-- <th scope="col">Hapus</th> -->
                             </tr>
                         </thead>
@@ -168,7 +169,10 @@
                     tdKelompok.innerHTML = `<span class="badge bg-gradient-danger">-</span>`
                 else
                     tdKelompok.innerHTML = `<span class="badge bg-gradient-info">${data.anggota.kelompok.nama_kelompok} - ${data.anggota.kelompok.lokasi.lokasi}</span>`
+                const tdHp = document.createElement('td')
+                tdHp.innerText = data.mahasiswa.data_diri.no_hp
                 tr.appendChild(tdKelompok)
+                tr.appendChild(tdHp)
                 fragment.appendChild(tr)
                 tbody.appendChild(fragment)
                 number++
