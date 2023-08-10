@@ -257,7 +257,7 @@ class MahasiswaController extends Controller
 
     public function lkhStore(Request $request)
     {
-
+        return $request->all();
         try {
             DB::beginTransaction();
 
