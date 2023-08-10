@@ -294,7 +294,7 @@ class MahasiswaController extends Controller
             return redirect()->route('mahasiswa.lkh', $request->kuliah_lapangan_id)->with('success', 'LKH berhasil ditambahkan');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // return $th;
+            return $th;
 
             return redirect()->back()->withInput($request->input())->with('error', 'LKH gagal ditambahkan, pastikan inputan dan file yang diupload sesuai ketentuan!');
         }
