@@ -261,13 +261,19 @@ class MahasiswaController extends Controller
         try {
             DB::beginTransaction();
 
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'anggota_id' => 'required',
                 'kegiatan' => 'required',
                 'tgl_lkh' => 'required',
                 'photos.*' => 'required|image|mimes:jpeg,png,jpg|file|max:512',
                 // 'photos' => 'max:3'
             ]);
+            if ($validator->fails()) {
+                return redirect()
+                    ->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
             // $data['foto_path'] = $request->file('foto_path')->store('lkh-images');
             $lkh = Lkh::create([
                 'kelompok_anggota_id' => $request->anggota_id,
@@ -294,7 +300,7 @@ class MahasiswaController extends Controller
             return redirect()->route('mahasiswa.lkh', $request->kuliah_lapangan_id)->with('success', 'LKH berhasil ditambahkan');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // return $th;
+            return $th;
 
             return redirect()->back()->withInput($request->input())->with('error', 'LKH gagal ditambahkan, pastikan inputan dan file yang diupload sesuai ketentuan!');
         }
