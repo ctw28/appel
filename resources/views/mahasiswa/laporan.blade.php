@@ -97,9 +97,9 @@
         embed.setAttribute('frameborder', '0')
         embed.setAttribute('allowfullscreen', 'allowfullscreen')
         @if(env('APP_ENV') == "local")
-        embed.setAttribute("src", "{{asset('/storage/')}}/{{$laporanAkhir[0]->file_path}}")
+        embed.setAttribute("src", "{{asset('/')}}/{{$laporanAkhir[0]->file_path}}")
         @else
-        embed.setAttribute("src", "{{asset('/storage/app/')}}/{{$laporanAkhir[0]->file_path}}")
+        embed.setAttribute("src", "{{asset('/')}}/{{$laporanAkhir[0]->file_path}}")
         @endif
         buttonUploadLaporanAkhir.innerText = 'Upload Ulang laporan Akhir (.pdf)'
         buttonUploadLaporanAkhir.parentNode.classList.remove('btn-primary')
