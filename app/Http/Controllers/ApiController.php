@@ -133,7 +133,9 @@ class ApiController extends Controller
             $dokumentasi = $data->dokumentasi;
             $data->delete();
             foreach ($dokumentasi as $foto) {
-                Storage::delete($foto->foto_path);
+                // Storage::delete($foto->foto_path);
+                unlink($foto->foto_path);
+
                 // unlink(public_path() . '/'  . $foto->foto_path);
             }
             return array('status' => 'success');

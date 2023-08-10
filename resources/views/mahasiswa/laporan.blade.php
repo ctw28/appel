@@ -97,9 +97,9 @@
         embed.setAttribute('frameborder', '0')
         embed.setAttribute('allowfullscreen', 'allowfullscreen')
         @if(env('APP_ENV') == "local")
-        embed.setAttribute("src", "{{asset('/')}}/{{$laporanAkhir[0]->file_path}}")
+        embed.setAttribute("src", "{{asset('/')}}{{$laporanAkhir[0]->file_path}}")
         @else
-        embed.setAttribute("src", "{{asset('/')}}/{{$laporanAkhir[0]->file_path}}")
+        embed.setAttribute("src", "{{asset('/')}}{{$laporanAkhir[0]->file_path}}")
         @endif
         buttonUploadLaporanAkhir.innerText = 'Upload Ulang laporan Akhir (.pdf)'
         buttonUploadLaporanAkhir.parentNode.classList.remove('btn-primary')
@@ -164,9 +164,9 @@
             embed.setAttribute('frameborder', '0')
             embed.setAttribute('allowfullscreen', 'allowfullscreen')
             @if(env('APP_ENV') == "local")
-            embed.setAttribute("src", `{{asset('/storage/')}}/${responseMessage.data.file_path}`)
+            embed.setAttribute("src", `{{asset('/')}}${responseMessage.data.file_path}`)
             @else
-            embed.setAttribute("src", `{{asset('/storage/app/')}}/${responseMessage.data.file_path}`)
+            embed.setAttribute("src", `{{asset('/')}}${responseMessage.data.file_path}`)
             @endif
             buttonUploadLaporanAkhir.innerText = 'Upload Ulang laporan Akhir (.pdf)'
             buttonUploadLaporanAkhir.parentNode.classList.remove('btn-primary')

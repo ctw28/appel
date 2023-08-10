@@ -295,12 +295,13 @@ class MahasiswaController extends Controller
             foreach ($request->photos as $imagefile) {
                 // $upload = $imagefile->store('/lkh-images');
                 // $imageName = rand() . '.' . $imagefile->extension();
-                $filenameWithExt = $imagefile->getClientOriginalName();
-                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                $extension = $imagefile->getClientOriginalExtension();
-                $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+                // $filenameWithExt = $imagefile->getClientOriginalName();
+                // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // $extension = $imagefile->getClientOriginalExtension();
+                // $filenameSimpan = $filename . '_' . time() . '.' . $extension;
 
-                $upload = $imagefile->storeAs('lkh-images', $filenameSimpan);
+                // $upload = $imagefile->storeAs('lkh-images', $filenameSimpan);
+                $upload = $this->upload($imagefile, 'lkh-images');
 
                 LkhDokumentasi::create([
                     'lkh_id' => $lkh->id,
@@ -317,6 +318,17 @@ class MahasiswaController extends Controller
             return redirect()->back()->withInput($request->input())->with('error', 'LKH gagal ditambahkan, pastikan inputan dan file yang diupload sesuai ketentuan!');
         }
     }
+
+    // public function upload($request)
+    // {
+    //     $file = $request;
+    //     $nama_file = time() . "_" . $file->getClientOriginalName();
+    //     // isi dengan nama folder tempat kemana file diupload
+    //     $tujuan_upload = 'laporan';
+    //     $file->move($tujuan_upload, $nama_file);
+    //     return $tujuan_upload . '/' . $nama_file;
+    //     // return json_encode(array('test' => "aaaaaaaa"));
+    // }
 
     public function lkhEdit(Request $request, $lkhId)
     {
@@ -345,7 +357,8 @@ class MahasiswaController extends Controller
                 'foto_path' => 'image|mimes:jpeg,png,jpg|file|max:2048',
             ]);
             if ($request->file('foto_path')) {
-                Storage::delete($filePath);
+                // Storage::delete($filePath);
+                unlink($filePath);
                 $data['foto_path'] = $request->file('foto_path')->store('lkh-images');
             }
             PplLkh::find($lkhId)->update($data);
@@ -366,7 +379,8 @@ class MahasiswaController extends Controller
             // return $dokumentasi;
             $data->delete();
             foreach ($dokumentasi as $foto) {
-                Storage::delete($foto->foto_path);
+                // Storage::delete($foto->foto_path);
+                unlink($foto->foto_path);
             }
             return redirect()->route('mahasiswa.lkh')->with('success', 'LKH berhasil dihapus');
         } catch (\Throwable $th) {
@@ -479,23 +493,26 @@ class MahasiswaController extends Controller
                 'file_delete_if_update' => 'string', //ini nama file yang akan di remove jika update sukses
                 // 'photos' => 'max:3'
             ]);
-            $imagefile = $request->file('file_path');
-            $filenameWithExt = $imagefile->getClientOriginalName();
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $imagefile->getClientOriginalExtension();
-            $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+            // $imagefile = $request->file('file_path');
+            // $filenameWithExt = $imagefile->getClientOriginalName();
+            // $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // $extension = $imagefile->getClientOriginalExtension();
+            // $filenameSimpan = $filename . '_' . time() . '.' . $extension;
 
-            $upload = $imagefile->storeAs('laporan', $filenameSimpan);
+            // $upload = $imagefile->storeAs('laporan', $filenameSimpan);
+            $foto = $this->upload($request->file('file_path'), 'laporan');
+
             $laporan = Laporan::updateOrCreate(
                 [
                     'kelompok_anggota_id' => $request->kelompok_anggota_id,
                     'kategori' => $request->kategori
                 ],
-                ['file_path' => $upload]
+                ['file_path' => $foto]
             );
 
             if ($request->status == 'update')
-                Storage::delete($request->file_delete_if_update);
+                // Storage::delete($request->file_delete_if_update);
+                unlink($request->file_delete_if_update);
 
             return response()->json([
                 'status' => true,
@@ -513,5 +530,16 @@ class MahasiswaController extends Controller
 
             return redirect()->back()->withInput($request->input())->with('error', 'LKH gagal ditambahkan, pastikan inputan dan file yang diupload sesuai ketentuan!');
         }
+    }
+
+    public function upload($request, $lokasi)
+    {
+        $file = $request;
+        $nama_file = time() . "_" . $file->getClientOriginalName();
+        // isi dengan nama folder tempat kemana file diupload
+        // $tujuan_upload = 'laporan';
+        $file->move($lokasi, $nama_file);
+        return $lokasi . '/' . $nama_file;
+        // return json_encode(array('test' => "aaaaaaaa"));
     }
 }
