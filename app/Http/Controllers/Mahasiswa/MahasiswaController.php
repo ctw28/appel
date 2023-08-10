@@ -275,9 +275,9 @@ class MahasiswaController extends Controller
                     'anggota_id.required' => 'ID Anggota tidak boleh kosong',
                     'kegiatan.required' => 'Kegiatan tidak boleh kosong',
                     'tgl_lkh.required' => 'Tanggal LKH Tidak boleh kosong',
-                    'photos.required' => 'Foto tidak boleh kosong',
-                    'photos.mimes' => 'File hanya boleh jpeg, png atau jpg',
-                    'photos.max' => 'Ukuran file tidak boleh lebih dari 512kb',
+                    'photos.*.required' => 'Foto tidak boleh kosong',
+                    'photos.*.mimes' => 'File hanya boleh jpeg, png atau jpg',
+                    'photos.*.max' => 'Ukuran file tidak boleh lebih dari 512kb',
                 ]
             );
             if ($validator->fails()) {
