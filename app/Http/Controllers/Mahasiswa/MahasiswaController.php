@@ -262,13 +262,24 @@ class MahasiswaController extends Controller
         try {
             DB::beginTransaction();
 
-            $validator = Validator::make($request->all(), [
-                'anggota_id' => 'required',
-                'kegiatan' => 'required',
-                'tgl_lkh' => 'required',
-                'photos.*' => 'required|image|mimes:jpeg,png,jpg|file|max:512',
-                // 'photos' => 'max:3'
-            ]);
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'anggota_id' => 'required',
+                    'kegiatan' => 'required',
+                    'tgl_lkh' => 'required',
+                    'photos.*' => 'required|image|mimes:jpeg,png,jpg|file|max:512',
+                    // 'photos' => 'max:3'
+                ],
+                [
+                    'anggota_id.required' => 'ID Anggota tidak boleh kosong',
+                    'kegiatan.required' => 'Kegiatan tidak boleh kosong',
+                    'tgl_lkh.required' => 'Tanggal LKH Tidak boleh kosong',
+                    'photos.required' => 'Foto tidak boleh kosong',
+                    'photos.mimes' => 'File hanya boleh jpeg, png atau jpg',
+                    'photos.max' => 'Ukuran file tidak boleh lebih dari 512kb',
+                ]
+            );
             if ($validator->fails()) {
                 return redirect()
                     ->back()
