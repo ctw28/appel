@@ -21,6 +21,15 @@
                 </button>
             </div>
             @endif
+            @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <form action="{{route('mahasiswa.lkh.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="input-group input-group-outline is-filled my-3">
