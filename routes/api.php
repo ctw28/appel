@@ -94,7 +94,7 @@ Route::post('/peserta/hapus', [PplKelompokAnggotaController::class, 'destroy'])-
 
 Route::post('/ppl/{pplId}/pembimbing-internal/simpan', [PembimbingController::class, 'store'])->name('pembimbing-internal.store');
 Route::post('/ppl/{pplId}/pembimbing/hapus', [PembimbingController::class, 'destroy'])->name('pembimbing-internal.destroy');
-Route::get('/anggota/{id}/laporan', [Pembimbing::class, 'laporanShow'])->name('laporan.show');
+Route::get('/anggota/{id}/laporan/{kategori}', [Pembimbing::class, 'laporanShow'])->name('laporan.show');
 
 
 Route::get('/kuliah-lapangan/{id}/syarat-prodi', [ApiController::class, 'getSyaratProdi'])->name('get.prodi');

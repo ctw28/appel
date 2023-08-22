@@ -221,9 +221,12 @@ class PembimbingController extends Controller
         return view('pembimbing.bimbingan-lkh-detail', $data);
     }
 
-    public function laporanShow($id)
+    public function laporanShow($id, $kategori)
     {
-        $laporan = Laporan::where('kelompok_anggota_id', $id)->first();
+        $laporan = Laporan::where([
+            'kelompok_anggota_id' => $id,
+            'kategori' => $kategori,
+        ])->first();
         // return $id;
         if ($laporan)
             return response()->json([

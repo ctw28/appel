@@ -28,6 +28,11 @@ class MahasiswaController extends Controller
 {
     //
 
+
+    public function createPassword($password)
+    {
+        return bcrypt($password);
+    }
     public function index(Request $request)
     {
         $title = "Dashboard";

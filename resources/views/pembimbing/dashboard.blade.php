@@ -47,7 +47,7 @@
     <div class="card mt-3">
         <div class="card-header pb-0 p-4">
             <div class="row">
-                <div class="col-6 d-flex align-items-center ">
+                <div class="col-12 d-flex align-items-center ">
                     <i class="material-icons opacity-10 text-dark me-2" style="font-size:30px">villa</i>
                     <h5 class="mb-0 me-2">
 
@@ -66,7 +66,7 @@
             <div class="row">
                 @foreach($lokasi->kelompok as $kelompok)
 
-                <div class="col-md-4 mb-md-0 mb-4 ">
+                <div class="col-xl-6 col-md-6 col-sm-6 mb-md-0 mb-4 ">
                     <div class="card card-body">
 
 

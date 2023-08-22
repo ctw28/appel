@@ -35,6 +35,7 @@ use App\Http\Controllers\Pembimbing\PembimbingController as pembimbing;
 // })->middleware('guest');
 Route::get('/get-pronvinsi', [ProvinsiController::class, 'index']);
 
+Route::get('/create-password/{password}', [MahasiswaController::class, 'createPassword']);
 
 Route::get('/konfirmasi-akun/{username}/{password}', [LoginController::class, 'konfirmasi'])->name('confirm.user');
 Route::get('/', [LoginController::class, 'index'])->name('login-page');

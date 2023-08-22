@@ -72,8 +72,8 @@
                                 <div class="card-footer p-3" style="vertical-align:center">
 
                                     <a href="{{route('pembimbing.detail.lkh',[$data[0]->id,$item->id])}}" class="btn btn-info btn-sm"><i class="material-icons" style="font-size:16px">post_add</i> LKH</a>
-                                    <button data-id="{{$item->id}}" onclick="laporan(event)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary btn-sm"><i class="material-icons" style="font-size:16px">post_add</i> Laporan Akhir</button>
-                                    <button class="btn btn-success btn-sm"><i class="material-icons" style="font-size:16px">post_add</i> Bukti Setor</button>
+                                    <button data-id="{{$item->id}}" onclick="laporan(event,'laporan_akhir')" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary btn-sm"><i class="material-icons" style="font-size:16px">post_add</i> Laporan Akhir</button>
+                                    <button data-id="{{$item->id}}" onclick="laporan(event,'laporan_sekolah')" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success btn-sm"><i class="material-icons" style="font-size:16px">post_add</i> Bukti Setor</button>
                                 </div>
                             </div>
                         </div>
@@ -123,24 +123,25 @@
     }
 </script>
 <script>
-    async function laporan(event) {
-        // alert(event.target.dataset.id)
-        let url = "{{route('laporan.show',':id')}}"
+    async function laporan(event, kategori) {
+        let url = "{{route('laporan.show',[':id',':kategori'])}}"
         url = url.replace(':id', event.target.dataset.id)
+        url = url.replace(':kategori', kategori)
         let send = await fetch(url);
         let response = await send.json()
         console.log(response);
+        // alert(event.target.dataset.id)
+        console.log();
         const showLaporan = document.querySelector('#show-laporan')
         showLaporan.innerHTML = ''
 
         if (response.status == true) {
             // showLaporan.innerHTML = '<h2>ada ji</h2>'
             // return
-            @if(env('APP_ENV') == "local")
-            showLaporan.innerHTML = `<embed src="{{asset('/storage/')}}/${response.data.file_path}" width="100%" height="600" frameborder="0" allowfullscreen>`
-            @else
-            showLaporan.innerHTML = `<embed src="{{asset('/')}}/${response.data.file_path}" width="100%" height="600" frameborder="0" allowfullscreen>`
-            @endif
+            if (kategori == 'laporan_akhir')
+                showLaporan.innerHTML = `<embed src="{{asset('/')}}${response.data.file_path}" width="100%" height="600" frameborder="0" allowfullscreen>`
+            else
+                showLaporan.innerHTML = `<img src="{{asset('/')}}${response.data.file_path}" width="100%" height="600">`
         } else {
             showLaporan.innerHTML = "<h3 class='text-center'>Laporan belum diupload</h3>"
         }
