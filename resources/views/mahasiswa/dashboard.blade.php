@@ -71,13 +71,16 @@
 
                             <hr>
                             <div class="col-3 mt-4">
+                                @if(!empty($data->anggota))
 
                                 <a href="{{route('mahasiswa.lkh', $data->kuliahLapangan->id)}}" class="btn btn-info"><i class="material-icons">post_add</i> Kelola LKH</a>
+                                @endif
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="row">
 
 
+                                    @if(!empty($data->anggota))
                                     <h6 class="mb-5">Aktivitas (LKH)</h6>
 
                                     @foreach($data->anggota->lkh as $lkh)
@@ -111,6 +114,10 @@
                                         </div>
                                     </div>
                                     @endforeach
+                                    @else
+                                    <h6>Aktivitas (LKH)</h6>
+                                    <p>Belum ada LKH</p>
+                                    @endif
 
                                 </div>
                                 <!-- <a href="#" class="btn btn-success btn-sm">Lihat semua LKH</a> -->
@@ -143,8 +150,9 @@
 
                                     <!-- <li class="list-group-item border-0 ps-0 text-sm">Pembimbing : &nbsp; </li> -->
                                     @else
-                                    <strong class="text-dark">Mohon menunggu...</strong></li>
-                                    <!-- <li class="list-group-item border-0 ps-0 text-sm">Pembimbing : &nbsp; <strong class="text-dark">Mohon menunggu...</strong></li> -->
+                                    <h6 class="mb-0" style="color:whitesmoke">Nama kelompok : Mohon Menunggu... </h6>
+                                    <h5 class="mb-0" style="color:yellow">Lokasi : Mohon Menunggu...</h5>
+                                    <p class="mb-0 text-sm" style="text-transform:none;">Alamat : Mohon Menunggu...</p> <!-- <li class="list-group-item border-0 ps-0 text-sm">Pembimbing : &nbsp; <strong class="text-dark">Mohon menunggu...</strong></li> -->
                                     @endif
                                     @endif
                                 </span>
@@ -159,15 +167,21 @@
                                     <div class="h-100">
                                         <h6 class="mb-1">
 
+                                            @if(!empty($data->anggota))
                                             <strong class="text-dark">
+
                                                 @if($data->anggota->kelompok->pembimbing->pegawai->gelar->gelar_depan!="-")
                                                 {{$data->anggota->kelompok->pembimbing->pegawai->gelar->gelar_depan}}
                                                 @endif
                                                 {{$data->anggota->kelompok->pembimbing->pegawai->dataDiri->nama_lengkap}}
                                                 {{$data->anggota->kelompok->pembimbing->pegawai->gelar->gelar_belakang}}
+
                                             </strong>
                                             <p class="mb-0 text-sm">NIP. {{$data->anggota->kelompok->pembimbing->pegawai->pegawai_nomor_induk}}</p>
                                             <p class="mb-0 text-sm"><a href=""><i class="fa fa-whatsapp" aria-hidden="true" style="color:green"></i> {{$data->anggota->kelompok->pembimbing->pegawai->dataDiri->no_hp}}</a></p>
+                                            @else
+                                            Belum ada pembimbing
+                                            @endif
 
                                         </h6>
                                         <p class="mb-0 font-weight-normal text-sm">
@@ -176,7 +190,10 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if(!empty($data->anggota))
                             <h6 class="my-3">Anggota Kelompok ({{count($data->anggota->kelompok->anggota)}} Peserta)</h6>
+
                             <ul class="list-group">
                                 @foreach($data->anggota->kelompok->anggota as $anggota)
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
@@ -196,6 +213,7 @@
                                 </li>
                                 @endforeach
                             </ul>
+                            @endif
                         </div>
                     </div>
                     <hr class="vertical dark">
