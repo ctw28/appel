@@ -69,6 +69,112 @@ class PembimbingController extends Controller
         return view('pembimbing.dashboard', $data);
     }
 
+    // public function historyBimbingan(Request $request)
+    // {
+    //     $data['title'] = "History Bimbingan";
+    //    $data['data'] = Pembimbing::with(['kuliahLapangan' => function ($kuliahLapangan) {
+    //         $kuliahLapangan->with(['tahunAkademik', 'lokasi' => function ($lokasi) {
+    //             $lokasi->with(['kelompok' => function ($kelompok) {
+    //                 $kelompok->withCount('anggota')
+    //                     ->whereHas('pembimbing', function ($pembimbing) {
+    //                         $pembimbing->where('pegawai_id', Auth::user()->userPegawai->pegawai_id);
+    //                     });
+    //             }])->withCount('kelompok')
+    //                 ->whereHas('kelompok', function ($kelompok) {
+    //                     $kelompok->withCount('anggota')
+    //                         ->whereHas('pembimbing', function ($pembimbing) {
+    //                             $pembimbing->where('pegawai_id', Auth::user()->userPegawai->pegawai_id);
+    //                         });
+    //                 });
+    //         }])
+    //             ->where(['is_active' => true]);
+    //     }])
+    //         ->whereHas('kuliahLapangan', function ($kuliahLapangan) {
+    //             $kuliahLapangan->where(['is_active' => true]);
+    //         })
+    //         ->where('pegawai_id', Auth::user()->userPegawai->pegawai_id)->get();
+    //     return view('pembimbing.bimbingan-list', $data);
+    // }
+
+
+
+    public function history()
+    {
+        $data['title'] = "History Bimbingan";
+        $data['data'] = Pembimbing::with(['kuliahLapangan' => function ($kuliahLapangan) {
+            $kuliahLapangan->with(['tahunAkademik', 'lokasi' => function ($lokasi) {
+                $lokasi->with(['kelompok' => function ($kelompok) {
+                    $kelompok->withCount('anggota')
+                        ->whereHas('pembimbing', function ($pembimbing) {
+                            $pembimbing->where('pegawai_id', Auth::user()->userPegawai->pegawai_id);
+                        });
+                }])->withCount('kelompok')
+                    ->whereHas('kelompok', function ($kelompok) {
+                        $kelompok->withCount('anggota')
+                            ->whereHas('pembimbing', function ($pembimbing) {
+                                $pembimbing->where('pegawai_id', Auth::user()->userPegawai->pegawai_id);
+                            });
+                    });
+            }]);
+        }])
+            ->whereHas('kuliahLapangan')
+            ->where('pegawai_id', Auth::user()->userPegawai->pegawai_id)->get();
+        // return $data;
+        return view('pembimbing.history-bimbingan', $data);
+    }
+    public function historyDetail($kelompokId)
+    {
+        $data['title'] = "Input Nilai";
+        $nilai = Kelompok::with([
+            'anggota.pendaftar',
+            'anggota.nilai',
+            'anggota.jabatan',
+            'lokasi'
+        ])->find($kelompokId);
+        // return $data;
+        $rentang = [
+            ['rentang_bawah' => 96, 'rentang_atas' => 100, 'nilai_angka' => "4.00", 'huruf' => "A", 'keterangan' => "L"],
+            ['rentang_bawah' => 91, 'rentang_atas' => 95.99, 'nilai_angka' => "3.60 - 3.90", 'huruf' => "A-", 'keterangan' => "L"],
+            ['rentang_bawah' => 86, 'rentang_atas' => 90.99, 'nilai_angka' => "3.10 - 3.50", 'huruf' => "B+", 'keterangan' => "L"],
+            ['rentang_bawah' => 81, 'rentang_atas' => 85.99, 'nilai_angka' => "3.00", 'huruf' => "B", 'keterangan' => "L"],
+            ['rentang_bawah' => 76, 'rentang_atas' => 80.99, 'nilai_angka' => "2.60 - 2.90", 'huruf' => "B-", 'keterangan' => "L"],
+            ['rentang_bawah' => 71, 'rentang_atas' => 75.99, 'nilai_angka' => "2.10 - 2.50", 'huruf' => "C+", 'keterangan' => "L"],
+            ['rentang_bawah' => 66, 'rentang_atas' => 70.99, 'nilai_angka' => "2.00", 'huruf' => "C", 'keterangan' => "L"],
+            ['rentang_bawah' => 61, 'rentang_atas' => 65.99, 'nilai_angka' => "1.60 - 1.90", 'huruf' => "C-", 'keterangan' => "TL"],
+            ['rentang_bawah' => 56, 'rentang_atas' => 60.99, 'nilai_angka' => "1.10 - 1.50", 'huruf' => "D+", 'keterangan' => "TL"],
+            ['rentang_bawah' => 51, 'rentang_atas' => 55.99, 'nilai_angka' => "1", 'huruf' => "D-", 'keterangan' => "TL"],
+            ['rentang_bawah' => 0, 'rentang_atas' => 50.99, 'nilai_angka' => "0", 'huruf' => "E", 'keterangan' => "TL"],
+        ];
+        // return $nilai;
+
+        foreach ($nilai->anggota as $anggota) {
+            // $anggota->nilai->total_nilai = 0;
+            // $anggota->nilai->nilai_angka = '0';
+            // $anggota->nilai->nilai_huruf = 'E';
+            // $anggota->nilai->keterangan = 'TL';
+            if ($anggota->nilai != null) {
+
+                $totalNilai = (0.7 * $anggota->nilai->nilai_eksternal) + (0.3 * $anggota->nilai->nilai_pembimbing);
+                $anggota->nilai->total_nilai = $totalNilai;
+                foreach ($rentang as $row) {
+                    //disini mau tentukan berapa nilai angkanya
+                    if ($totalNilai >= $row['rentang_bawah'] && $totalNilai <= $row['rentang_atas']) {
+                        $anggota->nilai->nilai_angka = $row['nilai_angka'];
+                        $anggota->nilai->nilai_huruf = $row['huruf'];
+                        $anggota->nilai->keterangan = $row['keterangan'];
+                        $anggota->nilai->label = 'success';
+                        if ($row['keterangan'] == "TL")
+                            $anggota->nilai->label = 'danger';
+                        break; // Keluar dari loop jika rentang ditemukan
+                    }
+                }
+            }
+        }
+
+        $data['data'] = $nilai;
+        // return $data;
+        return view('pembimbing.history-bimbingan-detail', $data);
+    }
     public function list(Request $request)
     {
         $data['title'] = "Penilaian";

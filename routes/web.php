@@ -114,5 +114,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/nilai/store}', [pembimbing::class, 'nilaiStore'])->name('pembimbing.nilai.store');
         Route::get('/bimbingan/kelompok/{kelompokId}/detail', [pembimbing::class, 'detailKelompok'])->name('pembimbing.detail.kelompok');
         Route::get('/bimbingan/kelompok/{kelompokId}/lkh/{id}', [pembimbing::class, 'detailLkh'])->name('pembimbing.detail.lkh');
+
+        Route::get('/history', [pembimbing::class, 'history'])->name('pembimbing.history');
+        Route::get('/history/detail/{id}', [pembimbing::class, 'historyDetail'])->name('pembimbing.history.detail');
     });
 });
