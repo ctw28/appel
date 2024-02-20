@@ -33,26 +33,29 @@ class KuliahLapanganController extends Controller
             ->first();
         // return $data;
         // $ppl = Ppl::with('kuliahLapangan.tahunAkademik')->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id)->get();
-        if ($data->kuliahLapangan->count() != 0) {
-            $data->kuliahLapangan->map(function ($item) {
-                $item->waktu_daftar_mulai = \FormatWaktu::tanggalIndonesia($item->waktu_daftar_mulai);
-                $item->waktu_daftar_selesai = \FormatWaktu::tanggalIndonesia($item->waktu_daftar_selesai);
-                $item->waktu_publikasi_kelompok = \FormatWaktu::tanggalIndonesia($item->waktu_publikasi_kelompok);
-                $item->waktu_pelaksanaan_mulai = \FormatWaktu::tanggalIndonesia($item->waktu_pelaksanaan_mulai);
-                $item->waktu_pelaksanaan_selesai = \FormatWaktu::tanggalIndonesia($item->waktu_pelaksanaan_selesai);
-                $item->waktu_tugas_mulai = \FormatWaktu::tanggalIndonesia($item->waktu_tugas_mulai);
-                $item->waktu_tugas_selesai = \FormatWaktu::tanggalIndonesia($item->waktu_tugas_selesai);
-                $item->waktu_penilaian_mulai = \FormatWaktu::tanggalIndonesia($item->waktu_penilaian_mulai);
-                $item->waktu_penilaian_selesai = \FormatWaktu::tanggalIndonesia($item->waktu_penilaian_selesai);
+        if ($data != null) {
 
-                if ($item->is_finished == true) {
-                    $item->label = "success";
-                    $item->is_finished = "Selesai";
-                } else {
-                    $item->label = "warning";
-                    $item->is_finished = "Berjalan";
-                }
-            });
+            if ($data->kuliahLapangan->count() != 0) {
+                $data->kuliahLapangan->map(function ($item) {
+                    $item->waktu_daftar_mulai = \FormatWaktu::tanggalIndonesia($item->waktu_daftar_mulai);
+                    $item->waktu_daftar_selesai = \FormatWaktu::tanggalIndonesia($item->waktu_daftar_selesai);
+                    $item->waktu_publikasi_kelompok = \FormatWaktu::tanggalIndonesia($item->waktu_publikasi_kelompok);
+                    $item->waktu_pelaksanaan_mulai = \FormatWaktu::tanggalIndonesia($item->waktu_pelaksanaan_mulai);
+                    $item->waktu_pelaksanaan_selesai = \FormatWaktu::tanggalIndonesia($item->waktu_pelaksanaan_selesai);
+                    $item->waktu_tugas_mulai = \FormatWaktu::tanggalIndonesia($item->waktu_tugas_mulai);
+                    $item->waktu_tugas_selesai = \FormatWaktu::tanggalIndonesia($item->waktu_tugas_selesai);
+                    $item->waktu_penilaian_mulai = \FormatWaktu::tanggalIndonesia($item->waktu_penilaian_mulai);
+                    $item->waktu_penilaian_selesai = \FormatWaktu::tanggalIndonesia($item->waktu_penilaian_selesai);
+
+                    if ($item->is_finished == true) {
+                        $item->label = "success";
+                        $item->is_finished = "Selesai";
+                    } else {
+                        $item->label = "warning";
+                        $item->is_finished = "Berjalan";
+                    }
+                });
+            }
         }
         // return $data;
         // $data['data'] = $ppl;
