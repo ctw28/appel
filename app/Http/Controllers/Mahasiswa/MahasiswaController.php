@@ -448,7 +448,7 @@ class MahasiswaController extends Controller
 
     public function laporanAdd()
     {
-        return Auth::user()->userMahasiswa->mahasiswa->kuliahLapanganPendaftar[0];
+        // return Auth::user()->userMahasiswa->mahasiswa->kuliahLapanganPendaftar[0];
         $data['title'] = "Pelaporan";
         // $data['data'] = KelompokAnggota::with(['laporan'])
         //     ->where('id', Auth::user()->userMahasiswa->mahasiswa->kuliahLapanganPendaftar[0]->anggota->id)->get();
@@ -470,7 +470,7 @@ class MahasiswaController extends Controller
         $data['laporanAkhir'] = $laporanAkhir;
         $data['laporanSekolah'] = $laporanSekolah;
         // if($anggotaLaporan[0]->laporan)
-        return $data;
+        // return $data;
         return view('mahasiswa.laporan', $data);
     }
 
