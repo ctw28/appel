@@ -30,7 +30,7 @@ class KuliahLapanganController extends Controller
             });
         }])
             ->where('tahun', 2024)
-            ->first();
+            ->get();
         // return $data;
         // $ppl = Ppl::with('kuliahLapangan.tahunAkademik')->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id)->get();
         if ($data != null) {

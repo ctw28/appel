@@ -17,7 +17,8 @@ class CreatePegawaiDosensTable extends Migration
             $table->id();
             $table->unsignedBigInteger('pegawai_id');
             $table->string('nidn');
-            $table->enum('dosen_status', ['Tetap', 'LB']);
+            // $table->enum('dosen_status', ['Tetap', 'LB', 'Tidak Tetap']);
+            $table->string('dosen_status');
             $table->timestamps();
 
             $table->foreign('pegawai_id')->references('id')->on('pegawais')->onDelete('cascade');
