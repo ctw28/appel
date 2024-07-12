@@ -127,7 +127,7 @@
           </div>
 
           <div class="text-center">
-            <button type="button" onclick="resetAkun()" class="btn bg-gradient-info w-100 my-4 mb-2">Reset Password Ke password SIA</button>
+            <button type="button" onclick="resetAkun()" class="btn bg-gradient-warning w-100 my-4 mb-2">Reset Password Ke password SIA</button>
           </div>
 
         </div>
