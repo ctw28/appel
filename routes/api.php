@@ -37,6 +37,7 @@ use App\Http\Controllers\Mahasiswa\MahasiswaController as Mahasiswa;
 // });
 
 //untuk login
+Route::post('/reset/password/', [LoginController::class, 'resetPassword'])->name('reset.password');
 Route::post('/cek/user/', [LoginController::class, 'check'])->name('userCheck');
 Route::post('/cek-login/{role}/', [LoginController::class, 'sessionDirect'])->name('session.direct');
 

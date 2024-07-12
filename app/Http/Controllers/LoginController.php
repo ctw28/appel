@@ -24,6 +24,26 @@ class LoginController extends Controller
             'password' => $password,
         ]);
     }
+    public function resetPassword(Request $request)
+    {
+        $user = User::where('username', $request->username)->first();
+        // return $user;
+        if ($user) {
+            $user->password = bcrypt($request->password);
+            $user->save();
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil mengubah password',
+                'data' => $user,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'User tidak ditemukan',
+                'data' => null,
+            ], 404);
+        }
+    }
 
     public function authenticate(Request $request)
     {

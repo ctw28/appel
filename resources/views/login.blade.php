@@ -81,6 +81,10 @@
                     <button type="submit" class="btn bg-gradient-info w-100 my-4 mb-2">Login</button>
                   </div>
                 </form>
+                <div class="mt-5">
+
+                  <button data-bs-toggle="modal" data-bs-target="#exampleModal" href="" class="btn btn-warning btn-sm">Reset Password</button>
+                </div>
               </div>
             </div>
           </div>
@@ -104,6 +108,35 @@
       </footer>
     </div>
   </main>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Form Reset Akun</h5>
+        </div>
+        <div class="modal-body">
+          <p>Pastikan anda inputkan NIM dan Password SIA anda dengan benar. Jika benar, maka akun APPEL anda akan sama dengan akun SIA</p>
+          <div class="input-group input-group-outline my-3">
+            <label class="form-label">NIM</label>
+            <input type="text" id="nim-check" class="form-control" required>
+          </div>
+          <div class="input-group input-group-outline mb-3">
+            <label class="form-label">Password SIA</label>
+            <input type="password" id="password-check" class="form-control" required>
+          </div>
+
+          <div class="text-center">
+            <button type="button" onclick="resetAkun()" class="btn bg-gradient-info w-100 my-4 mb-2">Reset Password Ke password SIA</button>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="{{asset('/')}}assets/js/core/popper.min.js"></script>
   <script src="{{asset('/')}}assets/js/core/bootstrap.min.js"></script>
@@ -122,21 +155,41 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('/')}}assets/js/material-dashboard.min.js?v=3.0.2"></script>
-  <!-- <script>
-    importProdi();
-    async function importProdi() {
-      let url = "https://sia.iainkendari.ac.id/konseling_api/get_prodi";
-      let send = await fetch(url);
-      let response = await send.json()
-      // return console.log(responseMessage);
-      let data = []
-      response.forEach(function(item, i) {
-        data['prodi_kode'] = item.idprodi;
-        data['prodi_nama'] = item.prodi;
-      });
-      console.log(data);
+  <script>
+    async function resetAkun() {
+      let url = "https://sia.iainkendari.ac.id/konseling_api/check_password";
+      let dataSend = new FormData()
+      let nim = document.querySelector('#nim-check').value
+      let password = document.querySelector('#password-check').value
+      dataSend.append('nim', nim)
+      dataSend.append('password', password)
+      let sendData = await fetch(url, {
+        method: "POST",
+        body: dataSend
+      })
+      let response = await sendData.json()
+      console.log(response);
+      // return
+      if (response.status) {
+        let url = "{{route('reset.password')}}";
+        let dataSend = new FormData()
+        dataSend.append('username', nim)
+        dataSend.append('password', password)
+        let sendData = await fetch(url, {
+          method: "POST",
+          body: dataSend
+        })
+        let response = await sendData.json()
+        console.log(response);
+        // return
+        if (response.status)
+          return alert('Akun anda berhasil direset. Silahkan login kembali menggunakan akun SIA')
+        return alert('Tidak dapat reset akun. karena anda belum pernah login di aplikasi APPEL ini, silahkan login dulu.')
+
+      }
+      alert('NIM dan Password SIA tidak sesuai')
     }
-  </script> -->
+  </script>
 </body>
 
 </html>
