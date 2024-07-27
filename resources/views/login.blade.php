@@ -169,7 +169,8 @@
       dataSend.append('password', password)
       let sendData = await fetch(url, {
         method: "POST",
-        body: dataSend
+        body: dataSend,
+        mode: 'no-cors'
       })
       let response = await sendData.json()
       console.log(response);
