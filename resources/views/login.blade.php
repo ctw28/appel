@@ -118,7 +118,7 @@
         <div class="modal-body">
           <p>Pastikan anda inputkan NIM dan Password SIA anda dengan benar. Jika benar, maka akun APPEL anda akan sama dengan akun SIA</p>
           <div class="input-group input-group-outline my-3">
-            <label class="form-label">NIM</label>
+            <label class="form-label">NIM / NIP</label>
             <input type="text" id="nim-check" class="form-control" required>
           </div>
           <div class="input-group input-group-outline mb-3">
@@ -161,6 +161,10 @@
       let dataSend = new FormData()
       let nim = document.querySelector('#nim-check').value
       let password = document.querySelector('#password-check').value
+      if (nim == "")
+        return alert('bidang NIM / NIP tidak boleh kosong')
+      if (password == "")
+        return alert('bidang PASSWORD tidak boleh kosong')
       dataSend.append('nim', nim)
       dataSend.append('password', password)
       let sendData = await fetch(url, {
