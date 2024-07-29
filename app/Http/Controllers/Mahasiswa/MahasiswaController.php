@@ -273,7 +273,7 @@ class MahasiswaController extends Controller
                     'anggota_id' => 'required',
                     'kegiatan' => 'required',
                     'tgl_lkh' => 'required',
-                    'photos.*' => 'required|image|mimes:jpeg,png,jpg|file|max:512',
+                    'photos.*' => 'required|image|mimes:jpeg,png,jpg|file|max:1024',
                     // 'photos' => 'max:3'
                 ],
                 [
@@ -282,7 +282,7 @@ class MahasiswaController extends Controller
                     'tgl_lkh.required' => 'Tanggal LKH Tidak boleh kosong',
                     'photos.*.required' => 'Foto tidak boleh kosong',
                     'photos.*.mimes' => 'File hanya boleh jpeg, png atau jpg',
-                    'photos.*.max' => 'Ukuran file tidak boleh lebih dari 512kb',
+                    'photos.*.max' => 'Ukuran file tidak boleh lebih dari 1024kb',
                 ]
             );
             if ($validator->fails()) {
