@@ -152,6 +152,7 @@
 @section('script')
 <script>
     async function sinkron(button) {
+        return alert('sementara sinkron KRS peserta')
         // return console.log(button.parentNode.querySelector('#sinkron_status'));
         
         // return alert(button.dataset.krs)
