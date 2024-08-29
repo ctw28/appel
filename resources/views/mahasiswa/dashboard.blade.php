@@ -241,6 +241,9 @@
 
     async function sinkronKrs(button) {
         // alert('sinkron')
+        button.innerText = "mohon menunggu... sedang sinkron KRS SIA"
+        button.disabled = true;
+        // return
         let url = `https://sia.iainkendari.ac.id/krs/fakultas/${fakultas}/nim/${nim}/tahun/${tahunPenawaran}`
         let response = await fetch(url)
         let data = await response.json()
