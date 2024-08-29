@@ -21,9 +21,10 @@
                             <tr class="text-center">
                                 <th scope="col">No</th>
                                 <th scope="col">Prodi</th>
-                                <th scope="col">Syarat SKS</th>
-                                <th scope="col">Jadikan Syarat</th>
-                                <th scope="col">Syarat Mata Kuliah</th>
+                                <!-- <th scope="col">Syarat SKS</th> -->
+                                <th scope="col">Semester Penawaran</th>
+                                <th scope="col">Ikutkan Prodi</th>
+                                <!-- <th scope="col">Syarat Mata Kuliah</th> -->
                             </tr>
                         </thead>
                         <tbody id="list-prodi">
@@ -91,10 +92,10 @@
         let url = "{{route('get.prodi',$data->id)}}";
         let send = await fetch(url);
         let response = await send.json()
-        console.log(response);
+        // console.log(response);
         // return response.data
         response.data.prodi.forEach(async function(data, i) {
-            // console.log(data);
+            console.log(data);
             let tr = document.createElement('tr');
             tr.className = 'insert text-center'
             tr.dataset.id = data.id
@@ -116,40 +117,76 @@
             tdCheckbox.appendChild(divCheckbox)
             let div = document.createElement('div');
             div.className = 'input-group input-group-outline text-center'
-            let sksInput = document.createElement('input');
-            let buttonSyaratMatkul = document.createElement('a');
-            buttonSyaratMatkul.dataset.id = data.idprodi
+            // let sksInput = document.createElement('input');
+            // let buttonSyaratMatkul = document.createElement('a');
+            // buttonSyaratMatkul.dataset.id = data.idprodi
             // buttonSyaratMatkul.setAttribute('href', 'pilihMatkul(event)')
-            buttonSyaratMatkul.className = 'btn btn-sm btn-secondary'
-            buttonSyaratMatkul.setAttribute('disabled', 'disabled')
-            buttonSyaratMatkul.innerText = 'Syarat Mata Kuliah'
+            // buttonSyaratMatkul.className = 'btn btn-sm btn-secondary'
+            // buttonSyaratMatkul.setAttribute('disabled', 'disabled')
+            // buttonSyaratMatkul.innerText = 'Syarat Mata Kuliah'
             // buttonSyaratMatkul.dataset.bsToggle = "modal"
             // buttonSyaratMatkul.dataset.bsTarget = "#modal-form"
-            sksInput.type = "number"
-            sksInput.dataset.id = data.id
-            sksInput.className = 'text-center'
-            sksInput.setAttribute('value', 0)
-            sksInput.setAttribute('onkeypress', 'updateSks(event)')
+            // sksInput.type = "number"
+            // sksInput.dataset.id = data.id
+            // sksInput.className = 'text-center'
+            // sksInput.setAttribute('value', 0)
+            // sksInput.setAttribute('onkeypress', 'updateSks(event)')
             if (data.syarat != null) {
                 checkbox.checked = true
-                sksInput.setAttribute('value', data.syarat.sks)
-                buttonSyaratMatkul.className = "btn btn-sm btn-primary"
-                let url = "{{route('admin.ppl.syarat.mata.kuliah',[$data->id,':syarat-prodi-id'])}}"
-                url = url.replace(':syarat-prodi-id', data.syarat.id)
-                buttonSyaratMatkul.href = url
+                // sksInput.setAttribute('value', data.syarat.sks)
+                // buttonSyaratMatkul.className = "btn btn-sm btn-primary"
+                // let url = "{{route('admin.ppl.syarat.mata.kuliah',[$data->id,':syarat-prodi-id'])}}"
+                // url = url.replace(':syarat-prodi-id', data.syarat.id)
+                // buttonSyaratMatkul.href = url
             }
-            if (!checkbox.checked)
-                sksInput.setAttribute('disabled', 'disabled')
-            div.appendChild(sksInput)
-            let tdInput = document.createElement('td');
-            tdInput.appendChild(sksInput)
-            let tdAksi = document.createElement('td');
-            tdAksi.appendChild(buttonSyaratMatkul)
+            // if (!checkbox.checked)
+            // sksInput.setAttribute('disabled', 'disabled')
+            // div.appendChild(sksInput)
+            // div.appendChild(sksInput)
+            // let tdInput = document.createElement('td');
+            // tdInput.appendChild(sksInput)
+            // let tdAksi = document.createElement('td');
+            // tdAksi.appendChild(buttonSyaratMatkul)
+            // Membuat elemen <select>
+            let select = document.createElement('select');
+            // select.className = 'form-control'
+            // Daftar opsi yang akan ditambahkan
+            let options = [{
+                    value: '',
+                    text: 'Pilih Semester Penawaran PLP/PPL'
+                },
+                {
+                    value: '20241',
+                    text: 'Tahun 2024 Semester Ganjil (20241)'
+                },
+                {
+                    value: '20232',
+                    text: 'Tahun 2023 Semester Genap (20232)'
+                },
+                {
+                    value: '20231',
+                    text: 'Tahun 2023 Semester Ganjil (20231)'
+                },
+            ];
+
+            // Menambahkan setiap opsi ke elemen <select>
+            options.forEach(function(optionData) {
+                let option = document.createElement('option');
+                option.value = optionData.value;
+                option.text = optionData.text;
+                if (data.syarat.tahun_penawaran == optionData.value) {
+                    option.selected = true;
+                }
+                // if(data.syarat.tahun_penawaran==null)
+                select.appendChild(option);
+            }); // Menambahkan elemen <select> ke dalam dokumen (misalnya, ke dalam body)
+            let tdSelect = document.createElement('td');
+            tdSelect.appendChild(select)
             tr.appendChild(no)
             tr.appendChild(tdProdi)
-            tr.appendChild(tdInput)
+            // tr.appendChild(tdInput)
+            tr.appendChild(tdSelect)
             tr.appendChild(tdCheckbox)
-            tr.appendChild(tdAksi)
             fragment.appendChild(tr);
         });
         listProdi.innerHTML = ""
@@ -261,8 +298,16 @@
         }
     }
     async function addOrRemove(e, f = null) {
+        if (e.target.closest('tr').querySelector('select').value == "") {
+            alert('mohon pilih tahun penawaran PLP/PPL')
+            e.target.checked = false
+            return
+        }
+        // return console.log(e.target.closest('tr').querySelector('select').value);
         const tr = e.target.closest('tr')
         const input = tr.querySelectorAll('td')
+        // console.log(tr.dataset.id);
+        // return;
         const toggle = input[3].lastElementChild.querySelectorAll('input')
         console.log(input[2]);
         if (toggle[0].checked) {
@@ -270,8 +315,9 @@
             let url = "{{route('syarat.prodi.store')}}"
             let dataSend = new FormData()
             dataSend.append('kuliah_lapangan_id', '{{$data->id}}')
-            dataSend.append('master_prodi_id', input[2].firstElementChild.dataset.id)
-            dataSend.append('sks', input[2].firstElementChild.value)
+            dataSend.append('master_prodi_id', tr.dataset.id)
+            dataSend.append('sks', 0)
+            dataSend.append('tahun_penawaran', e.target.closest('tr').querySelector('select').value)
 
             let send = await fetch(url, {
                 method: "POST",
@@ -280,12 +326,12 @@
             let response = await send.json()
             console.log(response);
             if (response.status) {
-                alert('prodi dan sks berhasil ditambahkan')
+                alert('prodi berhasil ditambahkan')
                 input[2].firstElementChild.removeAttribute('disabled')
                 let url = "{{route('admin.ppl.syarat.mata.kuliah',[$data->id,':syarat-prodi-id'])}}"
                 url = url.replace(':syarat-prodi-id', response.data.id)
-                input[4].firstElementChild.href = url
-                input[4].firstElementChild.className = 'btn btn-sm btn-primary'
+                // input[4].firstElementChild.href = url
+                // input[4].firstElementChild.className = 'btn btn-sm btn-primary'
 
             }
 
@@ -294,7 +340,7 @@
             let url = "{{route('syarat.prodi.delete')}}"
             let dataSend = new FormData()
             dataSend.append('kuliah_lapangan_id', '{{$data->id}}')
-            dataSend.append('master_prodi_id', input[2].firstElementChild.dataset.id)
+            dataSend.append('master_prodi_id', tr.dataset.id)
             // console.log(input[4].firstElementChild);
             let send = await fetch(url, {
                 method: "POST",
@@ -303,10 +349,17 @@
             let response = await send.json()
             if (response.status) {
                 alert('prodi dihapus dari syarat')
-                input[2].firstElementChild.setAttribute('value', '0')
-                input[2].firstElementChild.setAttribute('disabled', 'disabled')
-                input[4].firstElementChild.removeAttribute('href')
-                input[4].firstElementChild.className = 'btn btn-sm btn-secondary'
+                const selectElement = e.target.closest('tr').querySelector('select');
+                if (selectElement) {
+                    const optionToSelect = selectElement.querySelector('option[value=""]');
+                    if (optionToSelect) {
+                        optionToSelect.selected = true;
+                    }
+                }
+                // input[2].firstElementChild.setAttribute('value', '0')
+                // input[2].firstElementChild.setAttribute('disabled', 'disabled')
+                // input[4].firstElementChild.removeAttribute('href')
+                // input[4].firstElementChild.className = 'btn btn-sm btn-secondary'
 
             }
 

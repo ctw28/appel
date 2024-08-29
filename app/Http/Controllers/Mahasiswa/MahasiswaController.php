@@ -33,13 +33,62 @@ class MahasiswaController extends Controller
     {
         return bcrypt($password);
     }
+
+    public function updateKrs(Request $request, $pendaftarId)
+    {
+        try {
+            //code...
+            $data = KuliahLapanganPendaftar::find($pendaftarId);
+            $data->id_krs_sia = $request->id_krs_sia;
+            $data->save();
+            return response()->json([
+                'status' => true,
+                'message' => 'Sukses udpate',
+                'data' => $data,
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status' => false,
+                'message' => 'gagal udpate',
+                'data' => [],
+            ], 500);
+        }
+    }
+    public function updateStatusKhsSia($pendaftarId)
+    {
+        try {
+            //code...
+            $data = KuliahLapanganPendaftar::find($pendaftarId);
+            $data->is_sinkron_sia = true;
+            $data->save();
+            return response()->json([
+                'status' => true,
+                'message' => 'Sukses udpate',
+                'data' => $data,
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'status' => false,
+                'message' => 'gagal udpate',
+                'data' => [],
+            ], 500);
+        }
+    }
     public function index(Request $request)
     {
+        // return $request->all();
         $title = "Dashboard";
+        // $prodi = Mahasiswa::where()->first();
         $data = KuliahLapanganPendaftar::with([
             'kuliahLapangan' => function ($kuliahLapangan) {
-                $kuliahLapangan->where('is_active', true);
-            }, 'anggota' => function ($anggota) {
+                $kuliahLapangan->with('syaratProdi', function ($syaratProdi) {
+                    $syaratProdi->where('master_prodi_id', Auth::user()->userMahasiswa->mahasiswa->master_prodi_id);
+                })
+                    ->where('is_active', true);
+            },
+            'anggota' => function ($anggota) {
                 $anggota->with(['lkh' => function ($lkh) {
                     $lkh->with('dokumentasi')->take(8)->orderBy('tgl_lkh', 'desc');
                 }, 'kelompok.anggota.pendaftar.mahasiswa.dataDiri', 'kelompok.lokasi', 'kelompok.pembimbing.pegawai.dataDiri', 'kelompok.pembimbing.pegawai.gelar', 'laporan']);

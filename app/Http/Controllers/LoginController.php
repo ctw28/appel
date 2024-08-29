@@ -47,6 +47,7 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
+        // return $request->all();
         $user = User::where('username', $request->username)->count();
         if ($user == 0) {
             // return $user;
@@ -57,6 +58,7 @@ class LoginController extends Controller
                 'username' => ['required'],
                 'password' => ['required'],
             ]);
+            // return Auth::attempt($credentials);
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
                 // $role  = Auth::user()->roleDefault()->role->nama_role;
@@ -74,6 +76,7 @@ class LoginController extends Controller
                     return redirect()->intended(route('pembimbing.dashboard'));
                 }
             }
+            // return $credentials;
             return back()->withInput()->with('fail', 'Login Gagal, pastikan username dan password sesuai');
         }
     }

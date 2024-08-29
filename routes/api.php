@@ -115,6 +115,10 @@ Route::get('/lkh/{id}/hapus', [ApiController::class, 'lkhDelete'])->name('lkh.de
 //PELAPORAN
 Route::post('/laporan/simpan', [Mahasiswa::class, 'laporanStore'])->name('laporan.store');
 
+//SINKRON KRS
+Route::post('/krs/{id}/update', [Mahasiswa::class, 'updateKrs'])->name('update.krs');
+Route::get('/khs/{id}/update', [Mahasiswa::class, 'updateStatusKhsSia'])->name('update.status.khs.sia');
+
 // Route::get('lokasi/{lokasiId}/kelompok', [PembimbingController::class, 'destroy'])->name('ppl.kelompok');
 
 

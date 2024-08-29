@@ -18,6 +18,7 @@ class CreateKuliahLapanganSyaratsTable extends Migration
             $table->unsignedBigInteger('master_prodi_id');
             $table->unsignedBigInteger('kuliah_lapangan_id');
             $table->integer('sks');
+            $table->string('tahun_penawaran');
             $table->timestamps();
 
             $table->foreign('master_prodi_id')->references('id')->on('master_prodis')->onDelete('cascade');

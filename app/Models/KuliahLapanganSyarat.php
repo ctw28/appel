@@ -11,6 +11,7 @@ class KuliahLapanganSyarat extends Model
         'kuliah_lapangan_id',
         'master_prodi_id',
         'sks',
+        'tahun_penawaran',
     ];
 
     public function kuliahlapangan()

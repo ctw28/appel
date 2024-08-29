@@ -65,6 +65,9 @@
                                 <li class="list-group-item border-0 ps-0 text-sm">Nama {{session('fakultasData')->singkatan}} : &nbsp; <strong class="text-dark">{{$data->kuliahLapangan->kuliah_lapangan_nama}}</strong></li>
                                 <li class="list-group-item border-0 ps-0 text-sm">Tahun Akademik : &nbsp; <strong class="text-dark">{{$data->kuliahLapangan->tahunAkademik->sebutan}}</strong></li>
                                 <li class="list-group-item border-0 ps-0 text-sm">Waktu Pelaksanaan : &nbsp; <strong class="text-dark">{{$data->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$data->kuliahLapangan->waktu_pelaksanaan_selesai}} <span class="badge bg-gradient-warning" style="font-size: 0.8rem;">({{$data->kuliahLapangan->sisa_hari}} Hari Lagi)</strong></span></li>
+                                @if($data->id_krs_sia == null)
+                                <li class="list-group-item border-0 ps-0 text-sm"><button class="btn btn-primary btn-sm" onclick="sinkronKrs(this)">Sinkron KRS</button></li>
+                                @endif
                             </ul>
 
 
@@ -224,4 +227,45 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+@if(!empty($data))
+
+<script>
+    let nim = "{{Auth::user()->userMahasiswa->mahasiswa->nim}}"
+
+    let fakultas = "{{session('fakultasData')->fakultas->fakultas_singkatan}}"
+    let tahunPenawaran = "{{$data->kuliahLapangan->syaratProdi[0]->tahun_penawaran}}"
+    // console.log(`nim : ${nim}, fakultas : ${fakultas}`);
+
+    async function sinkronKrs(button) {
+        // alert('sinkron')
+        let url = `https://sia.iainkendari.ac.id/krs/fakultas/${fakultas}/nim/${nim}/tahun/${tahunPenawaran}`
+        let response = await fetch(url)
+        let data = await response.json()
+        // console.log(data)
+        if (data.status) {
+            let url = "{{route('update.krs',':id')}}"
+            let dataSend = new FormData()
+            dataSend.append('id_krs_sia', data.data.idkrs)
+            url = url.replace(":id", "{{$data->id}}")
+            let response = await fetch(url, {
+                method: 'POST',
+                body: dataSend
+
+            })
+            let dataSinkron = await response.json()
+            if (dataSinkron.status) {
+                button.style.display = 'none';
+                return alert('sinkron sukses')
+            }
+            return alert('ada kesalahan, coba lagi, atau hubungi pembimbing/panitia')
+
+
+        }
+        return alert('ada kesalahan, atau anda belum menawar di SIA, hubungi pembimbing / panitia')
+    }
+</script>
+@endif
 @endsection

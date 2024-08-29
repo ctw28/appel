@@ -18,6 +18,8 @@ class CreateKuliahLapanganPendaftarsTable extends Migration
             $table->unsignedBigInteger('kuliah_lapangan_id');
             $table->unsignedBigInteger('mahasiswa_id');
             $table->boolean('is_memenuhi');
+            $table->string('id_krs_sia');
+            $table->boolean('is_sinkron_sia')->default(false);
 
             $table->timestamps();
             $table->foreign('kuliah_lapangan_id')->references('id')->on('kuliah_lapangans')->onDelete('cascade');

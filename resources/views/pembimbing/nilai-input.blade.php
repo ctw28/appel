@@ -39,8 +39,10 @@
                             <thead class="bg-gradient-secondary text-white">
                                 <tr>
                                     <th scope="col" rowspan="2" class="text-center" style="vertical-align: middle">No</th>
+                                    <th scope="col" rowspan="2" style="vertical-align: middle">Sinkron SIA</th>
                                     <th scope="col" rowspan="2" style="vertical-align: middle">NIM / Nama</th>
                                     <th scope="col" rowspan="2" style="vertical-align: middle">Prodi</th>
+                                    <!-- <th scope="col" rowspan="2" style="vertical-align: middle">KRS</th> -->
                                     <th scope="col" colspan="5" style="border-bottom-width: 0" class="text-center">Nilai</th>
                                     <th scope="col" rowspan="2" style="vertical-align: middle">Keterangan</th>
                                 </tr>
@@ -59,8 +61,27 @@
                                 @foreach($data->anggota as $index => $item)
                                 <tr>
                                     <td class=" text-center" style="padding:20px;">{{$index + 1}}</td>
+                                    <!-- <td class=" text-center" style="padding:20px;">{{$data->id}}</td> -->
+                                    @if($item->pendaftar->id_krs_sia!=null)
+                                    <td style="padding:20px;">
+                                        <button type="button" class="btn btn-dark btn-sm" 
+                                        data-krs="{{$item->pendaftar->id_krs_sia}}" 
+                                        data-nilai="{{$item->nilai->total_nilai}}" 
+                                        data-huruf="{{$item->nilai->nilai_huruf}}" 
+                                        data-id="{{$item->pendaftar->id}}" 
+                                        onclick="sinkron(this)"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron ke SIA</button>
+                                        @if($item->pendaftar->is_sinkron_sia == 1)
+                                        <br><small>Status Sinkron : <span id="sinkron_status"> <i class="material-icons opacity-10" style="font-size:16px">check</span></small> 
+                                            @else
+                                            <br>Status Sinkron : <span id="sinkron_status">-</span>
+                                        @endif
+                                    </td>
+                                    @else
+                                    <td style="padding:20px;">Belum ada KRS</td>
+                                    @endif
                                     <td style="padding:20px;">{{$item->pendaftar->mahasiswa->nim}} - {{$item->pendaftar->mahasiswa->dataDiri->nama_lengkap}}</td>
                                     <td style="padding:20px;">{{$item->pendaftar->mahasiswa->prodi->prodi_nama}}</td>
+                                    <!-- <td style="padding:20px;">{{$item->pendaftar->id_krs_sia}}</td> -->
                                     @if($item->nilai!=null)
                                     <td>
                                         <div class="d-flex justify-content-center">
@@ -117,7 +138,7 @@
                         </table>
                     </div>
                     <button type="submit" class="btn btn-primary"><i class="material-icons opacity-10" style="font-size:14px">send</i> Simpan</button>
-                    <button type="button" onclick="sinkron()" class="btn btn-dark text-end"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron Ke SIA</button>
+                    <!-- <button type="button" onclick="sinkron()" class="btn btn-dark text-end"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron Ke SIA</button> -->
 
                 </form>
             </div>
@@ -130,8 +151,38 @@
 
 @section('script')
 <script>
-    async function sinkron() {
-        alert('sementara pengembangan')
+    async function sinkron(button) {
+        // return console.log(button.parentNode.querySelector('#sinkron_status'));
+        
+        // return alert(button.dataset.krs)
+        let dataSend = new FormData()
+        let url = `https://sia.iainkendari.ac.id/khs/sinkron`
+        dataSend.append('idkhs', button.dataset.krs)
+        dataSend.append('idkrs', button.dataset.krs)
+        dataSend.append('nilaiakhir', button.dataset.nilai)
+        dataSend.append('huruf', button.dataset.huruf)
+
+        let send = await fetch(url, {
+            method: "POST",
+            body: dataSend
+        })
+        let response = await send.json()
+        console.log(response.data)
+        if (response.status) {
+            
+            let url2 = "{{route('update.status.khs.sia',':id')}}"
+            url2 = url2.replace(':id',button.dataset.id)
+            let send2 = await fetch(url2)
+            let response2 = await send2.json()
+            console.log(response2)
+            if (response2.status){
+                button.parentNode.querySelector('#sinkron_status').innerHTML = '<i class="material-icons opacity-10" style="font-size:16px">check'
+                return alert(response.pesan)
+
+            }
+        }
+        return alert(response.pesan)
+        // return alert('ada kesalahan, atau anda belum menawar di SIA, hubungi pembimbing / panitia')
     }
 </script>
 @endsection

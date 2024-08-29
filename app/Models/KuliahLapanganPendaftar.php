@@ -13,6 +13,8 @@ class KuliahLapanganPendaftar extends Model
         'kuliah_lapangan_id',
         'mahasiswa_id',
         'is_memenuhi',
+        'id_krs_sia',
+        'is_sinkron_sia',
     ];
 
     public function kuliahLapangan()

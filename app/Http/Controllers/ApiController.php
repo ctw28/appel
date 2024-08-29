@@ -41,7 +41,8 @@ class ApiController extends Controller
             $save = KuliahLapanganSyarat::updateOrCreate(
                 [
                     'kuliah_lapangan_id' => $request->kuliah_lapangan_id,
-                    'master_prodi_id' => $request->master_prodi_id
+                    'master_prodi_id' => $request->master_prodi_id,
+                    'tahun_penawaran' => $request->tahun_penawaran
                 ],
                 ['sks' => $request->sks]
             );
