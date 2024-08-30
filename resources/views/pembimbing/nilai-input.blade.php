@@ -44,14 +44,14 @@
                                     <th scope="col" rowspan="2" style="vertical-align: middle">Prodi</th>
                                     <!-- <th scope="col" rowspan="2" style="vertical-align: middle">KRS</th> -->
                                     <th scope="col" colspan="5" style="border-bottom-width: 0" class="text-center">Nilai</th>
-                                    <th scope="col" rowspan="2" style="vertical-align: middle">Keterangan</th>
+                                    <!-- <th scope="col" rowspan="2" style="vertical-align: middle">Keterangan</th> -->
                                 </tr>
                                 <tr>
                                     <th class="text-center">Pembimbing</th>
                                     <th class="text-center">Eksternal</th>
-                                    <th class="text-center">Akhir</th>
-                                    <th class="text-center">Angka</th>
-                                    <th class="text-center">Huruf</th>
+                                    <th class="text-center">Nilai Akhir</th>
+                                    <!-- <th class="text-center">Angka</th> -->
+                                    <!-- <th class="text-center">Huruf</th> -->
                                 </tr>
                                 <!-- <tr>
                                 <th colspan="5">Pamong</th>
@@ -71,16 +71,16 @@
                                         data-id="{{$item->pendaftar->id}}" 
                                         onclick="sinkron(this)"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron ke SIA</button>
                                         @if($item->pendaftar->is_sinkron_sia == 1)
-                                        <br><small>Status Sinkron : <span id="sinkron_status"> <i class="material-icons opacity-10" style="font-size:16px">check</span></small> 
+                                        <br><small>Status Sinkron : <span id="sinkron_status"><span class="badge bg-gradient-success">Sukses</span></span></small> 
                                             @else
-                                            <br>Status Sinkron : <span id="sinkron_status">-</span>
+                                            <br>Status Sinkron : <small><span id="sinkron_status"><span class="badge bg-gradient-danger">Belum Sinkron</span></span></small>
                                         @endif
                                     </td>
                                     @else
                                     <td style="padding:20px;">Belum ada KRS</td>
                                     @endif
                                     <td style="padding:20px;">{{$item->pendaftar->mahasiswa->nim}} - {{$item->pendaftar->mahasiswa->dataDiri->nama_lengkap}}</td>
-                                    <td style="padding:20px;">{{$item->pendaftar->mahasiswa->prodi->prodi_nama}}</td>
+                                    <td style="padding:20px;">{{$item->pendaftar->mahasiswa->prodi->prodi_nama}} ({{$item->pendaftar->mahasiswa->prodi->prodi_kode}})</td>
                                     <!-- <td style="padding:20px;">{{$item->pendaftar->id_krs_sia}}</td> -->
                                     @if($item->nilai!=null)
                                     <td>
@@ -118,16 +118,16 @@
                                     @endif
                                     @if($item->nilai!=null)
                                     <td class="text-center" style="padding:20px;"><strong>{{$item->nilai->total_nilai}}</strong></td>
-                                    <td class="text-center" style="padding:20px;">{{$item->nilai->nilai_angka}}</td>
-                                    <td class="text-center" style="padding:20px;"><strong>{{$item->nilai->nilai_huruf}}</strong></td>
-                                    <td class="text-center" style="padding:20px;">
-                                        <span class="badge bg-gradient-{{$item->nilai->label}}">{{$item->nilai->keterangan}}</span>
-                                    </td>
+                                    <!-- <td class="text-center" style="padding:20px;">{{$item->nilai->nilai_angka}}</td> -->
+                                    <!-- <td class="text-center" style="padding:20px;"><strong>{{$item->nilai->nilai_huruf}}</strong></td> -->
+                                    <!-- <td class="text-center" style="padding:20px;"> -->
+                                        <!-- <span class="badge bg-gradient-{{$item->nilai->label}}">{{$item->nilai->keterangan}}</span> -->
+                                    <!-- </td> -->
                                     @else
                                     <td class="text-center" style="padding:20px;">0</td>
-                                    <td class="text-center" style="padding:20px;">0</td>
-                                    <td class="text-center" style="padding:20px;">-</td>
-                                    <td class="text-center" style="padding:20px;">-</td>
+                                    <!-- <td class="text-center" style="padding:20px;">0</td> -->
+                                    <!-- <td class="text-center" style="padding:20px;">-</td> -->
+                                    <!-- <td class="text-center" style="padding:20px;">-</td> -->
                                     @endif
 
 
@@ -152,16 +152,16 @@
 @section('script')
 <script>
     async function sinkron(button) {
-        return alert('sementara maintenance')
+        // return alert('sementara maintenance')
         // return console.log(button.parentNode.querySelector('#sinkron_status'));
         
         // return alert(button.dataset.krs)
         let dataSend = new FormData()
         let url = `https://sia.iainkendari.ac.id/khs/sinkron`
+        dataSend.append('prodi', "{{$item->pendaftar->mahasiswa->prodi->prodi_kode}}")
         dataSend.append('idkhs', button.dataset.krs)
         dataSend.append('idkrs', button.dataset.krs)
         dataSend.append('nilaiakhir', button.dataset.nilai)
-        dataSend.append('huruf', button.dataset.huruf)
 
         let send = await fetch(url, {
             method: "POST",
@@ -177,7 +177,7 @@
             let response2 = await send2.json()
             console.log(response2)
             if (response2.status){
-                button.parentNode.querySelector('#sinkron_status').innerHTML = '<i class="material-icons opacity-10" style="font-size:16px">check'
+                button.parentNode.querySelector('#sinkron_status').innerHTML = '<span class="badge bg-gradient-success">Sukses</span>'
                 return alert(response.pesan)
 
             }
