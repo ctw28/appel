@@ -64,12 +64,19 @@
                                     <!-- <td class=" text-center" style="padding:20px;">{{$data->id}}</td> -->
                                     @if($item->pendaftar->id_krs_sia!=null)
                                     <td style="padding:20px;">
+                                        @if($item->nilai!=null)
                                         <button type="button" class="btn btn-dark btn-sm"
                                             data-krs="{{$item->pendaftar->id_krs_sia}}"
                                             data-nilai="{{$item->nilai->total_nilai}}"
-                                            data-huruf="{{$item->nilai->nilai_huruf}}"
                                             data-id="{{$item->pendaftar->id}}"
                                             onclick="sinkron(this)"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron ke SIA</button>
+                                        @else
+                                        <button type="button" class="btn btn-dark btn-sm"
+                                            data-krs="{{$item->pendaftar->id_krs_sia}}"
+                                            data-nilai="0"
+                                            data-id="{{$item->pendaftar->id}}"
+                                            onclick="sinkron(this)"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron ke SIA</button>
+                                        @endif
                                         @if($item->pendaftar->is_sinkron_sia == 1)
                                         <br><small>Status Sinkron : <span id="sinkron_status"><span class="badge bg-gradient-success">Sukses</span></span></small>
                                         @else
