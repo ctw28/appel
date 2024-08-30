@@ -64,16 +64,16 @@
                                     <!-- <td class=" text-center" style="padding:20px;">{{$data->id}}</td> -->
                                     @if($item->pendaftar->id_krs_sia!=null)
                                     <td style="padding:20px;">
-                                        <button type="button" class="btn btn-dark btn-sm" 
-                                        data-krs="{{$item->pendaftar->id_krs_sia}}" 
-                                        data-nilai="{{$item->nilai->total_nilai}}" 
-                                        data-huruf="{{$item->nilai->nilai_huruf}}" 
-                                        data-id="{{$item->pendaftar->id}}" 
-                                        onclick="sinkron(this)"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron ke SIA</button>
+                                        <button type="button" class="btn btn-dark btn-sm"
+                                            data-krs="{{$item->pendaftar->id_krs_sia}}"
+                                            data-nilai="{{$item->nilai->total_nilai}}"
+                                            data-huruf="{{$item->nilai->nilai_huruf}}"
+                                            data-id="{{$item->pendaftar->id}}"
+                                            onclick="sinkron(this)"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron ke SIA</button>
                                         @if($item->pendaftar->is_sinkron_sia == 1)
-                                        <br><small>Status Sinkron : <span id="sinkron_status"><span class="badge bg-gradient-success">Sukses</span></span></small> 
-                                            @else
-                                            <br>Status Sinkron : <small><span id="sinkron_status"><span class="badge bg-gradient-danger">Belum Sinkron</span></span></small>
+                                        <br><small>Status Sinkron : <span id="sinkron_status"><span class="badge bg-gradient-success">Sukses</span></span></small>
+                                        @else
+                                        <br>Status Sinkron : <small><span id="sinkron_status"><span class="badge bg-gradient-danger">Belum Sinkron</span></span></small>
                                         @endif
                                     </td>
                                     @else
@@ -121,7 +121,7 @@
                                     <!-- <td class="text-center" style="padding:20px;">{{$item->nilai->nilai_angka}}</td> -->
                                     <!-- <td class="text-center" style="padding:20px;"><strong>{{$item->nilai->nilai_huruf}}</strong></td> -->
                                     <!-- <td class="text-center" style="padding:20px;"> -->
-                                        <!-- <span class="badge bg-gradient-{{$item->nilai->label}}">{{$item->nilai->keterangan}}</span> -->
+                                    <!-- <span class="badge bg-gradient-{{$item->nilai->label}}">{{$item->nilai->keterangan}}</span> -->
                                     <!-- </td> -->
                                     @else
                                     <td class="text-center" style="padding:20px;">0</td>
@@ -152,9 +152,9 @@
 @section('script')
 <script>
     async function sinkron(button) {
-        // return alert('sementara maintenance')
+        return alert('sementara maintenance')
         // return console.log(button.parentNode.querySelector('#sinkron_status'));
-        
+
         // return alert(button.dataset.krs)
         let dataSend = new FormData()
         let url = `https://sia.iainkendari.ac.id/khs/sinkron`
@@ -170,13 +170,13 @@
         let response = await send.json()
         console.log(response.data)
         if (response.status) {
-            
+
             let url2 = "{{route('update.status.khs.sia',':id')}}"
-            url2 = url2.replace(':id',button.dataset.id)
+            url2 = url2.replace(':id', button.dataset.id)
             let send2 = await fetch(url2)
             let response2 = await send2.json()
             console.log(response2)
-            if (response2.status){
+            if (response2.status) {
                 button.parentNode.querySelector('#sinkron_status').innerHTML = '<span class="badge bg-gradient-success">Sukses</span>'
                 return alert(response.pesan)
 
