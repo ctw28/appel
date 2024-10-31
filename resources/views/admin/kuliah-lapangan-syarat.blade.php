@@ -174,8 +174,10 @@
                 let option = document.createElement('option');
                 option.value = optionData.value;
                 option.text = optionData.text;
-                if (data.syarat.tahun_penawaran == optionData.value) {
-                    option.selected = true;
+                if (data.syarat != null) {
+                    if (data.syarat.tahun_penawaran == optionData.value) {
+                        option.selected = true;
+                    }
                 }
                 // if(data.syarat.tahun_penawaran==null)
                 select.appendChild(option);
