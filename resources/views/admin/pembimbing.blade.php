@@ -308,7 +308,7 @@
         if (idpeg.length != 0)
             dataSend.append('pegawai_id', JSON.stringify(idpeg))
         dataSend.append('q', e.target.value)
-        response = await fetch('https://sia.iainkendari.ac.id/konseling_api/search_pegawai', {
+        response = await fetch('https://sia2.iainkendari.ac.id/konseling_api/search_pegawai', {
             method: "POST",
             body: dataSend
         })
