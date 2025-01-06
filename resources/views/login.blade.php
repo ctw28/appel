@@ -157,7 +157,7 @@
   <script src="{{asset('/')}}assets/js/material-dashboard.min.js?v=3.0.2"></script>
   <script>
     async function resetAkun() {
-      let url = "https://sia.iainkendari.ac.id/konseling_api/check_password";
+      let url = "https://sia2.iainkendari.ac.id/konseling_api/check_password";
       let dataSend = new FormData()
       let nim = document.querySelector('#nim-check').value
       let password = document.querySelector('#password-check').value
