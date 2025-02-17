@@ -84,7 +84,7 @@ class MahasiswaController extends Controller
         $data = KuliahLapanganPendaftar::with([
             'kuliahLapangan' => function ($kuliahLapangan) {
                 $kuliahLapangan->with('syaratProdi', function ($syaratProdi) {
-                    $syaratProdi->where('master_prodi_id', Auth::user()->userMahasiswa->mahasiswa->master_prodi_id);
+                    $syaratProdi->with('prodi')->where('master_prodi_id', Auth::user()->userMahasiswa->mahasiswa->master_prodi_id);
                 })
                     ->where('is_active', true);
             },

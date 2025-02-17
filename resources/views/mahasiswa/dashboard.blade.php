@@ -234,20 +234,30 @@
 
 <script>
     let nim = "{{Auth::user()->userMahasiswa->mahasiswa->nim}}"
+    let iddata = "{{Auth::user()->userMahasiswa->mahasiswa->iddata}}"
 
     let fakultas = "{{session('fakultasData')->fakultas->fakultas_singkatan}}"
     let tahunPenawaran = "{{$data->kuliahLapangan->syaratProdi[0]->tahun_penawaran}}"
+    let prodi = "{{$data->kuliahLapangan->syaratProdi[0]->master_prodi_id}}"
+    // alert('prodi')
+    let prodinya = {
+        "13": "PBA",
+        "5": "BING",
+        "9": "KI"
+    }
+    console.log(prodinya[prodi]);
+
     // console.log(`nim : ${nim}, fakultas : ${fakultas}`);
 
     async function sinkronKrs(button) {
         // alert('sinkron')
-        button.innerText = "mohon menunggu... sedang sinkron KRS SIA"
+        button.innerText = "mohon menunggu... sedang mencari KRS di SIA"
         button.disabled = true;
         // return
         let url = `https://sia.iainkendari.ac.id/krs/fakultas/${fakultas}/nim/${nim}/tahun/${tahunPenawaran}`
         let response = await fetch(url)
         let data = await response.json()
-        // console.log(data)
+        console.log(data)
         if (data.status) {
             let url = "{{route('update.krs',':id')}}"
             let dataSend = new FormData()
@@ -264,8 +274,33 @@
                 return alert('sinkron sukses')
             }
             return alert('ada kesalahan, coba lagi, atau hubungi pembimbing/panitia')
+        } else {
+            button.innerText = "mohon menunggu... sedang membuat jadwal dan KRS"
+            let url = `https://sia.iainkendari.ac.id/buat-krs/${iddata}/${nim}/${prodinya[prodi]}`
+            let response = await fetch(url)
+            let data = await response.json()
+            console.log(data)
+            if (data) {
+                // alert('KRS berhasil dibuat')
+                let url = "{{route('update.krs',':id')}}"
+                let dataSend = new FormData()
+                dataSend.append('id_krs_sia', data.data.idkrs)
+                url = url.replace(":id", "{{$data->id}}")
+                let response = await fetch(url, {
+                    method: 'POST',
+                    body: dataSend
 
+                })
+                let dataSinkron = await response.json()
+                if (dataSinkron.status) {
+                    button.style.display = 'none';
+                    return alert('sinkron KRS sukses')
+                }
+                return alert('ada kesalahan, coba lagi, atau hubungi TIPD')
 
+            } else {
+                alert('ada kesalahan, silahkan ke TIPD')
+            }
         }
         return alert('ada kesalahan, atau anda belum menawar di SIA, hubungi pembimbing / panitia')
     }

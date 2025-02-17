@@ -198,13 +198,17 @@ class PembimbingController extends Controller
     public function nilaiInput($kelompokId)
     {
         $data['title'] = "Input Nilai";
-        $nilai = Kelompok::with([
+        $nilainya = Kelompok::with([
             'anggota.pendaftar',
             'anggota.nilai',
             'anggota.jabatan',
             'lokasi'
-        ])->find($kelompokId);
-        // return $data;
+        ])
+            ->whereHas('lokasi', function ($query) {
+                $query->where('kuliah_lapangan_id', 7);
+            })->get();
+        // ->find($kelompokId);
+        // return $nilai[];
         $rentang = [
             ['rentang_bawah' => 96, 'rentang_atas' => 100, 'nilai_angka' => "4.00", 'huruf' => "A", 'keterangan' => "L"],
             ['rentang_bawah' => 91, 'rentang_atas' => 95.99, 'nilai_angka' => "3.60 - 3.90", 'huruf' => "A-", 'keterangan' => "L"],
@@ -220,31 +224,33 @@ class PembimbingController extends Controller
         ];
         // return $nilai;
 
-        foreach ($nilai->anggota as $anggota) {
-            // $anggota->nilai->total_nilai = 0;
-            // $anggota->nilai->nilai_angka = '0';
-            // $anggota->nilai->nilai_huruf = 'E';
-            // $anggota->nilai->keterangan = 'TL';
-            if ($anggota->nilai != null) {
+        foreach ($nilainya as $nilai) {
+            foreach ($nilai->anggota as $anggota) {
+                // $anggota->nilai->total_nilai = 0;
+                // $anggota->nilai->nilai_angka = '0';
+                // $anggota->nilai->nilai_huruf = 'E';
+                // $anggota->nilai->keterangan = 'TL';
+                if ($anggota->nilai != null) {
 
-                $totalNilai = (0.7 * $anggota->nilai->nilai_eksternal) + (0.3 * $anggota->nilai->nilai_pembimbing);
-                $anggota->nilai->total_nilai = $totalNilai;
-                foreach ($rentang as $row) {
-                    //disini mau tentukan berapa nilai angkanya
-                    if ($totalNilai >= $row['rentang_bawah'] && $totalNilai <= $row['rentang_atas']) {
-                        $anggota->nilai->nilai_angka = $row['nilai_angka'];
-                        $anggota->nilai->nilai_huruf = $row['huruf'];
-                        $anggota->nilai->keterangan = $row['keterangan'];
-                        $anggota->nilai->label = 'success';
-                        if ($row['keterangan'] == "TL")
-                            $anggota->nilai->label = 'danger';
-                        break; // Keluar dari loop jika rentang ditemukan
+                    $totalNilai = (0.7 * $anggota->nilai->nilai_eksternal) + (0.3 * $anggota->nilai->nilai_pembimbing);
+                    $anggota->nilai->total_nilai = $totalNilai;
+                    foreach ($rentang as $row) {
+                        //disini mau tentukan berapa nilai angkanya
+                        if ($totalNilai >= $row['rentang_bawah'] && $totalNilai <= $row['rentang_atas']) {
+                            $anggota->nilai->nilai_angka = $row['nilai_angka'];
+                            $anggota->nilai->nilai_huruf = $row['huruf'];
+                            $anggota->nilai->keterangan = $row['keterangan'];
+                            $anggota->nilai->label = 'success';
+                            if ($row['keterangan'] == "TL")
+                                $anggota->nilai->label = 'danger';
+                            break; // Keluar dari loop jika rentang ditemukan
+                        }
                     }
                 }
             }
         }
 
-        $data['data'] = $nilai;
+        $data['data'] = $nilainya[1];
         // return $data;
         return view('pembimbing.nilai-input', $data);
     }
