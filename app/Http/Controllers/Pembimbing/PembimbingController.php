@@ -260,9 +260,9 @@ class PembimbingController extends Controller
         ])
             ->whereHas('lokasi', function ($query) {
                 $query->where('kuliah_lapangan_id', 7);
-            })->get();
+            })->paginate(10);
         // ->find($kelompokId);
-        // return $nilai[];
+        // return $nilainya;
         $rentang = [
             ['rentang_bawah' => 96, 'rentang_atas' => 100, 'nilai_angka' => "4.00", 'huruf' => "A", 'keterangan' => "L"],
             ['rentang_bawah' => 91, 'rentang_atas' => 95.99, 'nilai_angka' => "3.60 - 3.90", 'huruf' => "A-", 'keterangan' => "L"],

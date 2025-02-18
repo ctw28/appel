@@ -146,6 +146,9 @@
 
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center">
+                            {{ $data->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary"><i class="material-icons opacity-10" style="font-size:14px">send</i> Simpan</button>
                     <!-- <button type="button" onclick="sinkron()" class="btn btn-dark text-end"><i class="material-icons opacity-10" style="font-size:14px">sync</i> Sinkron Ke SIA</button> -->
