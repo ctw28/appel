@@ -191,7 +191,7 @@
             console.log(response2)
             if (response2.status) {
                 button.parentNode.querySelector('#sinkron_status').innerHTML = '<span class="badge bg-gradient-success">Sukses</span>'
-                return alert(response.pesan)
+                // return alert(response.pesan)
 
             }
         }
