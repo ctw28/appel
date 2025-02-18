@@ -195,7 +195,7 @@
 
             }
         }
-        return alert(response.pesan)
+        // return alert(response.pesan)
         // return alert('ada kesalahan, atau anda belum menawar di SIA, hubungi pembimbing / panitia')
     }
 </script>
