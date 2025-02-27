@@ -22,16 +22,29 @@ class KuliahLapanganController extends Controller
     public function index()
     {
         $title = "Data PLP / PPL";
-        $data = MasterTahunAkademik::with(['kuliahLapangan' => function ($kuliahLapangan) {
-            $kuliahLapangan->with('ppl', function ($ppl) {
-                $ppl->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id);
-            })->withCount('pendaftar')->whereHas('ppl', function ($ppl) {
-                $ppl->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id);
-            })->where('is_active', 1);
-        }])
-            ->where('tahun', 2024)
-            ->orderBy('id', "DESC")
-            ->first();
+        if (Auth::user()->userFakultas->master_fakultas_id == 2) {
+            $data = MasterTahunAkademik::with(['kuliahLapangan' => function ($kuliahLapangan) {
+                $kuliahLapangan->with('ppl', function ($ppl) {
+                    $ppl->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id);
+                })->withCount('pendaftar')->whereHas('ppl', function ($ppl) {
+                    $ppl->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id);
+                });
+            }])
+                ->where('id', 5)
+                ->orderBy('id', "DESC")
+                ->first();
+        } else {
+            $data = MasterTahunAkademik::with(['kuliahLapangan' => function ($kuliahLapangan) {
+                $kuliahLapangan->with('ppl', function ($ppl) {
+                    $ppl->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id);
+                })->withCount('pendaftar')->whereHas('ppl', function ($ppl) {
+                    $ppl->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id);
+                })->where('is_active', "1");
+            }])
+                ->where('tahun', 2024)
+                ->orderBy('id', "DESC")
+                ->first();
+        }
         // return $data;
         // $ppl = Ppl::with('kuliahLapangan.tahunAkademik')->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id)->get();
         if ($data != null) {
