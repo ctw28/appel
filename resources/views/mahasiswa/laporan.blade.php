@@ -141,6 +141,11 @@
 
     @section('script')
     <script>
+        @if(env('APP_ENV') == "local")
+        const base_url = 'http://127.0.0.1:8000'
+        @else
+        const base_url = 'https://appel.iainkendari.ac.id'
+        @endif
         const showLaporan = document.querySelector('#show-laporan')
         const showLaporanSekolah = document.querySelector('#show-laporan-sekolah')
         const buttonUploadLaporanAkhir = document.querySelector('#text_laporan_akhir_file')
@@ -191,8 +196,8 @@
             // let link 
             if (responseMessage.laporanAkhir.length > 0) {
                 document.querySelector('#status-laporan').innerHTML = `<span class="badge bg-gradient-success">Sudah Unggah</span>`
-                // document.querySelector('#file-laporan').innerHTML = `<a class="btn btn-info btn-sm" href="https://appel.iainkendari.ac.id/${responseMessage.laporanAkhir[0].file_path}" target="_blank">Lihat File</a>`
-                document.querySelector('#file-laporan').innerHTML = `<a class="btn btn-info btn-sm" href="http://127.0.0.1:8000/${responseMessage.laporanAkhir[0].file_path}" target="_blank">Lihat File</a>`
+                // document.querySelector('#file-laporan').innerHTML = `<a class="btn btn-info btn-sm" href="/${responseMessage.laporanAkhir[0].file_path}" target="_blank">Lihat File</a>`
+                document.querySelector('#file-laporan').innerHTML = `<a class="btn btn-info btn-sm" href="${base_url}/${responseMessage.laporanAkhir[0].file_path}" target="_blank">Lihat File</a>`
                 document.querySelector('#laporan_akhir_file').setAttribute('onchange', "uploadFile(event, 'laporan_akhir', 'update')")
                 file_delete_if_update = responseMessage.laporanAkhir[0].file_path;
 
@@ -204,7 +209,7 @@
                 file_delete_if_update = responseMessage.laporanSekolah[0].file_path
                 document.querySelector('#status-bukti').innerHTML = `<span class="badge bg-gradient-success">Sudah Unggah</span>`
                 // document.querySelector('#file-bukti').innerHTML = `<a class="btn btn-info btn-sm" href="https://appel.iainkendari.ac.id/${responseMessage.laporanSekolah[0].file_path}" target="_blank">Lihat File</a>`
-                document.querySelector('#file-bukti').innerHTML = `<a class="btn btn-info btn-sm" href="http://127.0.0.1:8000/${responseMessage.laporanSekolah[0].file_path}" target="_blank">Lihat File</a>`
+                document.querySelector('#file-bukti').innerHTML = `<a class="btn btn-info btn-sm" href="${base_url}/${responseMessage.laporanSekolah[0].file_path}" target="_blank">Lihat File</a>`
                 document.querySelector('#laporan_sekolah_file').setAttribute('onchange', "uploadFile(event, 'laporan_sekolah', 'update')")
                 buttonUploadLaporanAkhirSekolah.innerText = 'Upload Ulang Bukti Setor (.jpg / .pdf)'
                 buttonUploadLaporanAkhirSekolah.parentNode.classList.remove('btn-primary')
@@ -302,7 +307,7 @@
                     buttonUploadLaporanAkhir.parentNode.classList.add('btn-warning')
                     document.querySelector('#status-laporan').innerHTML = `<span class="badge bg-gradient-success">Sudah Unggah</span>`
                     // document.querySelector('#file-laporan').innerHTML = `<a class="btn btn-info btn-sm" href="https://appel.iainkendari.ac.id/${responseMessage.data.file_path}" target="_blank">Lihat File</a>`
-                    document.querySelector('#file-laporan').innerHTML = `<a class="btn btn-info btn-sm" href="http://127.0.0.1:8000/${responseMessage.data.file_path}" target="_blank">Lihat File</a>`
+                    document.querySelector('#file-laporan').innerHTML = `<a class="btn btn-info btn-sm" href="${base_url}/${responseMessage.data.file_path}" target="_blank">Lihat File</a>`
                     alert(responseMessage.message);
                 } else {
                     button.innerHTML = `Unggah Laporan Akhir` //setelah selesai loading ganti animasi loading dengan tulisan unggah file kembali
@@ -319,7 +324,7 @@
                     buttonUploadLaporanAkhirSekolah.parentNode.classList.add('btn-warning')
                     document.querySelector('#status-bukti').innerHTML = `<span class="badge bg-gradient-success">Sudah Unggah</span>`
                     // document.querySelector('#file-bukti').innerHTML = `<a class="btn btn-info btn-sm" href="https://appel.iainkendari.ac.id/${responseMessage.data.file_path}" target="_blank">Lihat File</a>`
-                    document.querySelector('#file-bukti').innerHTML = `<a class="btn btn-info btn-sm" href="http://127.0.0.1:8000/${responseMessage.data.file_path}" target="_blank">Lihat File</a>`
+                    document.querySelector('#file-bukti').innerHTML = `<a class="btn btn-info btn-sm" href="${base_url}/${responseMessage.data.file_path}" target="_blank">Lihat File</a>`
                     alert(responseMessage.message);
                 } else {
                     button.innerHTML = `Unggah Foto Penyerahan Laporan` //setelah selesai loading ganti animasi loading dengan tulisan unggah file kembali
