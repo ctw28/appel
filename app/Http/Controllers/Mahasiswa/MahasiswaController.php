@@ -503,6 +503,10 @@ class MahasiswaController extends Controller
         //     ->where('id', Auth::user()->userMahasiswa->mahasiswa->kuliahLapanganPendaftar[0]->anggota->id)->get();
         $anggotaLaporan = KelompokAnggota::with(['laporan'])
             ->where('id', Auth::user()->userMahasiswa->mahasiswa->kuliahLapanganPendaftar[0]->anggota->id)->get();
+        // return $anggotaLaporan;
+        // return Auth::user()->userMahasiswa->mahasiswa->id;
+
+        $data['mahasiswa_id'] = Auth::user()->userMahasiswa->mahasiswa->id;
         $data['data'] = $anggotaLaporan;
         $laporanAkhir = [];
         $laporanSekolah = [];
@@ -538,6 +542,8 @@ class MahasiswaController extends Controller
         //     return $uploadedFiles;
         // }
         // return $request->all();
+        // }
+        // return;
         try {
 
             $request->validate([
@@ -596,5 +602,28 @@ class MahasiswaController extends Controller
         $file->move($lokasi, $nama_file);
         return $lokasi . '/' . $nama_file;
         // return json_encode(array('test' => "aaaaaaaa"));
+    }
+
+    public function getLaporan($kelompokAnggotaId)
+    {
+        $anggotaLaporan = KelompokAnggota::with(['laporan'])
+            ->where('id', $kelompokAnggotaId)->get();
+
+        $data['data'] = $anggotaLaporan;
+        $laporanAkhir = [];
+        $laporanSekolah = [];
+
+        if (count($anggotaLaporan[0]->laporan) != 0) {
+            foreach ($anggotaLaporan[0]->laporan as $item) {
+                // $anggotaLaporan[0]->laporan->map(function ($item) use ($laporanAkhir, $laporanSekolah) {
+                if ($item->kategori == "laporan_akhir")
+                    $laporanAkhir[] = $item;
+                else if ($item->kategori == "laporan_sekolah")
+                    $laporanSekolah[] = $item;
+            };
+        }
+        $data['laporanAkhir'] = $laporanAkhir;
+        $data['laporanSekolah'] = $laporanSekolah;
+        return $data;
     }
 }

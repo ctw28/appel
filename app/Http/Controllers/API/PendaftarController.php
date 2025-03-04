@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\KuliahLapangan;
 use App\Models\KuliahLapanganPendaftar;
 use App\Http\Requests\PendaftarRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PendaftarController extends Controller
 {
@@ -102,8 +103,9 @@ class PendaftarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function diikuti(Request $request)
     {
-        //
+        $diikuti = KuliahLapanganPendaftar::with(['kuliahLapangan', 'anggota'])->where('mahasiswa_id', $request->mahasiswa_id)->get();
+        return $diikuti;
     }
 }

@@ -81,7 +81,8 @@ Route::get('/kelompok/anggota/{id}/hapus', [KelompokController::class, 'deleteAn
 
 
 //PENDAFTAR
-// Route::get('kuliah-lapangan/{id}/pendaftar', [PendaftarController::class, 'index'])->name('pendaftar.all');
+Route::post('list-kuliah-lapangan-diikuti', [PendaftarController::class, 'diikuti'])->name('kuliah.lapangan.diikuti');
+Route::get('get-laporan/{id}', [Mahasiswa::class, 'getLaporan'])->name('get.laporan');
 Route::get('kuliah-lapangan/{id}/pendaftar/limit/{limit}', [PendaftarController::class, 'get'])->name('pendaftar.get');
 Route::post('kuliah-lapangan/{id}/pendaftar/simpan', [PendaftarController::class, 'store'])->name('pendaftar.store');
 
