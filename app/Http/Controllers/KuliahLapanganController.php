@@ -41,7 +41,7 @@ class KuliahLapanganController extends Controller
                     $ppl->where('master_fakultas_id', Auth::user()->userFakultas->master_fakultas_id);
                 })->where('is_active', "1");
             }])
-                ->where('tahun', 2024)
+                ->where('tahun', 2025)
                 ->orderBy('id', "DESC")
                 ->first();
         }
