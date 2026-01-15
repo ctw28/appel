@@ -18,37 +18,37 @@
                 </button>
             </div>
             @endif
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-center">No</th>
-                        <th scope="col">Nama {{session('fakultasData')->singkatan}}</th>
-                        <th scope="col">Pendaftaran</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($data as $index => $item)
-                    <tr>
-                        <td class="text-center">{{$index + 1}}</td>
-                        <td>{{$item->kuliahLapangan->kuliah_lapangan_nama}} - {{$item->kuliahLapangan->tahunAkademik->sebutan}}</td>
-                        <td>
-                            Pendaftaran<br>
-                            <b>{{$item->kuliahLapangan->waktu_daftar_mulai}} - {{$item->kuliahLapangan->waktu_daftar_selesai}}</b><br>
-                            Pelaksanaan<br>
-                            <b>{{$item->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$item->kuliahLapangan->waktu_pelaksanaan_selesai}}</b>
-                        </td>
-                        <td><span class="badge bg-gradient-{{$item->kuliahLapangan->label}}">{{$item->kuliahLapangan->is_finished}}</span></td>
-                        <td>
-                            <a data-id="{{$item->kuliahLapangan->id}}" href="{{$item->link}}" class="btn btn-sm btn-{{$item->status_label}}" id="test">{{$item->status_daftar}}</a>
-                        </td>
-                    </tr>
-                    @endforeach
-
-
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">No</th>
+                            <th scope="col">Nama {{session('fakultasData')->singkatan}}</th>
+                            <th scope="col">Pendaftaran</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data as $index => $item)
+                        <tr>
+                            <td class="text-center">{{$index + 1}}</td>
+                            <td>{{$item->kuliahLapangan->kuliah_lapangan_nama}} - {{$item->kuliahLapangan->tahunAkademik->sebutan}}</td>
+                            <td>
+                                Pendaftaran<br>
+                                <b>{{$item->kuliahLapangan->waktu_daftar_mulai}} - {{$item->kuliahLapangan->waktu_daftar_selesai}}</b><br>
+                                Pelaksanaan<br>
+                                <b>{{$item->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$item->kuliahLapangan->waktu_pelaksanaan_selesai}}</b>
+                            </td>
+                            <td><span class="badge bg-gradient-{{$item->kuliahLapangan->label}}">{{$item->kuliahLapangan->is_finished}}</span></td>
+                            <td>
+                                <a data-id="{{$item->kuliahLapangan->id}}" href="{{$item->link}}" class="btn btn-sm btn-{{$item->status_label}}" id="test">{{$item->status_daftar}}</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
