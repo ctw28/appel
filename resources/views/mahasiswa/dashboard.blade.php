@@ -65,9 +65,6 @@
                                 <li class="list-group-item border-0 ps-0 text-sm">Nama {{session('fakultasData')->singkatan}} : &nbsp; <strong class="text-dark">{{$data->kuliahLapangan->kuliah_lapangan_nama}}</strong></li>
                                 <li class="list-group-item border-0 ps-0 text-sm">Tahun Akademik : &nbsp; <strong class="text-dark">{{$data->kuliahLapangan->tahunAkademik->sebutan}}</strong></li>
                                 <li class="list-group-item border-0 ps-0 text-sm">Waktu Pelaksanaan : &nbsp; <strong class="text-dark">{{$data->kuliahLapangan->waktu_pelaksanaan_mulai}} - {{$data->kuliahLapangan->waktu_pelaksanaan_selesai}} <span class="badge bg-gradient-warning" style="font-size: 0.8rem;">({{$data->kuliahLapangan->sisa_hari}} Hari Lagi)</strong></span></li>
-                                @if($data->id_krs_sia == null)
-                                <!-- <li class="list-group-item border-0 ps-0 text-sm"><button class="btn btn-primary btn-sm" onclick="sinkronKrs(this)">Sinkron KRS</button></li> -->
-                                @endif
                             </ul>
 
 
