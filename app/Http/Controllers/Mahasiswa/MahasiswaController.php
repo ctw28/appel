@@ -22,6 +22,7 @@ use Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 
 class MahasiswaController extends Controller
@@ -544,6 +545,7 @@ class MahasiswaController extends Controller
         // return $request->all();
         // }
         // return;
+        // return $request->all();
         try {
 
             $request->validate([
@@ -571,10 +573,13 @@ class MahasiswaController extends Controller
                 ['file_path' => $foto]
             );
 
-            if ($request->status == 'update')
-                // Storage::delete($request->file_delete_if_update);
-                unlink($request->file_delete_if_update);
+            if ($request->status == 'update') {
+                $oldFile = public_path($request->file_delete_if_update);
 
+                if (file_exists($oldFile)) {
+                    unlink($oldFile);
+                }
+            }
             return response()->json([
                 'status' => true,
                 'message' => 'Sukses ditambahkan',
@@ -582,7 +587,7 @@ class MahasiswaController extends Controller
             ], 200);
             // return redirect()->route('mahasiswa.lkh', $request->kuliah_lapangan_id)->with('success', 'LKH berhasil ditambahkan');
         } catch (\Throwable $th) {
-            // return $th;
+            return $th;
             return response()->json([
                 'status' => false,
                 'message' => 'gagal insert',
@@ -597,11 +602,17 @@ class MahasiswaController extends Controller
     {
         $file = $request;
         $nama_file = time() . "_" . $file->getClientOriginalName();
-        // isi dengan nama folder tempat kemana file diupload
-        // $tujuan_upload = 'laporan';
-        $file->move($lokasi, $nama_file);
+
+        $path = public_path($lokasi);
+
+        // buat folder kalau belum ada
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0755, true);
+        }
+
+        $file->move($path, $nama_file);
+
         return $lokasi . '/' . $nama_file;
-        // return json_encode(array('test' => "aaaaaaaa"));
     }
 
     public function getLaporan($kelompokAnggotaId)
