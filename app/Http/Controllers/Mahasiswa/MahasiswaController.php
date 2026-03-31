@@ -582,7 +582,7 @@ class MahasiswaController extends Controller
             ], 200);
             // return redirect()->route('mahasiswa.lkh', $request->kuliah_lapangan_id)->with('success', 'LKH berhasil ditambahkan');
         } catch (\Throwable $th) {
-            // return $th;
+            return $th;
             return response()->json([
                 'status' => false,
                 'message' => 'gagal insert',
