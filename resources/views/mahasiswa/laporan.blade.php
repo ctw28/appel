@@ -264,6 +264,7 @@
 
         }
         var uploadFile = async function(event, kategori, status) {
+            alert('sedang perbakan')
             //ini untuk animasi loading
 
             // return console.log(event.target.files[0]);
