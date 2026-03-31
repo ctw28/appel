@@ -544,6 +544,7 @@ class MahasiswaController extends Controller
         // return $request->all();
         // }
         // return;
+        return $request->all();
         try {
 
             $request->validate([
