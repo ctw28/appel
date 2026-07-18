@@ -156,6 +156,14 @@
                     text: 'Pilih Semester Penawaran PLP/PPL'
                 },
                 {
+                    value: '20261',
+                    text: 'Tahun 2026 Semester Ganjil (20261)'
+                },
+                {
+                    value: '20252',
+                    text: 'Tahun 2025 Semester Genap (20252)'
+                },
+                {
                     value: '20251',
                     text: 'Tahun 2025 Semester Ganjil (20251)'
                 },
