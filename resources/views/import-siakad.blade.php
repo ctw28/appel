@@ -496,13 +496,7 @@
 
                                     <td>
 
-                                        <small class="text-muted">
 
-                                            @{{ item.prodi_kode }}
-
-                                        </small>
-
-                                        <br>
 
                                         @{{ item.prodi_nama }}
 
