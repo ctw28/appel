@@ -436,11 +436,11 @@
                                     </th>
 
                                     <th class="text-center">
-                                        Nilai Pembimbing
+                                        Nilai Pembimbing (30%)
                                     </th>
 
                                     <th class="text-center">
-                                        Nilai Eksternal
+                                        Nilai Pamong (70%)
                                     </th>
 
                                     <th class="text-center">
