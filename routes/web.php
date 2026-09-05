@@ -11,6 +11,7 @@ use App\Http\Controllers\PplKelompokController;
 use App\Http\Controllers\PplKelompokAnggotaController;
 use App\Http\Controllers\PplNilaiController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\API\ImportSiakadController;
 use App\Http\Controllers\PengaturanFakultasController;
 use App\Http\Controllers\ProvinsiController;
 
@@ -41,6 +42,11 @@ Route::get('/konfirmasi-akun/{username}/{password}', [LoginController::class, 'k
 Route::get('/', [LoginController::class, 'index'])->name('login-page');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get(
+    'import-siakad',
+    [ImportSiakadController::class, 'index']
+)->name('kuliah-lapangan.nilai');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'middleware' => 'role.admin'], function () {

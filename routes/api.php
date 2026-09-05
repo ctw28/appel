@@ -18,7 +18,7 @@ use App\Http\Controllers\API\MahasiswaController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\KelompokController;
 use App\Http\Controllers\API\PendaftarController;
-
+use App\Http\Controllers\API\ImportSiakadController;
 use App\Http\Controllers\Mahasiswa\MahasiswaController as Mahasiswa;
 
 /*
@@ -119,6 +119,26 @@ Route::post('/laporan/simpan', [Mahasiswa::class, 'laporanStore'])->name('lapora
 //SINKRON KRS
 Route::post('/krs/{id}/update', [Mahasiswa::class, 'updateKrs'])->name('update.krs');
 Route::get('/khs/{id}/update', [Mahasiswa::class, 'updateStatusKhsSia'])->name('update.status.khs.sia');
+
+
+
+Route::prefix('import-siakad/kuliah-lapangan/13')->group(function () {
+
+    Route::get('/prodi', [
+        ImportSiakadController::class,
+        'prodi'
+    ]);
+
+    Route::get('/pembimbing', [
+        ImportSiakadController::class,
+        'pembimbing'
+    ]);
+
+    Route::get('/nilai', [
+        ImportSiakadController::class,
+        'nilai'
+    ]);
+});
 
 // Route::get('lokasi/{lokasiId}/kelompok', [PembimbingController::class, 'destroy'])->name('ppl.kelompok');
 
